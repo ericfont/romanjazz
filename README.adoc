@@ -1,33 +1,42 @@
-= Roman numeral chord charts of (mostly jazz) standards, formatted by Eric Fontaine 🅮 2026 as an AsciiDoc file.
+= Roman numeral chord charts of (mostly jazz) standards
+Formatted by Eric Fontaine 🅮 2026 as an AsciiDoc file.
 
-== *Pennies from Heaven* by Arthur Johnston (music) and Johnny Burke (lyrics) in 1936. 𝄆🅰🅱🅰🅲𝄇 form.
-🅰:
+== *Pennies from Heaven* 𝄆ABAC𝄇
+Arthur Johnston (music) and Johnny Burke (lyrics) in 1936.
+
+[A]:
 |===
 | Ⅰ (ⅱ | ⅲ ♭ⅲ°) | ⅱ | Ⅴ⁷
 | Ⅰ (ⅱ | ⅲ ♭ⅲ°) | ⅱ | Ⅴ⁷
 |===
-🅱:
+
+[B]:
 |===
 | Ⅴ⁷ / Ⅳ | 𝄎 | Ⅳ | 𝄎
 | Ⅴ⁷ / Ⅴ  | 𝄎 | Ⅴ⁷ | 𝄎
 |===
-🅲:
+
+[C]:
 |===
 | ⅱ | ♭Ⅶ⁷ | ⅲ | Ⅵ⁷
 | ⅱ | Ⅴ⁷ | Ⅰ | (ⅱ Ⅴ⁷)
 |===
 
-== *Joy Spring* by Clifford Brown 1954. 𝄆🅰🅰🅱🅰𝄇 form. F major.
-🅰:
+== *Joy Spring* 𝄆AABA𝄇 
+Clifford Brown 1954. F major.
+
+[A]:
 |===
 | Ⅰ | ⅱ Ⅴ⁷ | Ⅰ | [ⅱ Ⅴ⁷] / ♭Ⅲ
 | ⅲ Ⅵ⁷ | ⅱ Ⅴ⁷ | Ⅰ | ↗H ⅱ Ⅴ⁷
 |===
-2nd 🅰 is ↗H.
-🅱 starts ↗H (↗W total):
+
+2nd [A] is ↗H.
+
+[B] starts ↗H (↗W total):
 |===
 | Ⅰ | ↘W ⅱ Ⅴ⁷ | Ⅰ | ↘W ⅱ Ⅴ⁷
 | Ⅰ | ↗m3 ⅱ Ⅴ⁷ | Ⅰ | ↘H ⅱ Ⅴ⁷
 |===
-3rd 🅰 back in original key.
-note the ⅲ Ⅵ⁷ | ⅱ Ⅴ⁷ | Ⅰ can use TT subs: ⅲ ♭Ⅲ⁷ | ⅱ ♭Ⅱ⁷ | Ⅰ
+
+3rd [A] back in original key. Note: [ⅲ Ⅵ⁷ | ⅱ Ⅴ⁷ | Ⅰ ⇒TT-subs⇒ ⅲ ♭Ⅲ⁷ | ⅱ ♭Ⅱ⁷ | Ⅰ
