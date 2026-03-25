@@ -12,7 +12,6 @@ Blank template:
 
 == "All of Me" 𝄆ABAC𝄇
 Gerald Marks and Seymour Simons in 1931.
-
 |===
 |A| Ⅰ    | 𝄎 | Ⅴ⁷/ⅵ | 𝄎
 |░| Ⅴ⁷/ⅱ | 𝄎 | Ⅴ⁷/Ⅴ | 𝄎
@@ -25,7 +24,7 @@ Gerald Marks and Seymour Simons in 1931.
 |===
 
 == "Girl From Ipanema" 𝄆AABA𝄇 
-Antônio Carlos Jobim in 1962. F major.
+Antônio Carlos Jobim in 1962. F major usually.
 |===
 |A| Ⅰ   | 𝄎     | Ⅴ⁷/Ⅴ | 𝄎
 |░| ⅱ   | ♭Ⅱ⁷  | Ⅰ     | ♭Ⅱ⁷
@@ -41,7 +40,6 @@ Antônio Carlos Jobim in 1962. F major.
 
 == "Joy Spring" 𝄆AABA𝄇 
 Clifford Brown 1954. F major.
-
 |===
 |A| Ⅰ    | ⅱ Ⅴ⁷ | Ⅰ | [ⅱ Ⅴ⁷]/♭Ⅲ
 |░| ⅲ Ⅵ⁷| ⅱ Ⅴ⁷ | Ⅰ |⇧ʰ ⅱ Ⅴ⁷
@@ -57,7 +55,6 @@ Note: [ⅲ Ⅵ⁷|ⅱ Ⅴ⁷|Ⅰ] ⇒TT-subs⇒ [ⅲ ♭Ⅲ⁷|ⅱ ♭Ⅱ⁷|Ⅰ
 
 == "Pennies from Heaven" 𝄆ABAC𝄇
 Arthur Johnston (music) and Johnny Burke (lyrics) in 1936.
-
 |===
 |A| Ⅰ (ⅱ | ⅲ ♭ⅲ°) | ⅱ | Ⅴ⁷
 |░| Ⅰ (ⅱ | ⅲ ♭ⅲ°) | ⅱ | Ⅴ⁷
@@ -67,4 +64,17 @@ Arthur Johnston (music) and Johnny Burke (lyrics) in 1936.
 |░| Ⅰ (ⅱ | ⅲ ♭ⅲ°) | ⅱ | Ⅴ⁷
 |C| ⅱ | ♭Ⅶ⁷ | ⅲ | Ⅴ⁷/ⅱ
 |░| ⅱ |  Ⅴ⁷  | Ⅰ  | (ⅱ Ⅴ⁷)
+|===
+
+== "Take the A Train" 𝄆AABA𝄇 
+Billy Strayhorn 1939. C major usually.
+|===
+|A| Ⅰ   | 𝄎  | Ⅴ⁷/Ⅴ | 𝄎
+|░| ⅱ   | Ⅴ⁷ | Ⅰ     | ⅱ Ⅴ⁷
+|A| Ⅰ   | 𝄎  | Ⅴ⁷/Ⅴ | 𝄎
+|░| ⅱ   | Ⅴ⁷ | Ⅰ     |⇧⁴ ⅱ Ⅴ⁷
+|B| Ⅰ   | 𝄎  | 𝄎    | 𝄎
+|░| Ⅴ⁷/Ⅴ | 𝄎 𝄁 ⅱ    | Ⅴ⁷
+|A| Ⅰ   | 𝄎  | Ⅴ⁷/Ⅴ | 𝄎
+|░| ⅱ   | Ⅴ⁷ | Ⅰ    | (ⅱ Ⅴ⁷)
 |===
