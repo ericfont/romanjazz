@@ -12,10 +12,10 @@ jobs:
       - name: Sort and Concatenate
         run: |
           # Finds all .txt files in src folder, sorts them, and merges into merged.txt
-          cat $(find src -name "*.adoc" | sort) > merged.adoc
+          cat $(find charts -name "*.adoc" | sort) > all-charts.adoc
           
       - name: Upload Result
         uses: actions/upload-artifact@v4
         with:
           name: merged-file
-          path: merged.adoc
+          path: all-charts.adoc
