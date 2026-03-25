@@ -1,6 +1,6 @@
-Roman numeral chord charts of (mostly jazz) standards, formatted by Eric Fontaine 🅮 2026 as an AsciiDoc file.
+= Roman numeral chord charts of (mostly jazz) standards, formatted by Eric Fontaine 🅮 2026 as an AsciiDoc file.
 
-*Pennies from Heaven* by Arthur Johnston (music) and Johnny Burke (lyrics) in 1936. 𝄆🅰🅱🅰🅲𝄇 form.
+== *Pennies from Heaven* by Arthur Johnston (music) and Johnny Burke (lyrics) in 1936. 𝄆🅰🅱🅰🅲𝄇 form.
 🅰:
 |===
 | Ⅰ (ⅱ | ⅲ ♭ⅲ°) | ⅱ | Ⅴ⁷
@@ -17,7 +17,7 @@ Roman numeral chord charts of (mostly jazz) standards, formatted by Eric Fontain
 | ⅱ | Ⅴ⁷ | Ⅰ | (ⅱ Ⅴ⁷)
 |===
 
-*Joy Spring* by Clifford Brown 1954. 𝄆🅰🅰🅱🅰𝄇 form. F major.
+== *Joy Spring* by Clifford Brown 1954. 𝄆🅰🅰🅱🅰𝄇 form. F major.
 🅰:
 |===
 | Ⅰ | ⅱ Ⅴ⁷ | Ⅰ | [ⅱ Ⅴ⁷] / ♭Ⅲ
