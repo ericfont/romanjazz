@@ -1,4 +1,4 @@
-= Roman numeral chord charts of (mostly jazz) standards
+= Roman numeral chord charts of jazz standards
 
 Formatted by Eric Fontaine 🅮 2026 as an AsciiDoc file: https://github.com/ericfont/roman-numeral-standards
 
