@@ -2,7 +2,7 @@
 
 Formatted by Eric Fontaine 🅮 2026 as an AsciiDoc file: https://github.com/ericfont/roman-numeral-standards
 
-== *Pennies from Heaven* 𝄆ABAC𝄇
+== "Pennies from Heaven" 𝄆ABAC𝄇
 Arthur Johnston (music) and Johnny Burke (lyrics) in 1936.
 
 [A]:
@@ -21,7 +21,7 @@ Arthur Johnston (music) and Johnny Burke (lyrics) in 1936.
 | ⅱ | Ⅴ⁷ | Ⅰ | (ⅱ Ⅴ⁷)
 |===
 
-== *Joy Spring* 𝄆AABA𝄇 
+== "Joy Spring" 𝄆AABA𝄇 
 Clifford Brown 1954. F major.
 
 [A]:
