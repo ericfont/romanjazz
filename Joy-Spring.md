@@ -1,0 +1,22 @@
+🅰:
+|				|				|				|				|
+| -				| -				| -				| -				|
+| Ⅰ				| ⅱ		Ⅴ⁷		| Ⅰ				| (ⅱ Ⅴ⁷) / ♭Ⅲ			|
+|   | | Data 1 | Data 2 |
+|   | | Data 3 | Data 4 |
+|   | | Data 3 | Data 5 |
+|   | | Data 3 | Data 4 |
+|   | | Data 3 | Data 5 |
+|   | | Data 3 | Data 4 ||   | 
+|   | | Data 3 | Data 5 |
+
+🅰:
+Ⅰ				𝄀 ⅱ		Ⅴ⁷		𝄀 Ⅰ				𝄀 (ⅱ		Ⅴ⁷)/♭Ⅲ		𝄀
+ⅲ		Ⅵ⁷		𝄀 ⅱ		Ⅴ⁷		𝄀 Ⅰ				𝄀 ↗H ⅱ		Ⅴ⁷		𝄀
+2nd 🅰 is ↗H.
+🅱 starts ↗H (↗W total):
+Ⅰ				𝄀 ↘W ⅱ		Ⅴ⁷		𝄀 Ⅰ				𝄀 ↘W ⅱ		Ⅴ⁷		𝄀
+Ⅰ				𝄀 ↗m3 ⅱ		Ⅴ⁷		𝄀 Ⅰ				𝄀 ↘H ⅱ		Ⅴ⁷		𝄀
+3rd 🅰 back in original key.
+
+note the ⅲ Ⅵ⁷ 𝄀 ⅱ Ⅴ⁷ 𝄀 Ⅰ can use TT subs: ⅲ ♭Ⅲ⁷ 𝄀 ⅱ ♭Ⅱ⁷ 𝄀 Ⅰ																
