@@ -14,9 +14,11 @@ jobs:
           # Sort all files in charts folder and merges into merged file
           cd charts
           for f in *; do
-          
+
+            #changes tabs to space in filename (better for pixel watch's small display)
+            sed -i 's/\t/ /g' "$f";
+            
             #remove unnecessary chars from filename
-            sed -i 's/\t/ \t/g' "$f";
             echo "$f:" | sed 's/_/ /g' | sed 's/.tsv//g' | cat;
 
             #print the file contents and a newline
