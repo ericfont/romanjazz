@@ -15,8 +15,8 @@ jobs:
           cd charts
           for f in *; do
             sed -i 's/\t/ \t/g' "$f";
-            printf "%s:\n" "$f";
             echo "$f" | sed 's/_/ /g' | sed 's/.tsv//g' | cat;
+            printf ":\n" "$f";
             printf "\n";
           done > ../all-charts.tsv
 
