@@ -14,8 +14,8 @@ jobs:
           # Sort all files in charts folder and merges into merged file
           cd charts
           for f in *;
-            sed -i 's/\t/ \t/g' "$f"
-            do printf "%s:\n" "$f";
+            do sed -i 's/\t/ \t/g' "$f";
+            printf "%s:\n" "$f";
             cat "$f";
             printf "\n";
             done > ../all-charts.tsv
