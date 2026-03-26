@@ -11,9 +11,14 @@ jobs:
 
       - name: Sort and Concatenate
         run: |
-          # Finds all files in src folder, sorts them, and merges into merged file
+          # Sort all files in charts folder and merges into merged file
           cd charts
-          for f in *; do printf "%s:\n" "$f"; cat "$f"; printf "\n"; done > ../all-charts.tsv
+          for f in *;
+            sed -i 's/\n/ \n/g' "$f"
+            do printf "%s:\n" "$f";
+            cat "$f";
+            printf "\n";
+            done > ../all-charts.tsv
 
       - name: Upload Result
         uses: actions/upload-artifact@v4
