@@ -20,4 +20,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: merged-file
-          path: all-charts.tsv
+          path: charts/all-charts.tsv
