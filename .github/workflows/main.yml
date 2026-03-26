@@ -12,7 +12,8 @@ jobs:
       - name: Sort and Concatenate
         run: |
           # Finds all files in src folder, sorts them, and merges into merged file
-          for f in "charts/*.tsv"; do printf '%s\n' "$f" '\n\n'; cat "$f"; done > all-charts.tsv
+          cd charts
+          for f in *; do printf '%s\n' "$f" '\n\n'; cat "$f"; done > all-charts.tsv
           #cat $(find charts -name "*.tsv" | sort) > all-charts.tsv
 
       - name: Upload Result
