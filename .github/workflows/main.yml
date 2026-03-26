@@ -13,12 +13,14 @@ jobs:
         run: |
           # Sort all files in charts folder and merges into merged file
           cd charts
-          for f in *;
-            do sed -i 's/\t/ \t/g' "$f";
+          for f in *; do
+            sed -i 's/\t/ \t/g' "$f";
+            sed -i 's/_/ /g' "$f";
+            sed -i 's/.tsv//g' "$f";
             printf "%s:\n" "$f";
             cat "$f";
             printf "\n";
-            done > ../all-charts.tsv
+          done > ../all-charts.tsv
 
       - name: Upload Result
         uses: actions/upload-artifact@v4
