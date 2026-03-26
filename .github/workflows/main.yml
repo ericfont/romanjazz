@@ -16,7 +16,7 @@ jobs:
           for f in *; do
             sed -i 's/\t/ \t/g' "$f";
             echo "$f:" | sed 's/_/ /g' | sed 's/.tsv//g' | cat;
-            cat "$f";
+            cat "$f\n";
           done > ../all-charts.tsv
 
       - name: Upload Result
