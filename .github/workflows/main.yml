@@ -14,9 +14,15 @@ jobs:
           # Sort all files in charts folder and merges into merged file
           cd charts
           for f in *; do
+          
+            #remove unnecessary chars from filename
             sed -i 's/\t/ \t/g' "$f";
             echo "$f:" | sed 's/_/ /g' | sed 's/.tsv//g' | cat;
-            cat "$f\n";
+
+            #print the file contents and a newline
+            cat "$f";
+            printf "\n";
+            
           done > ../all-charts.tsv
 
       - name: Upload Result
