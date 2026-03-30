@@ -25,7 +25,7 @@ jobs:
             cat "$f";
 
             lastchar=$(cat filename | tail -c -1)
-            if(lastchar != "\n")
+            if($lastchar != "\n")
             then
             	printf "\n";
             fi
