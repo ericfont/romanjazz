@@ -25,8 +25,8 @@ jobs:
             cat "$f";
 
             lastchar=$(cat "$f" | tail -c -1);
-            newlinechar="\n"
-            if [ "$lastchar" != "$newlinechar" ] ; then
+            newlinechar='\n'
+            if [ $lastchar != $newlinechar ] ; then
             	printf "\n";
             fi
             printf "\n";
