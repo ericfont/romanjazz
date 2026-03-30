@@ -24,7 +24,7 @@ jobs:
             #print the file contents and two newlines
             cat "$f";
 
-            lastchar=$(cat filename | tail -c -1)
+            lastchar=$(cat filename | tail -c -1);
             if [["$lastchar" != "\n"]]; then
             	printf "\n";
             fi
