@@ -18,7 +18,7 @@ jobs:
             #remove unnecessary chars from filename
             echo "$f:" | sed 's/_/ /g' | sed 's/.tsv//g' | cat;
 
-            #print the file contents and two newlines
+            #print the file contents
             cat "$f";
 
             lastline=$(tail -n 1 $f);
