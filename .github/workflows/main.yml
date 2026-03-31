@@ -23,7 +23,7 @@ jobs:
 
             lastline=$(tail -n 1 $f);
             if [[ -n $lastline ]] ; then
-            	printf "\n";
+            	printf "nonempty\n";
             fi
             printf "\n";
             
