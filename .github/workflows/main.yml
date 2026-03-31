@@ -34,12 +34,12 @@ jobs:
           cat all-charts-tabs.txt
 
           #changes tabs to space in filename (better for pixel watch's small display)
-          sed -i 's/\t/ /g' "all-charts-tabs.txt" > "all-charts-spaces.txt";
+          sed 's/\t/ /g' "all-charts-tabs.txt" > "all-charts-spaces.txt";
 
       - name: Upload Result
         uses: actions/upload-artifact@v4
         with:
           name: merged-file
-          path:  |
+          path: |
             all-charts-tabs.txt
             all-charts-spaces.txt
