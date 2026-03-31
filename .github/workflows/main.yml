@@ -18,13 +18,8 @@ jobs:
             #remove unnecessary chars from filename
             echo "$f:" | sed 's/_/ /g' | sed 's/.tsv//g' | cat;
 
-            #print the file contents
+            #print the file contents with space
             cat "$f";
-
-            lastline=$(tail -n 1 $f);
-            if [[ $lastline != "\n" ]] ; then
-            	printf "nonempty\n";
-            fi
             printf "\n";
             
           done > ../all-charts-tabs.txt
