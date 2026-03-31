@@ -22,7 +22,7 @@ jobs:
             cat "$f";
 
             lastline=$(tail -n 1 $f);
-            if [[ $lastline != "" ]] ; then
+            if [[ -n $lastline ]] ; then
             	printf "\n";
             fi
             printf "\n";
