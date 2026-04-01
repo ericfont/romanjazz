@@ -9,6 +9,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
       - name: Sort and Concatenate
         run: |
           # Sort all files in charts folder and merges into merged file
@@ -30,6 +35,8 @@ jobs:
 
           #changes tabs to space in filename (better for pixel watch's small display)
           sed 's/\t/ /g' "all-charts-tabs.txt" > "all-charts-spaces.txt";
+
+          python compress-txt.py
 
       - name: Upload Result
         uses: actions/upload-artifact@v4
