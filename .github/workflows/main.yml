@@ -36,7 +36,7 @@ jobs:
           #changes tabs to space in filename (better for pixel watch's small display)
           sed 's/\t/ /g' "all-charts-tabs.txt" > "all-charts-spaces.txt";
 
-          python compress-txt.py
+          python "code/compress-txt.py"
 
       - name: Upload Result
         uses: actions/upload-artifact@v4
