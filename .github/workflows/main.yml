@@ -25,7 +25,7 @@ jobs:
 
             #print the file contents with space
             cat "$f";
-            printf "\n";
+            printf "\n\n";
             
           done > ../all-charts-tabs.txt
 

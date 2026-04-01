@@ -1,6 +1,8 @@
 import zlib
 import base64
 
+print("Begin compress-txt.py...")
+
 # open utf-8 encoded file as bytes
 with open('all-charts-tabs.txt', 'rb') as f:
     input_file_bytes = f.read()
