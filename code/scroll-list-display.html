@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scrollable List Selector</title>
+    <style>
+    
+
+    </style>
+</head>
+<body>
+
+    <div style="display: flex;">
+
+        <!-- 2. The List Area -->
+        <div id="listArea" style="height: 95vh; overflow-y: auto;">
+            <select name="selectSongList" size=42 id="selectSongList" style="overflow: hidden;">
+            </select>
+        </div>
+
+        <!-- 2. The Output Area -->
+        <div id="outputArea">
+
+             <div style="display: flex;">
+                <button onclick="toggleHideList()">⬅ Song Selector</button>
+
+                &emsp;no song selected
+            </div>
+
+            chart goes here
+        </div>
+    </div>
+
+<script>
+
+function toggleHideList() {
+    var x = document.getElementById("listArea");
+    x.style.display = (x.style.display === "none") ? "block" : "none";
+}
+
+const charts = [
+[`'S-Wonderful 𝄆AABA𝄇 George-Gershwin Ira-Gershwin 1927:`,
+`A₁:	Ⅰ	𝄎	♯i°	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	𝄎
+A₂:	Ⅰ	𝄎	♯i°	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	₃[ⅱ·Ⅴ⁷]
+B:	₃[Ⅰ	ⅱ·Ⅴ⁷	Ⅰ	ⅱ·Ⅴ⁷]
+	Ⅲ⁷	Ⅵ⁷	Ⅱ⁷	Ⅴ⁷
+A₃:	Ⅰ	𝄎	♯i°	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	𝄎`]
+,
+[`500-Miles-High Chick-Corea Neville-Potter 1972:`,
+`A:	𝄆E-	𝄎	G-	𝄎
+	B♭	𝄎	Bø	E⁷
+	A-	𝄎	F♯ø	𝄎
+	F-	𝄎,to𝄌	C-	𝄎
+	B⁷	𝄎	𝄇
+𝄌:	𝄆C-	𝄎	Ab	𝄎𝄇`]
+,
+[`A-Beautiful-Friendship 𝄆AABA𝄇 Donald-Kahn Stanley-Styne 1956:`,
+`A₁:	Ⅰ	₄[𝕋⁷]	Ⅳ	₂[ⅱø·Ⅴ⁷]
+	ⅵ	Ⅱ⁷	ⅱ	Ⅴ⁷
+A₂:	Ⅰ	₄[𝕋⁷]	Ⅳ	₂[ⅱø·Ⅴ⁷]
+	ⅵ	Ⅱ⁷	ⅱ	Ⅴ⁷
+B:	₄[ⅱ	Ⅴ⁷]	Ⅳ	ꓭ⁷
+	ⅲ	Ⅵ⁷	Ⅱ⁷	Ⅴ⁷
+A₃:	Ⅰ	₄[𝕋⁷]	Ⅳ	₂[ⅱø·Ⅴ⁷]
+	ⅱ	Ⅴ⁷	Ⅰ	𝄎`]
+];
+
+let selectSongListElement = document.getElementById("selectSongList");
+
+for (let i = 0; i < 3; i++) {
+    let optn = i+1;
+    let el = document.createElement("option");
+    el.textContent = optn + ": " + charts[i][0];
+    el.value = optn;
+    selectSongListElement.appendChild(el);
+}
+
+function showSelection() {
+    // Get the select element
+    var list = document.getElementById("selectSongList");
+    // Get the value of the selected option
+    var selectedValue = list.value;
+    // Display the value in the output area
+    document.getElementById("displayArea").innerText = "Selected: " + selectedValue;
+}
+
+// Define the string to parse
+const text = "JavaScript is an amazing language!";
+
+// Parse the string into tokens using a space " " as the separator
+const tokens = text.split(" ");
+
+// Display the separated tokens
+tokens.forEach(token => {
+  console.log(token);
+});
+
+</script>
+
+</body>
+</html>
