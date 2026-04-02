@@ -22,7 +22,7 @@ with open('code/scroll-list-display.html', 'r') as input_index_html, open('all-c
     # Write the charts and the tail of the file
     output_index_html.write("const charts = [")
 
-    for file in directory.rglob('charts/*'):
+    for file in Path('charts').rglob('*'):
         if file.is_file():
             filename = file.stem
             filename.replace("_", "")
