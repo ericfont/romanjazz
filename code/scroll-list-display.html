@@ -287,11 +287,10 @@ A₃:	Ⅰ	𝄎	Ⅱ⁷	𝄎
 
 let selectSongListElement = document.getElementById("selectSongList");
 
-for (let i = 0; i < 3; i++) {
-    let optn = i+1;
+for (let i = 0; i < charts.length; i++) {
     let el = document.createElement("option");
-    el.textContent = optn + ": " + charts[i][0];
-    el.value = optn;
+    el.textContent = i + ": " + charts[i][0];
+    el.value = i;
     selectSongListElement.appendChild(el);
 }
 
