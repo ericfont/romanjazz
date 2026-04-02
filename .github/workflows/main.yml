@@ -24,10 +24,12 @@ jobs:
           for f in *; do
             
             #remove unnecessary chars from filename
-            echo "[\`$f:\`,\n\`" | sed 's/_/ /g' | sed 's/.tsv//g' | cat;
+            echo "[\`$f:\`," | sed 's/_/ /g' | sed 's/.tsv//g' | cat;
 
-            #print the file contents with space
-            cat "$f";
+            printf "\n\`";
+            
+            cat "$f"; #print the file contents
+            
             printf "\`]\n,";
             
           done > ../all-charts-tabs.txt
