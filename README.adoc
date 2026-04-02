@@ -1,7 +1,5 @@
 = Roman numeral chord charts of jazz standards
 
-Formatted by Eric Fontaine 🅮 2026 as .tsv files: https://github.com/ericfont/roman-numeral-standards
+Formatted by Eric Fontaine 🅮 2026 as unicode text files viewable at: https://romanjazz.com
 
-see github action artefact output for concatenated .tsv
-
-notes: arrows used to indicate modulation up or down an interval.  Any secondary dominants are notated without slashes.
+notes: Temporary modultaions are notated using subscript of scale degree followed by the modulated chords in square brackets '[' and ']'. Secondary dominants may be noted as 7th chords of the scale degree of their root.
