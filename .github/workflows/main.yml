@@ -46,7 +46,7 @@ jobs:
 
           mkdir site
 
-          python "code/convert-to-html.py"
+          python "code/modify-index-html.py"
           
           cp all-charts-spaces.txt site/romanjazz-spaces.txt
           cp all-charts-tabs.txt site/romanjazz.txt
