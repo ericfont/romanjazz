@@ -22,7 +22,7 @@ jobs:
       - name: Sort and Concatenate
         run: |
 
-          echo "romanjazz.com git revision $(git rev-list --count HEAD) on $(date -u +"%Y-%m-%d_%H:%M") UTC."
+          echo "romanjazz.com git revision $(git rev-list --count HEAD) on $(date -u +"%Y-%m-%d_%H:%M") UTC." | cat;
 
           # Sort all files in charts folder and merges into merged file
           cd charts
