@@ -3,7 +3,7 @@ import subprocess
 
 # Run command and capture output
 revision_command_result = subprocess.run(
-"""echo romanjazz.com git revision $(git rev-list --count --all) on $(date -u +"%Y-%m-%d_%H:%M") UTC.""",
+"""echo romanjazz.com git revision $(git rev-list --count HEAD) on $(date -u +"%Y-%m-%d_%H:%M") UTC.""",
 shell=True, capture_output=True, text=True)
 
 revision_string = revision_command_result.stdout
