@@ -31,7 +31,7 @@ with open('code/scroll-list-display.html', 'r') as input_index_html, open('all-c
             song_title, sep, song_metadata = filename.partition(" ")
             output_index_html.write(f"[`{song_title}`, `{song_metadata}`, `charts/{filename}.txt`,\n")
 
-            with open(filename + '.tsv', 'r') as src:
+            with open('charts/' + filename + '.tsv', 'r') as src:
                 song_contents = src.read();
                 output_index_html.write(f"`{song_contents}`],\n")
                 output_all_charts_tabs.write(f"{song_contents}\n")
