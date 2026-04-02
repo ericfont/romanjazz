@@ -1,12 +1,9 @@
 import os
 import subprocess
 
-# Run command and capture output
-revision_command_result = subprocess.run(
-"""echo romanjazz.com git revision $(git rev-list --count HEAD) on $(date -u +"%Y-%m-%d_%H:%M") UTC.""",
-shell=True, capture_output=True, text=True)
-
-revision_string = revision_command_result.stdout
+revision_string = subprocess.run(
+"""echo romanjazz.com v$(git rev-list --count HEAD) $(date -u +"%Y-%m-%d")""",
+shell=True, capture_output=True, text=True).stdout
 
 with open('code/scroll-list-display.html', 'r') as input_index_html, open('all-charts-tabs.txt', 'r') as input_all_charts_tabs, open('site/index.html', 'w') as output_index_html:
     for line in input_index_html:
@@ -15,12 +12,12 @@ with open('code/scroll-list-display.html', 'r') as input_index_html, open('all-c
             output_index_html.write(f"<head><title>RomanJazz.com chord charts {revision_string}</title>")
 
         if "<script>" in line:
-            output_index_html.write(f"<script>\nconst charts = [\n")
+            output_index_html.write("<script>\nconst charts = \n`")
 
             for line2 in input_all_charts_tabs:
                 output_index_html.write(line2)
             
-            output_index_html.write("[`END`,``]];\n")
+            output_index_html.write("`;\n")
 
         else:
             output_index_html.write(line)
