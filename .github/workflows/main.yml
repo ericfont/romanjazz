@@ -28,14 +28,12 @@ jobs:
           cd charts
           for f in *; do
             
-            #remove unnecessary chars from filename
-            echo "[\`$f:\`," | sed 's/_/ /g' | sed 's/.tsv//g' | cat;
-
-            printf "\`";
+            # replace _ with space and remove .tsv from filename
+            echo "$f" | sed 's/_/ /g' | sed 's/.tsv//g' | cat;
             
             cat "$f"; #print the file contents
 
-            printf "\`],\n";
+            printf "\n";
             
           done > ../all-charts-tabs.txt
 
