@@ -19,6 +19,9 @@ jobs:
 
       - name: Sort and Concatenate
         run: |
+
+          echo "romanjazz.com git revision $(git rev-list --count HEAD) on $(date -u +"%Y-%m-%d_%H:%M") UTC."
+
           # Sort all files in charts folder and merges into merged file
           cd charts
           for f in *; do
@@ -44,7 +47,9 @@ jobs:
           python "code/compress-txt.py"
 
           mkdir site
-          cp code/scroll-list-display.html site/index.html
+
+          python "code/convert-to-html.py"
+          
           cp all-charts-spaces.txt site/romanjazz-spaces.txt
           cp all-charts-tabs.txt site/romanjazz.txt
 
