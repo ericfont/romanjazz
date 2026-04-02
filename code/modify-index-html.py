@@ -28,7 +28,7 @@ with open('code/scroll-list-display.html', 'r') as input_index_html, open('all-c
             filename.replace("_", "")
             output_all_charts_tabs.write(f'"{filename}"\n')
 
-            song_title, sep, song_metadata = text.partition(" ")
+            song_title, sep, song_metadata = filename.partition(" ")
             output_index_html.write(f"[`{song_title}`, `{song_metadata}`, `charts/{filename}.txt`,\n")
 
             with open(filename, 'r') as src:
