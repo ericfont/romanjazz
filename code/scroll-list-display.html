@@ -44,41 +44,77 @@
 
 <script>
 
+function main() {
+
+    const selectSongListElement = document.getElementById("selectSongList");
+    const chartDisplayAreaElement = document.getElementById("chartDisplayArea");
+    const selectedSongTitleArea = document.getElementById("selectedSongTitleArea");
+
+    console.log("Populating song list...");
+
+    for (let i = 0; i < charts.length; i++) {
+        let el = document.createElement("option");
+        el.textContent = i + ": " + charts[i][0];
+        el.value = i;
+        selectSongListElement.appendChild(el);
+    }
+
+    // Update the chart area when a new song is selected
+    selectSongListElement.addEventListener('change', (event) => {
+        const selectedIndex = event.target.value;
+        selectedSongTitleArea.innerHTML = charts[selectedIndex][0]; // Update the selected song title display
+        chartDisplayAreaElement.innerHTML = ""; // Clear previous chart
+        const chartLines = charts[selectedIndex][1].split("\n");
+        for (let i = 0; i < chartLines.length; i++) {
+            chartDisplayAreaElement.innerHTML += chartLines[i] + "<br>";
+        }
+    });
+
+    // Parse the string into tokens using a space " " as the separator
+
+    // Display the separated tokens
+  //  tokens.forEach(token => {
+    //console.log(token);
+    //});
+}
+
 function toggleHideList() {
     var x = document.getElementById("listArea");
     x.style.display = (x.style.display === "none") ? "block" : "none";
 }
 
-const selectSongListElement = document.getElementById("selectSongList");
-const chartDisplayAreaElement = document.getElementById("chartDisplayArea");
-const selectedSongTitleArea = document.getElementById("selectedSongTitleArea");
 
-for (let i = 0; i < charts.length; i++) {
-    let el = document.createElement("option");
-    el.textContent = i + ": " + charts[i][0];
-    el.value = i;
-    selectSongListElement.appendChild(el);
-}
-
-// Update the chart area when a new song is selected
-selectSongListElement.addEventListener('change', (event) => {
-	const selectedIndex = event.target.value;
-	selectedSongTitleArea.innerHTML = charts[selectedIndex][0]; // Update the selected song title display
-	chartDisplayAreaElement.innerHTML = ""; // Clear previous chart
-	const chartLines = charts[selectedIndex][1].split("\n");
-	for (let i = 0; i < chartLines.length; i++) {
-		chartDisplayAreaElement.innerHTML += chartLines[i] + "<br>";
-	}
-});
-
-// Parse the string into tokens using a space " " as the separator
-
-// Display the separated tokens
-tokens.forEach(token => {
-  console.log(token);
-});
-
+const charts =
+[[`'0-Blank-Chart form composer lyricist year usualkey`,
+`A₁:				
+				
+A₂:				
+				
+B:				
+				
+A₃:				
+				
+`],
+[`'S-Wonderful 𝄆AABA𝄇 George-Gershwin Ira-Gershwin 1927`,
+`A₁:	Ⅰ	𝄎	♯i°	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	𝄎
+A₂:	Ⅰ	𝄎	♯i°	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	₃[ⅱ·Ⅴ⁷]
+B:	₃[Ⅰ	ⅱ·Ⅴ⁷	Ⅰ	ⅱ·Ⅴ⁷]
+	Ⅲ⁷	Ⅵ⁷	Ⅱ⁷	Ⅴ⁷
+A₃:	Ⅰ	𝄎	♯i°	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	𝄎
+`],
+[`500-Miles-High Chick-Corea Neville-Potter 1972 e`,
+`A:	𝄆E-	𝄎	G-	𝄎
+	B♭	𝄎	Bø	E⁷
+	A-	𝄎	F♯ø	𝄎
+	F-	𝄎,to𝄌	C-	𝄎
+	B⁷	𝄎	𝄇	
+𝄌:	𝄆C-	𝄎	Ab	𝄎𝄇
+`]
+];
+main(); 
 </script>
-
 </body>
 </html>
