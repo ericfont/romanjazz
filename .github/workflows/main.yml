@@ -26,11 +26,11 @@ jobs:
             #remove unnecessary chars from filename
             echo "[\`$f:\`," | sed 's/_/ /g' | sed 's/.tsv//g' | cat;
 
-            printf "\n\`";
+            printf "\`";
             
             cat "$f"; #print the file contents
-            
-            printf "\`]\n,";
+
+            printf "\`],\n";
             
           done > ../all-charts-tabs.txt
 
