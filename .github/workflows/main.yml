@@ -43,8 +43,8 @@ jobs:
 
           mkdir site
           cp code/scroll-list-display.html site/index.html
-          cp all-charts-spaces.txt site/
-          cp all-charts-tabs.txt site/
+          cp all-charts-spaces.txt site/romanjazz-spaces.txt
+          cp all-charts-tabs.txt site/romanjazz.txt
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
