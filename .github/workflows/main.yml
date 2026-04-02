@@ -44,8 +44,6 @@ jobs:
           #changes tabs to space in filename (better for pixel watch's small display)
           sed 's/\t/ /g' "all-charts-tabs.txt" > "all-charts-spaces.txt";
 
-          python "code/compress-txt.py"
-
           mkdir site
 
           python "code/convert-to-html.py"
