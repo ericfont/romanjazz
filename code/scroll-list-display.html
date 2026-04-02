@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Scrollable List Selector</title>
+	<link href='https://fonts.googleapis.com/css?family=Andika' rel='stylesheet'>
+    <title>RomanJazz.com chord charts</title>
     <style>
     
+		body {
+			font-family: 'Andika', serif;
+			}
 
     </style>
 </head>
@@ -21,12 +25,14 @@
         <div id="outputArea">
 
              <div style="display: flex;">
-                <button onclick="toggleHideList()">⬅ Song Selector</button>
-
-                &emsp;no song selected
+				<div>
+                	<button onclick="toggleHideList()">⬅ Song Selector</button>
+				</div>
+				<div id="selectedSongTitleArea">
+                	&emsp;no song selected
+				</div>
             </div>
-
-            chart goes here
+			<div id="chartDisplayArea"></div>
         </div>
     </div>
 
@@ -295,7 +301,9 @@ A₃:	Ⅰ	𝄎	Ⅱ⁷	𝄎
 	ⅱ	Ⅴ⁷	Ⅰ	(ⅱ·Ⅴ⁷)
 `]];
 
-let selectSongListElement = document.getElementById("selectSongList");
+const selectSongListElement = document.getElementById("selectSongList");
+const chartDisplayAreaElement = document.getElementById("chartDisplayArea");
+const selectedSongTitleArea = document.getElementById("selectedSongTitleArea");
 
 for (let i = 0; i < charts.length; i++) {
     let el = document.createElement("option");
@@ -304,20 +312,18 @@ for (let i = 0; i < charts.length; i++) {
     selectSongListElement.appendChild(el);
 }
 
-function showSelection() {
-    // Get the select element
-    var list = document.getElementById("selectSongList");
-    // Get the value of the selected option
-    var selectedValue = list.value;
-    // Display the value in the output area
-    document.getElementById("displayArea").innerText = "Selected: " + selectedValue;
-}
-
-// Define the string to parse
-const text = "JavaScript is an amazing language!";
+// Update the chart area when a new song is selected
+selectSongListElement.addEventListener('change', (event) => {
+	const selectedIndex = event.target.value;
+	selectedSongTitleArea.innerHTML = charts[selectedIndex][0]; // Update the selected song title display
+	chartDisplayAreaElement.innerHTML = ""; // Clear previous chart
+	const chartLines = charts[selectedIndex][1].split("\n");
+	for (let i = 0; i < chartLines.length; i++) {
+		chartDisplayAreaElement.innerHTML += chartLines[i] + "<br>";
+	}
+});
 
 // Parse the string into tokens using a space " " as the separator
-const tokens = text.split(" ");
 
 // Display the separated tokens
 tokens.forEach(token => {
