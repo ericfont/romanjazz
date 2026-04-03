@@ -125,13 +125,12 @@ function main() {
         selectedSongTitleArea.innerHTML = '&emsp; <b>' + charts[selectedIndex][0] + '</b>'; // Update the selected song title display
         const container = document.getElementById('myContainer');
 
-        chartDisplayAreaElement.innerHTML =  charts[selectedIndex][1] + '<textarea id="dynamicTextarea" placeholder="Enter text...">' + '\n'; // put the metadata
-        const chartLines = charts[selectedIndex][2].split("\n");
+        chartDisplayAreaElement.innerHTML =  charts[selectedIndex][1] + '<textarea id="dynamicTextarea" placeholder="Song contents...">' + charts[selectedIndex][2] + '</textarea>';
+     /*   const chartLines = charts[selectedIndex][2].split("\n");
         for (let i = 0; i < chartLines.length; i++) {
             chartDisplayAreaElement.innerHTML += chartLines[i] + '\n';
         }
-
-        chartDisplayAreaElement.innerHTML += '</textarea>';
+        chartDisplayAreaElement.innerHTML += '</textarea>';*/
     });
 
     // Parse the string into tokens using a space " " as the separator
