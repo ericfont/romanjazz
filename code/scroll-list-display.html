@@ -16,13 +16,13 @@
 
     <div style="display: flex;">
 
-        <!-- 2. The List Area -->
+        <!-- The List Area -->
         <div id="listArea" style="height: 95vh; overflow-y: auto;">
             <select name="selectSongList" size=42 id="selectSongList" style="overflow: hidden;">
             </select>
         </div>
 
-        <!-- 2. The Output Area -->
+        <!-- The Output Area -->
         <div id="outputArea">
 
              <div style="display: flex;">
@@ -49,9 +49,9 @@ const selectedSongTitleArea = document.getElementById("selectedSongTitleArea");
 document.fonts.ready.then(() => {
   const isInstalled = document.fonts.check("16px 'Noto Music'");
   if (isInstalled) {
-    chartDisplayAreaElement.innerHTML += `<p>Noto Music font is installed and ready to use.</p>`;
+    chartDisplayAreaElement.innerHTML += `<p>✓ Noto Music font is installed.</p>`;
   } else {
-    chartDisplayAreaElement.innerHTML += `<p>Noto Music font is not installed. You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a>, see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a> to install it so you can correctly see the musical notation.</p>`;
+    chartDisplayAreaElement.innerHTML += `<p>✗ Noto Music font is not installed. You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
   }
 });
 
