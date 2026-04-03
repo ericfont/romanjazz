@@ -47,7 +47,8 @@ const chartDisplayAreaElement = document.getElementById("chartDisplayArea");
 const selectedSongTitleArea = document.getElementById("selectedSongTitleArea");
 
 document.fonts.ready.then(() => {
-  const isInstalled = document.fonts.check("16px 'Noto Music'");
+  const fonts = await window.queryLocalFonts();
+  const isInstalled = fonts.some(f => f.family === "Noto Music");
   if (isInstalled) {
     chartDisplayAreaElement.innerHTML += `<p>✓ Noto Music font is installed.</p>`;
   } else {
