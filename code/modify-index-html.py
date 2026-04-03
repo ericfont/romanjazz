@@ -24,14 +24,15 @@ with open('code/scroll-list-display.html', 'r') as input_index_html, open('all-c
 
     for file in Path('charts').rglob('*.tsv'):
         if file.is_file():
-            filename = file.stem
-            filename.replace("_", "")
-            output_all_charts_tabs.write(f'"{filename}"\n')
+            filestem = file.stem
+            filestem.replace("_", " ")
+            output_all_charts_tabs.write(f'"{filestem}"\n')
 
-            song_title, sep, song_metadata = filename.partition(" ")
-            output_index_html.write(f"[`{song_title}`, `{song_metadata}`, `charts/{filename}.txt`,\n")
+            song_title, sep, song_metadata = filestem.partition(" ")
 
-            with open('charts/' + filename + '.tsv', 'r') as src:
+            output_index_html.write(f"[`{song_title}`, `{song_metadata}`,\n")
+
+            with open(file, 'r') as src:
                 song_contents = src.read();
                 output_index_html.write(f"`{song_contents}`],\n")
                 output_all_charts_tabs.write(f"{song_contents}\n")
