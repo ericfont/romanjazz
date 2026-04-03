@@ -122,7 +122,7 @@ function main() {
     // Update the chart area when a new song is selected
     selectSongListElement.addEventListener('change', (event) => {
         const selectedIndex = event.target.value;
-        selectedSongTitleArea.innerHTML = charts[selectedIndex][0]; // Update the selected song title display
+        selectedSongTitleArea.innerHTML = '&emsp; <b>' + charts[selectedIndex][0] + '</b>'; // Update the selected song title display
         const container = document.getElementById('myContainer');
 
         chartDisplayAreaElement.innerHTML =  charts[selectedIndex][1] + '<textarea id="dynamicTextarea" placeholder="Enter text...">' + '\n'; // put the metadata
@@ -149,7 +149,7 @@ function toggleHideList() {
 
 
 const charts =
-[[`'0-Blank-Chart form composer lyricist year usualkey`,
+[[`'0-Blank-Chart`, `form composer lyricist year usualkey`,
 `A₁:				
 				
 A₂:				
@@ -159,7 +159,7 @@ B:
 A₃:				
 				
 `],
-[`'S-Wonderful 𝄆AABA𝄇 George-Gershwin Ira-Gershwin 1927`,
+[`'S-Wonderful`, `𝄆AABA𝄇 George-Gershwin Ira-Gershwin 1927`,
 `A₁:	Ⅰ	𝄎	♯i°	𝄎
 	ⅱ	Ⅴ⁷	Ⅰ	𝄎
 A₂:	Ⅰ	𝄎	♯i°	𝄎
@@ -169,7 +169,7 @@ B:	₃[Ⅰ	ⅱ·Ⅴ⁷	Ⅰ	ⅱ·Ⅴ⁷]
 A₃:	Ⅰ	𝄎	♯i°	𝄎
 	ⅱ	Ⅴ⁷	Ⅰ	𝄎
 `],
-[`500-Miles-High Chick-Corea Neville-Potter 1972 e`,
+[`500-Miles-High`, `Chick-Corea Neville-Potter 1972 e`,
 `A:	𝄆E-	𝄎	G-	𝄎
 	B♭	𝄎	Bø	E⁷
 	A-	𝄎	F♯ø	𝄎
