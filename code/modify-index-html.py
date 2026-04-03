@@ -7,7 +7,7 @@ revision_string = subprocess.run(
 """echo romanjazz.com v$(git rev-list --count HEAD) $(date -u +"%Y-%m-%d")""",
 shell=True, capture_output=True, text=True).stdout
 
-with open('code/scroll-list-display.html', 'r') as input_index_html, open('all-charts-tabs.txt', 'w') as output_all_charts_tabs, open('site/index.html', 'w') as output_index_html:
+with open('code/scroll-list-display.html', 'r') as input_index_html, open('site/all-charts-tabs.txt', 'w') as output_all_charts_tabs, open('site/index.html', 'w') as output_index_html:
     for line in input_index_html:
 
         if "<head>" in line:
@@ -25,8 +25,8 @@ with open('code/scroll-list-display.html', 'r') as input_index_html, open('all-c
     for file in Path('charts').rglob('*.tsv'):
         if file.is_file():
             filestem = file.stem
-            filestem.replace("_", " ")
-            output_all_charts_tabs.write(f'"{filestem}"\n')
+            filestem = filestem.replace("_", " ")
+            output_all_charts_tabs.write(f'{filestem}\n')
 
             song_title, sep, song_metadata = filestem.partition(" ")
 
