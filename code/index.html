@@ -36,6 +36,7 @@
 			<div id="chartDisplayArea">
                 <p>Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.</p>
                 <p>For offline use, download <a href="https://romanjazz.com/romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="https://romanjazz.com/index.html" download="romanjazz.html" class="download-btn">index.html</a>.</p>
+                <button onclick="checkFonts()">click to test if have Noto Music font</button>
             </div>
         </div>
     </div>
@@ -46,17 +47,62 @@ const selectSongListElement = document.getElementById("selectSongList");
 const chartDisplayAreaElement = document.getElementById("chartDisplayArea");
 const selectedSongTitleArea = document.getElementById("selectedSongTitleArea");
 
-document.fonts.ready.then(() => {
-  const fonts = await window.queryLocalFonts();
-  const isInstalled = fonts.some(f => f.family === "Noto Music");
-  if (isInstalled) {
-    chartDisplayAreaElement.innerHTML += `<p>✓ Noto Music font is installed.</p>`;
-  } else {
-    chartDisplayAreaElement.innerHTML += `<p>✗ Noto Music font is not installed. You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
+async function checkFonts() {
+    try {
+        // This works because it is inside a click handler
+        const fonts = await window.queryLocalFonts();
+        console.log(fonts);
+        const isInstalled = fonts.some(f => f.family === "Noto Music");
+        if (isInstalled) {
+            chartDisplayAreaElement.innerHTML += `<p>✓ Noto Music font is installed.</p>`;
+            }
+        else {
+            chartDisplayAreaElement.innerHTML += `<p>✗ Noto Music font is not installed. You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
+            }
+    } catch (error) {
+    console.error(error.name, error.message);
   }
-});
+}
+
+async function logFontData() {
+  try {
+    // 1. Request permission and query fonts
+    const availableFonts = await window.queryLocalFonts();
+
+    // 2. Iterate through the array of FontData
+    for (const fontData of availableFonts) {
+      console.log(fontData.postscriptName); // e.g., "Arial-BoldMT"
+      console.log(fontData.fullName);       // e.g., "Arial Bold"
+      console.log(fontData.family);         // e.g., "Arial"
+      console.log(fontData.style);          // e.g., "Bold"
+    }
+  } catch (err) {
+    // Handle errors (e.g., permission denied)
+    console.error(err.name, err.message);
+  }
+}
+/*
+async function checkNotoFont() {
+  try {
+    document.fonts.ready.then(() => {
+        const fonts = await window.queryLocalFonts();
+        const isInstalled = fonts.some(f => f.family === "Noto Music");
+        if (isInstalled) {
+            chartDisplayAreaElement.innerHTML += `<p>✓ Noto Music font is installed.</p>`;
+        } else {
+            chartDisplayAreaElement.innerHTML += `<p>✗ Noto Music font is not installed. You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
+        }
+        });
+  } catch (err) {
+    // Handle errors (e.g., permission denied)
+    console.error(err.name, err.message);
+  }
+}*/
 
 function main() {
+
+    //logFontData();
+    
     console.log("Populating song list...");
 
     for (let i = 0; i < charts.length; i++) {
