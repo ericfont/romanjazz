@@ -70,7 +70,7 @@ function main() {
     selectSongListElement.addEventListener('change', (event) => {
         const selectedIndex = event.target.value;
         selectedSongTitleArea.innerHTML = charts[selectedIndex][0]; // Update the selected song title display
-        chartDisplayAreaElement.innerHTML = charts[selectedIndex][1] + '<bk>'; // put the metadata
+        chartDisplayAreaElement.innerHTML = charts[selectedIndex][1] + '<br>'; // put the metadata
         const chartLines = charts[selectedIndex][2].split("\n");
         for (let i = 0; i < chartLines.length; i++) {
             chartDisplayAreaElement.innerHTML += chartLines[i] + "<br>";
