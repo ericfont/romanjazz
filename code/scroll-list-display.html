@@ -34,13 +34,8 @@
 				</div>
             </div>
 			<div id="chartDisplayArea">
-                <bk>
-                For offline use, download <a href="https://romanjazz.com/romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="https://romanjazz.com/index.html" download="romanjazz.html" class="download-btn">index.html</a> (you may also need to install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a>, see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>).
-                <bk>
-			    <div id="fontTestArea">
-                </div>
-                <bk>
-                Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.
+                <p>Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.</p>
+                <p>For offline use, download <a href="https://romanjazz.com/romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="https://romanjazz.com/index.html" download="romanjazz.html" class="download-btn">index.html</a>.</p>
             </div>
         </div>
     </div>
@@ -50,14 +45,13 @@
 const selectSongListElement = document.getElementById("selectSongList");
 const chartDisplayAreaElement = document.getElementById("chartDisplayArea");
 const selectedSongTitleArea = document.getElementById("selectedSongTitleArea");
-const fontTestArea = document.getElementById("fontTestArea");
 
 document.fonts.ready.then(() => {
   const isInstalled = document.fonts.check("16px 'Noto Music'");
   if (isInstalled) {
-    chartDisplayAreaElement.innerHTML = "Noto Music font is installed and ready to use.";
+    chartDisplayAreaElement.innerHTML += `<p>Noto Music font is installed and ready to use.</p>`;
   } else {
-    chartDisplayAreaElement.innerHTML = "Noto Music font is not installed. Please install it for the best experience.";
+    chartDisplayAreaElement.innerHTML += `<p>Noto Music font is not installed. You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a>, see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a> to install it so you can correctly see the musical notation.</p>`;
   }
 });
 
