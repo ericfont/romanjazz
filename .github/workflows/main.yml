@@ -44,8 +44,6 @@ jobs:
           #changes tabs to space in filename (better for pixel watch's small display)
           sed 's/\t/ /g' "all-charts-tabs.txt" > "all-charts-spaces.txt";
 
-          mkdir site
-
           python "code/modify-index-html.py"
           
           cp all-charts-spaces.txt site/romanjazz-spaces.txt
