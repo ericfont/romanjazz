@@ -4,57 +4,61 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Music&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            color-scheme: light dark;
-        }
-        body, select, textarea {
-            color: light-dark(#000000, #efefec);
-            background-color: light-dark(#efedea, #000000);
-        }
+	<base href="https://romanjazz.com/" target="_blank">
 
+	<style>
+		:root {
+			color-scheme: light dark;
+		}
 		body, select, textarea {
+			color: light-dark(#000000, #efefec);
+			background-color: light-dark(#efedea, #000000);
 			font-family: 'Noto Music', Arial, Helvetica, sans-serif;
 		}
 
-        textarea {
-            tab-size: 10; /* in spaces */
-            width: 100%;
-            height: 100%;
-        }
+		.section-name {
+			padding: 0px;
+			border: 1px solid light-dark(#000000, #efefec);
+		}
+
+		textarea {
+			tab-size: 10; /* in spaces */
+			width: 100%;
+			height: 100%;
+		}
 
 
-    </style>
+	</style>
 </head>
 <body>
 
-    <div style="display: flex;">
+	<div style="display: flex;">
 
-        <!-- List Area -->
-        <div id="listArea" style="height: 95vh; overflow-y: auto;">
-            <select name="selectSongList" size=42 id="selectSongList" style="overflow: hidden;">
-            </select>
-        </div>
+		<!-- List Area -->
+		<div id="listArea" style="height: 95vh; overflow-y: auto;">
+			<select name="selectSongList" size=42 id="selectSongList" style="overflow: hidden;">
+			</select>
+		</div>
 
-        <!-- Output Area -->
-        <div id="outputArea">
+		<!-- Output Area -->
+		<div id="outputArea">
 
-             <div style="display: flex;">
+			 <div style="display: flex;">
 				<div>
-                	<button onclick="toggleHideList()">⬅ Song Selector</button>
+					<button onclick="toggleHideList()">⬅ Song Selector</button>
 				</div>
-				<div id="selectedSongTitleArea">
-                	&emsp; Select song from list on the left.
+				<div id="selectedSongTitleArea" class="section-name">
+					&emsp; Select song from list on the left.
 				</div>
-            </div>
+			</div>
 			<div id="chartDisplayArea" contenteditable="true" style="width: 100%; height: 100%;">
-                <button onclick="toggleDarkMode()">Toggle Dark/Light Mode</button>
-                <p>Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.</p>
-                <p>For offline use, download <a href="https://romanjazz.com/romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="index.html" download="romanjazz.html" class="download-btn">index.html</a>.</p>
-                <button onclick="checkFonts()">Check if Noto Music font ready</button>
-            </div>
-        </div>
-    </div>
+				<button onclick="toggleDarkMode()">Toggle Dark/Light Mode</button>
+				<p>Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.</p>
+				<p>For offline use, download <a href="romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="index.html" download="romanjazz.html" class="download-btn">index.html</a>.</p>
+				<button onclick="checkFonts()">Check if Noto Music font ready</button>
+			</div>
+		</div>
+	</div>
 
 <script>
 
@@ -63,74 +67,74 @@ const chartDisplayAreaElement = document.getElementById("chartDisplayArea");
 const selectedSongTitleArea = document.getElementById("selectedSongTitleArea");
 
 async function checkFonts() {
-    try {
-        chartDisplayAreaElement.innerHTML += `<p>Checking for necessary fonts. Your browser might request you accept the query.</p>`;
-        const fonts = await window.queryLocalFonts();
-        console.log(fonts);
-        const isInstalled = fonts.some(f => f.family === "Noto Music");
-        if (isInstalled) {
-            chartDisplayAreaElement.innerHTML += `<p>✓ Noto Music font is in queryLocalFonts().</p>`;
-            }
-        else {
-            chartDisplayAreaElement.innerHTML += `<p>✗ Noto Music font NOT in queryLocalFonts(). You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
-            }
-    } catch (error) {
-    console.error(error.name, error.message);
+	try {
+		chartDisplayAreaElement.innerHTML += `<p>Checking for necessary fonts. Your browser might request you accept the query.</p>`;
+		const fonts = await window.queryLocalFonts();
+		console.log(fonts);
+		const isInstalled = fonts.some(f => f.family === "Noto Music");
+		if (isInstalled) {
+			chartDisplayAreaElement.innerHTML += `<p>✓ Noto Music font is in queryLocalFonts().</p>`;
+			}
+		else {
+			chartDisplayAreaElement.innerHTML += `<p>✗ Noto Music font NOT in queryLocalFonts(). You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
+			}
+	} catch (error) {
+	console.error(error.name, error.message);
   }
 }
 
 function main() {
-    
-    console.log("Populating song list...");
+	
+	console.log("Populating song list...");
 
-    for (let i = 0; i < charts.length; i++) {
-        let el = document.createElement("option");
-        el.textContent = i + ": " + charts[i][0];
-        el.value = i;
-        selectSongListElement.appendChild(el);
-    }
+	for (let i = 0; i < charts.length; i++) {
+		let el = document.createElement("option");
+		el.textContent = i + ": " + charts[i][0];
+		el.value = i;
+		selectSongListElement.appendChild(el);
+	}
 
-    // Update the chart area when a new song is selected
-    selectSongListElement.addEventListener('change', (event) => {
-        const selectedIndex = event.target.value;
-        selectedSongTitleArea.innerHTML = '&emsp; <b>' + charts[selectedIndex][0] + '</b>'; // Update the selected song title display
-        const container = document.getElementById('myContainer');
+	// Update the chart area when a new song is selected
+	selectSongListElement.addEventListener('change', (event) => {
+		const selectedIndex = event.target.value;
+		selectedSongTitleArea.innerHTML = '&emsp; <b>' + charts[selectedIndex][0] + '</b>'; // Update the selected song title display
+		const container = document.getElementById('myContainer');
 
-        chartDisplayAreaElement.innerHTML =  charts[selectedIndex][1] + '<textarea id="dynamicTextarea" placeholder="Song contents...">' + charts[selectedIndex][2] + '</textarea>';
-     /*   const chartLines = charts[selectedIndex][2].split("\n");
-        for (let i = 0; i < chartLines.length; i++) {
-            chartDisplayAreaElement.innerHTML += chartLines[i] + '\n';
-        }
-        chartDisplayAreaElement.innerHTML += '</textarea>';*/
-    });
+		chartDisplayAreaElement.innerHTML =  charts[selectedIndex][1] + '<textarea id="dynamicTextarea" placeholder="Song contents...">' + charts[selectedIndex][2] + '</textarea>';
+	 /*   const chartLines = charts[selectedIndex][2].split("\n");
+		for (let i = 0; i < chartLines.length; i++) {
+			chartDisplayAreaElement.innerHTML += chartLines[i] + '\n';
+		}
+		chartDisplayAreaElement.innerHTML += '</textarea>';*/
+	});
 
-    // Parse the string into tokens using a space " " as the separator
+	// Parse the string into tokens using a space " " as the separator
 
-    // Display the separated tokens
+	// Display the separated tokens
   //  tokens.forEach(token => {
-    //console.log(token);
-    //});
+	//console.log(token);
+	//});
 }
 
 function toggleHideList() {
-    var x = document.getElementById("listArea");
-    x.style.display = (x.style.display === "none") ? "block" : "none";
+	var x = document.getElementById("listArea");
+	x.style.display = (x.style.display === "none") ? "block" : "none";
 }
 
 function toggleDarkMode() {
-    const html = document.documentElement;
-    const currentScheme = getComputedStyle(html).colorScheme;
-    html.style.colorScheme = (currentScheme === 'dark') ? 'light' : 'dark';
+	const html = document.documentElement;
+	const currentScheme = getComputedStyle(html).colorScheme;
+	html.style.colorScheme = (currentScheme === 'dark') ? 'light' : 'dark';
 
-    // Save preference to localStorage
-    localStorage.setItem('theme', html.style.colorScheme);
+	// Save preference to localStorage
+	localStorage.setItem('theme', html.style.colorScheme);
 }
 
 // Get preference from localStorage
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme) {
-    const html = document.documentElement;
-    html.style.colorScheme = savedTheme;
+	const html = document.documentElement;
+	html.style.colorScheme = savedTheme;
 }
 
 const charts =
@@ -148,8 +152,8 @@ A₃:
 `A₁:	Ⅰ	𝄎	♯i°	𝄎
 	ⅱ	Ⅴ⁷	Ⅰ	𝄎
 A₂:	Ⅰ	𝄎	♯i°	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	₃[ⅱ·Ⅴ⁷]
-B:	₃[Ⅰ	ⅱ·Ⅴ⁷	Ⅰ	ⅱ·Ⅴ⁷]
+	ⅱ	Ⅴ⁷	Ⅰ	Ⅲ:[ⅱ·Ⅴ⁷
+B:	Ⅰ	ⅱ·Ⅴ⁷	Ⅰ	ⅱ·Ⅴ⁷]
 	Ⅲ⁷	Ⅵ⁷	Ⅱ⁷	Ⅴ⁷
 A₃:	Ⅰ	𝄎	♯i°	𝄎
 	ⅱ	Ⅴ⁷	Ⅰ	𝄎
