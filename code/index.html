@@ -5,7 +5,14 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Music&display=swap" rel="stylesheet">
     <style>
-    
+        :root {
+            color-scheme: light dark;
+        }
+        body {
+            color: light-dark(#000000, #efefec);
+            background-color: light-dark(#efedea, #000000);
+        }
+
 		body, select {
 			font-family: 'Noto Music', Arial, Helvetica, sans-serif;
 		}
@@ -16,6 +23,7 @@
             width: 100%;
             height: 100%;
         }
+
 
     </style>
 </head>
@@ -41,6 +49,7 @@
 				</div>
             </div>
 			<div id="chartDisplayArea" style="width: 100%; height: 100%;">
+                <button onclick="toggleDarkMode()">Toggle Dark/Light Mode</button>
                 <p>Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.</p>
                 <p>For offline use, download <a href="https://romanjazz.com/romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="index.html" download="romanjazz.html" class="download-btn">index.html</a>.</p>
                 <button onclick="checkFonts()">Check if Noto Music font installed</button>
@@ -146,6 +155,22 @@ function toggleHideList() {
     x.style.display = (x.style.display === "none") ? "block" : "none";
 }
 
+function toggleDarkMode() {
+    const html = document.documentElement;
+    const currentScheme = getComputedStyle(html).colorScheme;
+    html.style.colorScheme = (currentScheme === 'dark') ? 'light' : 'dark';
+
+    // Save preference to localStorage
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+}
+
+// Get preference from localStorage
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+    const html = document.documentElement;
+    html.style.colorScheme = savedTheme;
+}
 
 const charts =
 [[`'0-Blank-Chart`, `form composer lyricist year usualkey`,
