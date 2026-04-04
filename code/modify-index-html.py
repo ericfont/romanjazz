@@ -4,7 +4,7 @@ import subprocess
 from pathlib import Path
 
 revision_string = subprocess.run(
-"""echo romanjazz.com v$(git rev-list --count HEAD) $(date -u +"%Y-%m-%d")""",
+"""echo -n romanjazz.com v$(git rev-list --count HEAD) $(date -u +"%Y-%m-%d")""",
 shell=True, capture_output=True, text=True).stdout
 
 with open('code/index.html', 'r') as input_index_html, open('site/all-charts-tabs.txt', 'w') as output_all_charts_tabs, open('site/index.html', 'w') as output_index_html:
@@ -12,10 +12,8 @@ with open('code/index.html', 'r') as input_index_html, open('site/all-charts-tab
 
         if "<head>" in line:
             output_index_html.write(f"<head><title>RomanJazz.com chord charts {revision_string}</title>")
-
-        if "const charts =" in line:
+        elif "const charts =" in line:
             break
-
         else:
             output_index_html.write(line)
     
