@@ -23,12 +23,6 @@
 			border-collapse: collapse;
 		}
 
-		table.dotted-grid th,
-		table.dotted-grid td {
-			/* 1px width, dotted style, and light grey color */
-			border: 1px dotted #808080;
-		}
-
 		.section-name {
 			padding: 0px;
 			border: 1px solid light-dark(#000000, #efefec);
@@ -134,7 +128,7 @@ function main() {
 
 		console.log(`Loading song ${outTitleDiv.innerHTML}`);
 
-		var html = charts[selectedIndex][1] + '<table class="dotted-grid">';
+		var html = charts[selectedIndex][1] + '<table>';
 
 		const cellsPerBar = 4;
 
@@ -157,12 +151,19 @@ function main() {
 			// If first cell contains an optional section name, wrap in a span with boxed style
 			html += '<td class="right-justify-cell">';		
 			if( lineCells[0] !== "" ) {
-				html += `<span class="section-name">${lineCells[0]}</span>&emsp;`;
+				html += `<span class="section-name">${lineCells[0]}</span> `;
 			}
 			html += '</td>';
 
+			// handle barline at start of line
+			html += '<td>𝄀</td>';
+
+			// Process each measure lineCells[i]
 			for(let i = 1; i < lineCells.length; i++) {
-				if(lineCells[i] === "𝄎") {
+				if(lineCells[i] === "") {
+					console.log("Empty cell.");
+				}
+				else if(lineCells[i] === "𝄎") {
 					html += `<td colspan="${cellsPerBar}" class="center-justify-cell">𝄎</td>`;
 				}
 				else if(lineCells[i] === "𝄏") {
@@ -188,6 +189,9 @@ function main() {
 						html += '<td></td>';
 						remainingCellsInBar--;
 					}
+
+					// handle barline at end of this measure
+					html += '<td>𝄀</td>';
 				}
 			}
 
