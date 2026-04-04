@@ -80,44 +80,7 @@ async function checkFonts() {
   }
 }
 
-async function logFontData() {
-  try {
-    // 1. Request permission and query fonts
-    const availableFonts = await window.queryLocalFonts();
-
-    // 2. Iterate through the array of FontData
-    for (const fontData of availableFonts) {
-      console.log(fontData.postscriptName); // e.g., "Arial-BoldMT"
-      console.log(fontData.fullName);       // e.g., "Arial Bold"
-      console.log(fontData.family);         // e.g., "Arial"
-      console.log(fontData.style);          // e.g., "Bold"
-    }
-  } catch (err) {
-    // Handle errors (e.g., permission denied)
-    console.error(err.name, err.message);
-  }
-}
-/*
-async function checkNotoFont() {
-  try {
-    document.fonts.ready.then(() => {
-        const fonts = await window.queryLocalFonts();
-        const isInstalled = fonts.some(f => f.family === "Noto Music");
-        if (isInstalled) {
-            chartDisplayAreaElement.innerHTML += `<p>✓ Noto Music font is installed.</p>`;
-        } else {
-            chartDisplayAreaElement.innerHTML += `<p>✗ Noto Music font is not installed. You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
-        }
-        });
-  } catch (err) {
-    // Handle errors (e.g., permission denied)
-    console.error(err.name, err.message);
-  }
-}*/
-
 function main() {
-
-    //logFontData();
     
     console.log("Populating song list...");
 
