@@ -19,8 +19,14 @@
 		table {
 			width: 100%;
 			height: 100%;
-			table-layout: fixed; /* Ensures cells share space predictably */
+			table-layout: fixed;
 			border-collapse: collapse;
+		}
+
+		table.dotted-grid th,
+		table.dotted-grid td {
+			/* 1px width, dotted style, and light grey color */
+			border: 1px dotted #808080;
 		}
 
 		.section-name {
@@ -31,6 +37,10 @@
 		.right-justify-cell {
  			text-align: right;
 		}
+
+		.center-justify-cell {
+ 			text-align: center;
+		}
 	</style>
 </head>
 <body>
@@ -38,23 +48,27 @@
 	<div style="display: flex;">
 
 		<!-- List Area -->
-		<div id="listArea" style="height: 95vh; overflow-y: auto; width: 50%;">
+		<div id="listDiv" style="height: 95vh; overflow-y: auto; width: 50%; display: block;">
+			<select name="playlist" id="selectPlaylist" style="width: 100%;">
+				<option value="embedded">embedded</option>
+				<option value="localStorage">localStorage</option>
+			</select>
 			<select name="selectSongList" size=42 id="selectSongList" style="overflow: hidden; width: 100%;">
 			</select>
 		</div>
 
 		<!-- Output Area -->
-		<div id="outputArea" style="width: 50%;">
+		<div id="outDiv" style="width: 50%; height: 100%;">
 
 			 <div style="display: flex;">
 				<div>
-					<button onclick="toggleHideList()">⬅ Song Selector</button>
+					<button onclick="toggleHideList()">⬅ Selector</button>
 				</div>
-				<div id="selectedSongTitleArea">
+				<div id="outTitleDiv">
 					&emsp; Select <i>song</i> from list on the left.
 				</div>
 			</div>
-			<div id="chartDisplayArea" style="width: 100%; height: 100%;">
+			<div id="outContentsDiv" style="width: 100%; height: 100%;">
 				<button onclick="toggleDarkMode()">Toggle Dark/Light Mode</button>
 				<p>Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.</p>
 				<p>For offline use, download <a href="romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="index.html" download="romanjazz.html" class="download-btn">index.html</a>.</p>
@@ -66,24 +80,39 @@
 <script>
 
 const selectSongListElement = document.getElementById("selectSongList");
-const chartDisplayAreaElement = document.getElementById("chartDisplayArea");
-const selectedSongTitleArea = document.getElementById("selectedSongTitleArea");
+const listDiv = document.getElementById("listDiv");
+const outDiv = document.getElementById("outDiv");
+const outContentsDiv = document.getElementById("outContentsDiv");
+const outTitleDiv = document.getElementById("outTitleDiv");
+	
 
 async function checkFonts() {
 	try {
-		chartDisplayAreaElement.innerHTML += `<p>Checking for necessary fonts. Your browser might request you accept the query.</p>`;
+		outContentsDiv.innerHTML += `<p>Checking for necessary fonts. Your browser might request you accept the query.</p>`;
 		const fonts = await window.queryLocalFonts();
 		console.log(fonts);
 		const isInstalled = fonts.some(f => f.family === "Noto Music");
 		if (isInstalled) {
-			chartDisplayAreaElement.innerHTML += `<p>✓ Noto Music font is in queryLocalFonts().</p>`;
+			outContentsDiv.innerHTML += `<p>✓ Noto Music font FOUND in queryLocalFonts().</p>`;
 			}
 		else {
-			chartDisplayAreaElement.innerHTML += `<p>✗ Noto Music font NOT in queryLocalFonts(). You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
+			outContentsDiv.innerHTML += `<p>✗ Noto Music font NOT in queryLocalFonts(). You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
 			}
 	} catch (error) {
 		console.error(error.name, error.message);
 	}
+}
+
+function showSettings() {
+	if( listDiv.style.display === "none" ) {
+		listDiv.style.display = "block";
+		outDiv.style.width = "50%";
+	}
+	else {
+		listDiv.style.display = "none";
+		outDiv.style.width = "100%";
+	}
+
 }
 
 function main() {
@@ -99,11 +128,15 @@ function main() {
 
 	// Update the chart area when a new song is selected
 	selectSongListElement.addEventListener('change', (event) => {
+
 		const selectedIndex = event.target.value;
-		selectedSongTitleArea.innerHTML = '&emsp; <b>' + charts[selectedIndex][0] + '</b>'; // Update the selected song title display
+		outTitleDiv.innerHTML = '&emsp; <b>' + charts[selectedIndex][0] + '</b>'; // Update the selected song title display
 
+		console.log(`Loading song ${outTitleDiv.innerHTML}`);
 
-		var html = charts[selectedIndex][1] + '<table>';
+		var html = charts[selectedIndex][1] + '<table class="dotted-grid">';
+
+		const cellsPerBar = 4;
 
 		// Split by newlines
 		const chartLines = charts[selectedIndex][2].split('\n');
@@ -116,21 +149,32 @@ function main() {
 			// Split by tabs
 			const lineCells = line.split('\t');
 
-
-			if( lineCells.length > 0 ) {
-
-				html += '<td class="right-justify-cell">';
-				// detect if the first cell is a section name (e.g., A, B, A₁, etc.) and wrap it in a span with a class for boxed style
-				if( lineCells[0] !== "" ) {
-					html += `<span class="section-name">${lineCells[0]}</span>&emsp;`;
-				}
-				html += '</td>';
+			if( lineCells.length == 1 ) {
+				console.log("Reached final empty line of song.");
+				return;
 			}
 
+			// If first cell contains an optional section name, wrap in a span with boxed style
+			html += '<td class="right-justify-cell">';		
+			if( lineCells[0] !== "" ) {
+				html += `<span class="section-name">${lineCells[0]}</span>&emsp;`;
+			}
+			html += '</td>';
+
 			for(let i = 1; i < lineCells.length; i++) {
-				html += '<td>';
-				html += lineCells[i];
-				html += '</td>';
+				if(lineCells[i] === "𝄎") {
+					html += `<td colspan="${cellsPerBar}" class="center-justify-cell">𝄎</td>`;
+				}
+				else if(lineCells[i] === "𝄏") {
+					html += `<td colspan="${cellsPerBar*2}" class="center-justify-cell">𝄏</td>`;
+					i++;
+				}
+				else {
+					html += '<td>';
+					html += lineCells[i];
+					html += '</td>';
+					html += '<td></td><td></td><td></td>';
+				}
 			}
 
 			html += '</tr>';
@@ -139,7 +183,7 @@ function main() {
 
 		html += '</table>';
 
-		chartDisplayAreaElement.innerHTML = html;
+		outContentsDiv.innerHTML = html;
 
 	});
 
@@ -152,8 +196,15 @@ function main() {
 }
 
 function toggleHideList() {
-	var x = document.getElementById("listArea");
-	x.style.display = (x.style.display === "none") ? "block" : "none";
+	if( listDiv.style.display === "none" ) {
+		listDiv.style.display = "block";
+		outDiv.style.width = "50%";
+	}
+	else {
+		listDiv.style.display = "none";
+		outDiv.style.width = "100%";
+	}
+
 }
 
 function toggleDarkMode() {
@@ -173,7 +224,17 @@ if (savedTheme) {
 }
 
 const charts =
-[[`'0-Blank-Chart`, `form composer lyricist year usualkey`,
+[[`A-Kiss-To-Build-A-Dream-On`, `𝄆AABA𝄇 Bert-Kalmar Harry-Ruby Oscar-Hammerstein-Ⅱ 1935 1951`,
+`A₁:	Ⅰ·ⅱ	ⅲ·♭ⅲ°	ⅱ·Ⅵ⁷	ⅱ·Ⅵ⁷
+	ⅱ·Ⅵ⁷	ⅱ·Ⅴ⁷	Ⅰ⁶·♭ⅲ°	ⅱ·Ⅴ⁷
+A₂:	Ⅰ·ⅱ	ⅲ·♭ⅲ°	ⅱ·Ⅵ⁷	ⅱ·Ⅵ⁷
+	ⅱ·Ⅵ⁷	ⅱ·Ⅴ⁷	Ⅰ⁶·(ⅳ)	Ⅰ
+B:	♭₃[ⅱ·Ⅴ⁷	Ⅰ·Ⅵ⁷	ⅱ·Ⅴ⁷	Ⅰ]
+	ⅱø·Ⅴ⁷	ⅰ	ⅵ·Ⅱ⁷	Ⅴ⁷
+A₃:	Ⅰ·ⅱ	ⅲ·♭ⅲ°	ⅱ·Ⅵ⁷	ⅱ·Ⅵ⁷
+	ⅱ·Ⅵ⁷	ⅱ·Ⅴ⁷	Ⅰ⁶	(ⅱ·Ⅴ⁷)
+`],
+[`'0-Blank-Chart`, `form composer lyricist year usualkey`,
 `A₁:				
 				
 A₂:				
@@ -183,15 +244,190 @@ B:
 A₃:				
 				
 `],
+[`From-The-Start`, `intro-VVCVC-tag-form Laufey Spencer-Stewart 2023`,
+`intro:	𝄆ⅱ	Ⅴ⁷	Ⅰ	𝄎 𝄇
+verse:𝄋	𝄆ⅱ	Ⅴ⁷	Ⅰ	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	𝄎
+	ⅱ	Ⅴ⁷	₂[ⅱ	Ⅴ⁷]
+	ⅱ	𝄎	Ⅴ⁷	·NC 𝄇
+chorus:	ⅱ	Ⅴ⁷	Ⅰ	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	𝄎
+	ⅱ	Ⅴ⁷	₂[ⅱ	Ⅴ⁷]
+	ⅱ	Ⅴ⁷	Ⅰ	·NC 𝄉 no repeat
+tag:	ⅱ	Ⅴ⁷	₂[ⅱ	Ⅴ⁷]
+	ⅱ	Ⅴ⁷	Ⅰ	
+`],
+[`Take-the-A-Train`, `𝄆AABA𝄇 Strayhorn 1939 C`,
+`A₁:	Ⅰ	𝄎	Ⅱ⁷	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	(ⅱ·Ⅴ⁷)
+A₂:	Ⅰ	𝄎	Ⅱ⁷	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	₄[ⅱ·Ⅴ⁷]
+B:	Ⅳ	𝄎	𝄎	𝄎
+	Ⅱ⁷	𝄎	ⅱ	Ⅴ⁷
+A₃:	Ⅰ	𝄎	Ⅱ⁷	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	(ⅱ·Ⅴ⁷)
+`],
+[`A-Fine-Romance`, `𝄆ABAC𝄇 Jerome-Kern Dorothy-Fields 1936`,
+`A₁:	Ⅰ	𝄎	Ⅴ⁷	𝄎
+	Ⅰ	𝄎	Ⅴ⁷	𝄎
+B:	Ⅰ	Ⅱ⁷	Ⅴ⁷	𝄎
+	Ⅰ	𝄎	Ⅲ⁷·Ⅵ⁷	Ⅱ⁷·Ⅴ⁷
+A₂:	Ⅰ	𝄎	Ⅴ⁷	𝄎
+	Ⅰ	𝄎	Ⅴ⁷	𝄎
+C:	Ⅰ	Ⅰ⁷	Ⅳ	𝄎
+	Ⅰ	ⅱ	Ⅴ⁷	Ⅰ
+`],
+[`I-Don't-Stand-A-Ghost-Of-A-Chance-With-You`, `𝄆AABA𝄇 Victor-Young Ned-Washington Bing-Crosby 1932`,
+`A₁:	Ⅰ	Ⅴ⁷⁺	₂[ⅱø·Ⅴ⁷]	ⅱø·Ⅴ⁷
+	Ⅰ·ⅵ	ⅱ·Ⅴ⁷	ⅲ·Ⅵ⁷	ⅱ·Ⅴ⁷
+A₂:	Ⅰ	Ⅴ⁷⁺	₂[ⅱø·Ⅴ⁷]	ⅱø·Ⅴ⁷
+	Ⅰ·ⅵ	ⅱ·Ⅴ⁷	Ⅰ·ⅱ	ⅲ·Ⅵ⁷
+B:	ⅱ	Ⅴ⁷	Ⅰ·Ⅴ⁷	Ⅰ
+	₃[ⅱø	Ⅴ⁷]	ⅲ·Ⅵ⁷	ⅱ·Ⅴ⁷⁺
+A₃:	Ⅰ	Ⅴ⁷⁺	₂[ⅱø·Ⅴ⁷]	ⅱø·Ⅴ⁷
+	Ⅰ·ⅵ	ⅱ·Ⅴ⁷	Ⅰ·(ⅵ	ⅱ·Ⅴ⁷)
+`],
+[`Quizás-Quizás-Quizás`, `𝄆AABA𝄇 bolero Osvaldo-Farrés 1947`,
+`A₁:	ⅰ	ⅳ·Ⅴ⁷	ⅰ	ⅳ·Ⅴ⁷
+	ⅰ	ⅱø·Ⅴ⁷	ⅰ	NC
+A₂:	ⅰ	ⅳ·Ⅴ⁷	ⅰ	ⅳ·Ⅴ⁷
+	ⅰ	ⅱø·Ⅴ⁷	ⅰ	NC
+B:	ⅱ·Ⅴ⁷	ⅱ·Ⅴ⁷	Ⅰ	Ⅰ·ⅲ♭Ⅲ⁷
+	ⅱ·Ⅴ⁷	ⅱ·Ⅴ⁷	Ⅰ	ⅱø·Ⅴ⁷
+A₃:	ⅰ	ⅳ·Ⅴ⁷	ⅰ	ⅳ·Ⅴ⁷
+	ⅰ	ⅱø·Ⅴ⁷	ⅰ	NC
+`],
+[`I've-Got-You-Under-My-Skin`, `unusual-form Cole-Porter 1936`,
+`A₁:	ⅱ	Ⅴ⁷	Ⅰ	(Ⅵ⁷)
+	ⅱ	Ⅴ⁷	Ⅰ	(Ⅵ⁷)
+	ⅱ	Ⅴ⁷	Ⅰ	(Ⅵ⁷)
+	ⅱ	Ⅴ⁷	Ⅰ	(Ⅵ⁷)
+A₂:	ⅱ	Ⅴ⁷	Ⅰ	(Ⅵ⁷)
+	ⅱø	Ⅴ⁷	Ⅰ	𝄎
+	₆[ⅱ	Ⅴ⁷]	Ⅵ	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	𝄎
+A₃:	ⅱ	Ⅴ⁷	Ⅰ	(Ⅵ⁷)
+	ⅱ	Ⅴ⁷	Ⅰ	Ⅲ⁷
+B:	ⅵ	ⅱ·Ⅴ⁷	Ⅰ	ⅵ
+	ⅱ	Ⅴ⁷	Ⅰ	₄[ⅱ·Ⅴ⁷]
+C:	Ⅳ	ꓭ⁷	Ⅰ	₂[ⅱ·V⁷]
+	ⅱ	Ⅴ⁷	Ⅰ	𝄎
+`],
 [`'S-Wonderful`, `𝄆AABA𝄇 George-Gershwin Ira-Gershwin 1927`,
 `A₁:	Ⅰ	𝄎	♯i°	𝄎
 	ⅱ	Ⅴ⁷	Ⅰ	𝄎
 A₂:	Ⅰ	𝄎	♯i°	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	Ⅲ:[ⅱ·Ⅴ⁷
-B:	Ⅰ	ⅱ·Ⅴ⁷	Ⅰ	ⅱ·Ⅴ⁷]
+	ⅱ	Ⅴ⁷	Ⅰ	₃[ⅱ·Ⅴ⁷]
+B:	₃[Ⅰ	ⅱ·Ⅴ⁷	Ⅰ	ⅱ·Ⅴ⁷]
 	Ⅲ⁷	Ⅵ⁷	Ⅱ⁷	Ⅴ⁷
 A₃:	Ⅰ	𝄎	♯i°	𝄎
 	ⅱ	Ⅴ⁷	Ⅰ	𝄎
+`],
+[`La-Vie-En-Rose`, `𝄆ABACA𝄇 Guglielmi-Piaf-David 1945`,
+`A₁:	Ⅰ	𝄎	𝄎	ⅱ·Ⅴ⁷
+B:	ⅱ·Ⅴ⁷	𝄎	𝄎	Ⅰ·Ⅴ⁷
+A₂:	Ⅰ	𝄎	···I⁷	Ⅳ
+C:	ⅳ	Ⅰ	Ⅱ⁷	ⅱ·Ⅴ⁷
+A₃:	Ⅰ	𝄎	ⅱ·Ⅴ⁷	Ⅰ
+`],
+[`A-Foggy-Day`, `V𝄆ABAC𝄇 George-Gershwin Ira-Gershwin`,
+`verse:	Ⅰ	Ⅳ	Ⅰ	Ⅳ
+	Ⅰ	₃[Ⅴ⁷]	ⅲ	₂[Ⅴ⁷]
+	ⅱ·Ⅴ⁷	Ⅰ	ⅲ·ⅲ⁶	ⅲ⁷·₃[Ⅴ⁷]
+	ⅲ·Ⅵ⁷	ⅱ·Ⅴ⁷	Ⅰ·Ⅵ⁷	ⅱ·Ⅴ⁷
+A₁:	Ⅰ	Ⅵ⁷	ⅱ	Ⅴ⁷
+	Ⅰ⁶	♭Ⅲ⁷	Ⅱ⁷	Ⅴ⁷
+B:	Ⅰ	₄[ⅱ·Ⅴ⁷]	Ⅳ	ꓭ⁷
+	ⅲ	Ⅵ⁷	Ⅱ⁷	Ⅴ⁷
+A₁:	Ⅰ	Ⅵ⁷	ⅱ	Ⅴ⁷
+	Ⅰ⁶	♭Ⅲ⁷	Ⅱ⁷	Ⅴ⁷
+C:	₄[ⅱ	Ⅴ⁷]	Ⅳ	ꓭ⁷
+	Ⅰ·ⅱ	𝄎	Ⅰ·ⅵ	ⅱ·Ⅴ⁷
+	Ⅰ	ⅱ·Ⅴ⁷		
+`],
+[`A-Felicidad`, `Jobim Vinícius 1958`,
+`A:	𝄆 ⅵ	𝄎	𝄎	𝄎
+	ⅲ	₃[Ⅴ⁷]	ⅲ·Ⅵ⁷	ⅱ·Ⅴ⁷ 𝄇
+B:	Ⅰ	𝄎	₆[ⅱø	Ⅴ⁷]
+	ⅵ	𝄎	₄[ⅱ	Ⅴ⁷]
+	Ⅳ	ⅱ	ⅵ	Ⅱ⁷
+	ⅵ	₆[ⅱø·Ⅴ⁷]	ⅵ	Ⅴ⁷
+C:	Ⅰ	Ⅳ⁷	Ⅰ	𝄎
+	₄[ⅱ	Ⅴ⁷]	Ⅳ	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	𝄎
+	₃[ⅱø	Ⅴ⁷]	ⅲ·Ⅵ⁷	ⅱ·Ⅴ⁷
+`],
+[`I-Love-Paris`, `minor-to-major-form Cole-Porter 1953`,
+`A:	ⅰ⁶	𝄎	𝄎	𝄎
+	ⅰ⁶	𝄎	ⅱø	Ⅴ⁷
+	ⅱø	Ⅴ⁷	ⅱø	Ⅴ⁷
+	ⅱø	Ⅴ⁷	ⅰ⁶	··Ⅴ⁷
+B:	Ⅰ⁶	𝄎	𝄎	𝄎
+	Ⅰ⁶	ⅲ·♯ⅱ°	ⅱ	Ⅴ⁷
+	Ⅳ⁶	𝄎	ⅲ	Ⅵ⁷
+	ⅱ	Ⅴ⁷	Ⅰ⁶	(ⅱø·Ⅴ⁷)
+`],
+[`A-Child-Is-Born`, `𝄆ABAC𝄇 ¾-waltz Thad-Jones 1969`,
+`A₁:	Ⅰ	ⅳ	Ⅰ	ⅳ
+	Ⅰ	ⅳ	₆[ⅱø	Ⅴ⁷]
+B:	ⅵ	Ⅲ⁷	ⅵ	Ⅲ⁷
+	ⅵ	Ⅱ⁷	Ⅴ⁷sus	Ⅴ⁷
+A₂:	Ⅰ	ⅳ	Ⅰ	ⅳ
+	Ⅰ	Ⅲ⁷	Ⅳ	ꓭ⁷
+C:	Ⅰ	♭Ⅵ	ⅵ	Ⅱ⁷
+	Ⅴ⁷sus	Ⅴ⁷		
+`],
+[`A-Beautiful-Friendship`, `𝄆AABA𝄇 Donald-Kahn Stanley-Styne 1956`,
+`A₁:	Ⅰ	₄[𝕋⁷]	Ⅳ	₂[ⅱø·Ⅴ⁷]
+	ⅵ	Ⅱ⁷	ⅱ	Ⅴ⁷
+A₂:	Ⅰ	₄[𝕋⁷]	Ⅳ	₂[ⅱø·Ⅴ⁷]
+	ⅵ	Ⅱ⁷	ⅱ	Ⅴ⁷
+B:	₄[ⅱ	Ⅴ⁷]	Ⅳ	ꓭ⁷
+	ⅲ	Ⅵ⁷	Ⅱ⁷	Ⅴ⁷
+A₃:	Ⅰ	₄[𝕋⁷]	Ⅳ	₂[ⅱø·Ⅴ⁷]
+	ⅱ	Ⅴ⁷	Ⅰ	𝄎
+`],
+[`Girl-from-Ipanema`, `𝄆AABA𝄇 Jobim-1962 F`,
+`A₁:	Ⅰ	𝄎	Ⅱ⁷	𝄎
+	ⅱ	𝕋⁷	Ⅰ	𝕋⁷
+A₂:	Ⅰ	𝄎	Ⅱ⁷	𝄎
+	ⅱ	𝕋⁷	Ⅰ	𝄎
+B:	♭₂[Ⅰ	𝄎	Ⅳ⁷	𝄎
+	ⅰ	𝄎	♭Ⅵ⁷	𝄎]
+	₂[ⅰ	𝄎	♭Ⅵ⁷	𝄎]
+	ⅲ	Ⅵ⁷	ⅱ	Ⅴ⁷
+A₃:	Ⅰ	𝄎	Ⅱ⁷	𝄎
+	ⅱ	𝕋⁷	Ⅰ	𝕋⁷
+`],
+[`As-Time-Goes-By`, `𝄆AABA𝄇 Herman-Hupfeld 1931`,
+`A₁:	ⅱ·Ⅴ⁷	ⅱ·Ⅴ⁷	Ⅰ	𝄎
+	Ⅱ⁷	ⅱ·Ⅴ⁷	Ⅰ	𝄎
+A₂:	ⅱ·Ⅴ⁷	ⅱ·Ⅴ⁷	Ⅰ	𝄎
+	Ⅱ⁷	ⅱ·Ⅴ⁷	Ⅰ	₄[ⅱ·Ⅴ⁷]
+B:	Ⅳ	Ⅵ⁷	ⅱ	♯ⅱ°
+	ⅵ	Ⅱ⁷	ⅱ·Ⅵ⁷	ⅱ·Ⅴ⁷Ⅵ⁷
+A₃:	ⅱ·Ⅴ⁷	ⅱ·Ⅴ⁷	Ⅰ	𝄎
+	Ⅱ⁷	ⅲ·Ⅵ⁷	ⅱ·Ⅴ⁷	Ⅰ·(Ⅵ⁷)
+`],
+[`Pennies-from-Heaven`, `𝄆ABAC𝄇 Johnston Burke 1936`,
+`A₁:	Ⅰ	𝄎	ⅱ	Ⅴ⁷
+	Ⅰ	𝄎	ⅱ	Ⅴ⁷
+B:	₄[Ⅴ⁷]	𝄎	Ⅳ	𝄎
+	Ⅱ⁷	𝄎	Ⅴ⁷	𝄎
+A₂:	Ⅰ	𝄎	ⅱ	Ⅴ⁷
+	Ⅰ	𝄎	ⅱ	Ⅴ⁷
+C:	ⅱ	ꓭ⁷	ⅲ	Ⅵ⁷
+	ⅱ	Ⅴ⁷	Ⅰ	(ⅱ·Ⅴ⁷)
+`],
+[`All-of-Me`, `𝄆ABAC𝄇 Marks Simons 1931`,
+`A₁:	Ⅰ	𝄎	Ⅲ⁷	𝄎
+	Ⅵ⁷	𝄎	Ⅱ⁷	𝄎
+B:	Ⅲ⁷	𝄎	ⅵ	𝄎
+	Ⅱ⁷	𝄎	ⅱ	Ⅴ⁷
+A₂:	Ⅰ	𝄎	Ⅲ⁷	𝄎
+	Ⅵ⁷	𝄎	Ⅱ⁷	𝄎
+C:	Ⅳ	ⅳ	ⅲ	Ⅱ⁷
+	ⅱ	Ⅴ⁷	Ⅰ	(ⅱ·Ⅴ⁷)
 `],
 [`500-Miles-High`, `Chick-Corea Neville-Potter 1972 e`,
 `A:	𝄆E-	𝄎	G-	𝄎
@@ -200,7 +436,40 @@ A₃:	Ⅰ	𝄎	♯i°	𝄎
 	F-	𝄎,to𝄌	C-	𝄎
 	B⁷	𝄎	𝄇	
 𝄌:	𝄆C-	𝄎	Ab	𝄎𝄇
-`]
+`],
+[`All-the-Things-You-Are`, `𝄆AABA+4𝄇 Jerome-Kern 1939`,
+`A₁:	ⅵ	ⅱ	Ⅴ⁷	Ⅰ
+	Ⅳ	₃[ⅱ·Ⅴ⁷	Ⅰ	𝄎]
+A₂:	₅{ⅵ	ⅱ	Ⅴ⁷	Ⅰ
+	Ⅳ	₃[ⅱ·Ⅴ⁷	Ⅰ	𝄎
+B:	ⅱ	Ⅴ⁷	Ⅰ	𝄎]}
+	♭₆[ⅱø	Ⅴ⁷	Ⅰ]	Ⅲ⁷
+A₃:	ⅵ	ⅱ	Ⅴ⁷	Ⅰ
+	Ⅳ	ⅳ	ⅲ	♭ⅲ°
+	ⅱ	Ⅴ⁷	Ⅰ	₆(ⅱø·Ⅴ⁷)
+`],
+[`I'm-Old-Fashioned`, `𝄆16+8+12𝄇-theme-with-variations-form Jerome-Kern 1942`,
+`A₁:	Ⅰ·(ⅵ	ⅱ·Ⅴ⁷)	𝄏	
+	Ⅰ	𝄎	₆[ⅱø	Ⅴ⁷
+	ⅰ	Ⅴ⁷	ⅰ	Ⅴ⁷]
+	ⅱ	𝄎	ⅱ	Ⅴ⁷
+A₂:	Ⅰ·(ⅵ	ⅱ·Ⅴ⁷)	Ⅰ·ⅵ	₃[ⅱ·Ⅴ⁷
+	Ⅰ·ⅱ	ⅲ·Ⅳ	Ⅴ⁷]·♯i°	ⅱ·Ⅴ⁷
+A₃:	Ⅰ·(ⅵ	ⅱ·Ⅴ⁷)	𝄏	
+	₄[ⅱ·Ⅴ⁷]	Ⅳ·ꓭ⁷	ⅲ·ⅵ	♯ⅳø·ⅳ
+	ⅲ·ⅵ	ⅱ·Ⅴ⁷	Ⅰ·(ⅵ	ⅱ·Ⅴ⁷)
+`],
+[`I-Love-You`, `𝄆AABA𝄇 Cole-Porter 1944`,
+`A₁:	ⅱø	Ⅴ⁷	Ⅰ	𝄎
+	ⅱ	Ⅴ⁷	Ⅰ	𝄎
+A₂:	ⅱø	Ⅴ⁷	Ⅰ	₃[ⅱ·Ⅴ⁷]
+	₃[Ⅰ	ⅱ·Ⅴ⁷	Ⅰ]	𝄎
+B:	ⅱ	V⁷	Ⅰ	𝄎
+	₂[ⅱø	Ⅴ⁷	ⅰ]	𝄎
+A₃:	ⅱø	Ⅴ⁷	Ⅰ	₂[ⅱø·Ⅴ⁷]
+	Ⅱ⁷	Ⅴ⁷	Ⅰ	𝄎
+`],
+[``,``,``]
 ];
 main(); 
 </script>

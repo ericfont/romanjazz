@@ -18,8 +18,9 @@
             "url": "file:///home/e/code/romanjazz/code/index.html",
 			"runtimeArgs": [
 				"--ozone-platform=x11",
-				"--window-position=0,0"
-				//"--start-fullscreen"
+				"--window-position=0,0",
+				"--start-fullscreen",
+                "--auto-open-devtools-for-tabs"
 			]
 
         }
