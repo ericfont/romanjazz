@@ -8,18 +8,17 @@
         :root {
             color-scheme: light dark;
         }
-        body {
+        body, select, textarea {
             color: light-dark(#000000, #efefec);
             background-color: light-dark(#efedea, #000000);
         }
 
-		body, select {
+		body, select, textarea {
 			font-family: 'Noto Music', Arial, Helvetica, sans-serif;
 		}
 
         textarea {
-            tab-size: 10; /* Sets tab width to 10 characters */
-            -moz-tab-size: 10; /* Compatibility for older Firefox versions */
+            tab-size: 10; /* in spaces */
             width: 100%;
             height: 100%;
         }
@@ -31,13 +30,13 @@
 
     <div style="display: flex;">
 
-        <!-- The List Area -->
+        <!-- List Area -->
         <div id="listArea" style="height: 95vh; overflow-y: auto;">
             <select name="selectSongList" size=42 id="selectSongList" style="overflow: hidden;">
             </select>
         </div>
 
-        <!-- The Output Area -->
+        <!-- Output Area -->
         <div id="outputArea">
 
              <div style="display: flex;">
@@ -48,11 +47,12 @@
                 	&emsp; Select song from list on the left.
 				</div>
             </div>
-			<div id="chartDisplayArea" style="width: 100%; height: 100%;">
+			<div id="chartDisplayArea" contenteditable="true" style="width: 100%; height: 100%;">
+                H<sub>2</sub>O is the formula for water.
                 <button onclick="toggleDarkMode()">Toggle Dark/Light Mode</button>
                 <p>Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.</p>
                 <p>For offline use, download <a href="https://romanjazz.com/romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="index.html" download="romanjazz.html" class="download-btn">index.html</a>.</p>
-                <button onclick="checkFonts()">Check if Noto Music font installed</button>
+                <button onclick="checkFonts()">Check if Noto Music font ready</button>
             </div>
         </div>
     </div>
@@ -65,15 +65,15 @@ const selectedSongTitleArea = document.getElementById("selectedSongTitleArea");
 
 async function checkFonts() {
     try {
-        chartDisplayAreaElement.innerHTML += `<p>Checking font installation...there might be a popup to accept.</p>`;
+        chartDisplayAreaElement.innerHTML += `<p>Checking for necessary fonts. Your browser might request you accept the query.</p>`;
         const fonts = await window.queryLocalFonts();
         console.log(fonts);
         const isInstalled = fonts.some(f => f.family === "Noto Music");
         if (isInstalled) {
-            chartDisplayAreaElement.innerHTML += `<p>✓ Noto Music font is installed.</p>`;
+            chartDisplayAreaElement.innerHTML += `<p>✓ Noto Music font is in queryLocalFonts().</p>`;
             }
         else {
-            chartDisplayAreaElement.innerHTML += `<p>✗ Noto Music font is not installed. You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
+            chartDisplayAreaElement.innerHTML += `<p>✗ Noto Music font NOT in queryLocalFonts(). You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
             }
     } catch (error) {
     console.error(error.name, error.message);
