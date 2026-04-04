@@ -16,12 +16,6 @@
 			font-family: 'Noto Music', Arial, Helvetica, sans-serif;
 		}
 
-		textarea {
-			tab-size: 10; /* in spaces */
-			width: 100%;
-			height: 100%;
-		}
-
 		table {
 			width: 100%;
 			height: 100%;
@@ -33,6 +27,10 @@
 			padding: 0px;
 			border: 1px solid light-dark(#000000, #efefec);
 		}
+
+		.right-justify-cell {
+ 			text-align: right;
+		}
 	</style>
 </head>
 <body>
@@ -40,13 +38,13 @@
 	<div style="display: flex;">
 
 		<!-- List Area -->
-		<div id="listArea" style="height: 95vh; overflow-y: auto;">
-			<select name="selectSongList" size=42 id="selectSongList" style="overflow: hidden;">
+		<div id="listArea" style="height: 95vh; overflow-y: auto; width: 50%;">
+			<select name="selectSongList" size=42 id="selectSongList" style="overflow: hidden; width: 100%;">
 			</select>
 		</div>
 
 		<!-- Output Area -->
-		<div id="outputArea">
+		<div id="outputArea" style="width: 50%;">
 
 			 <div style="display: flex;">
 				<div>
@@ -118,16 +116,16 @@ function main() {
 			// Split by tabs
 			const lineCells = line.split('\t');
 
-			html += '<td>';
 
 			if( lineCells.length > 0 ) {
 
+				html += '<td class="right-justify-cell">';
 				// detect if the first cell is a section name (e.g., A, B, A₁, etc.) and wrap it in a span with a class for boxed style
 				if( lineCells[0] !== "" ) {
-					html += `<span class="section-name">${lineCells[0]}</span>`;
+					html += `<span class="section-name">${lineCells[0]}</span>&emsp;`;
 				}
+				html += '</td>';
 			}
-			html += '</td>';
 
 			for(let i = 1; i < lineCells.length; i++) {
 				html += '<td>';
