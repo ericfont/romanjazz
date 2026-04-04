@@ -161,8 +161,7 @@ function toggleDarkMode() {
     html.style.colorScheme = (currentScheme === 'dark') ? 'light' : 'dark';
 
     // Save preference to localStorage
-    const isDarkMode = document.body.classList.contains('dark-mode');
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    localStorage.setItem('theme', html.style.colorScheme);
 }
 
 // Get preference from localStorage
