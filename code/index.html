@@ -170,10 +170,24 @@ function main() {
 					i++;
 				}
 				else {
-					html += '<td>';
-					html += lineCells[i];
-					html += '</td>';
-					html += '<td></td><td></td><td></td>';
+					let remainingCellsInBar = cellsPerBar;
+					const cdotSplit = lineCells[i].split('·');
+					for(let cdotSplitIndex = 0; cdotSplitIndex < cdotSplit.length; cdotSplitIndex++) {
+						html += '<td>';
+						html += cdotSplit[cdotSplitIndex];
+						html += '</td>';
+						remainingCellsInBar--;
+
+						// existance of cdot indicates an empty beat
+						if( cdotSplitIndex + 1 < cdotSplit.length && remainingCellsInBar > 0) {
+							html += '<td></td>';
+							remainingCellsInBar--;
+						}
+					}
+					while(remainingCellsInBar > 0) {
+						html += '<td></td>';
+						remainingCellsInBar--;
+					}
 				}
 			}
 
