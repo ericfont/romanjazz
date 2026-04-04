@@ -10,15 +10,10 @@
 		:root {
 			color-scheme: light dark;
 		}
-		body, select, textarea {
+		body, select, textarea, table {
 			color: light-dark(#000000, #efefec);
 			background-color: light-dark(#efedea, #000000);
 			font-family: 'Noto Music', Arial, Helvetica, sans-serif;
-		}
-
-		.section-name {
-			padding: 0px;
-			border: 1px solid light-dark(#000000, #efefec);
 		}
 
 		textarea {
@@ -27,7 +22,17 @@
 			height: 100%;
 		}
 
+		table {
+			width: 100%;
+			height: 100%;
+			table-layout: fixed; /* Ensures cells share space predictably */
+			border-collapse: collapse;
+		}
 
+		.section-name {
+			padding: 0px;
+			border: 1px solid light-dark(#000000, #efefec);
+		}
 	</style>
 </head>
 <body>
@@ -47,11 +52,11 @@
 				<div>
 					<button onclick="toggleHideList()">⬅ Song Selector</button>
 				</div>
-				<div id="selectedSongTitleArea" class="section-name">
-					&emsp; Select song from list on the left.
+				<div id="selectedSongTitleArea">
+					&emsp; Select <i>song</i> from list on the left.
 				</div>
 			</div>
-			<div id="chartDisplayArea" contenteditable="true" style="width: 100%; height: 100%;">
+			<div id="chartDisplayArea" style="width: 100%; height: 100%;">
 				<button onclick="toggleDarkMode()">Toggle Dark/Light Mode</button>
 				<p>Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.</p>
 				<p>For offline use, download <a href="romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="index.html" download="romanjazz.html" class="download-btn">index.html</a>.</p>
@@ -79,8 +84,8 @@ async function checkFonts() {
 			chartDisplayAreaElement.innerHTML += `<p>✗ Noto Music font NOT in queryLocalFonts(). You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
 			}
 	} catch (error) {
-	console.error(error.name, error.message);
-  }
+		console.error(error.name, error.message);
+	}
 }
 
 function main() {
@@ -98,14 +103,46 @@ function main() {
 	selectSongListElement.addEventListener('change', (event) => {
 		const selectedIndex = event.target.value;
 		selectedSongTitleArea.innerHTML = '&emsp; <b>' + charts[selectedIndex][0] + '</b>'; // Update the selected song title display
-		const container = document.getElementById('myContainer');
 
-		chartDisplayAreaElement.innerHTML =  charts[selectedIndex][1] + '<textarea id="dynamicTextarea" placeholder="Song contents...">' + charts[selectedIndex][2] + '</textarea>';
-	 /*   const chartLines = charts[selectedIndex][2].split("\n");
-		for (let i = 0; i < chartLines.length; i++) {
-			chartDisplayAreaElement.innerHTML += chartLines[i] + '\n';
-		}
-		chartDisplayAreaElement.innerHTML += '</textarea>';*/
+
+		var html = charts[selectedIndex][1] + '<table>';
+
+		// Split by newlines
+		const chartLines = charts[selectedIndex][2].split('\n');
+
+		// Iterate over each line
+		chartLines.forEach((line, index) => {
+		
+			html += '<tr>';
+
+			// Split by tabs
+			const lineCells = line.split('\t');
+
+			html += '<td>';
+
+			if( lineCells.length > 0 ) {
+
+				// detect if the first cell is a section name (e.g., A, B, A₁, etc.) and wrap it in a span with a class for boxed style
+				if( lineCells[0] !== "" ) {
+					html += `<span class="section-name">${lineCells[0]}</span>`;
+				}
+			}
+			html += '</td>';
+
+			for(let i = 1; i < lineCells.length; i++) {
+				html += '<td>';
+				html += lineCells[i];
+				html += '</td>';
+			}
+
+			html += '</tr>';
+
+		});
+
+		html += '</table>';
+
+		chartDisplayAreaElement.innerHTML = html;
+
 	});
 
 	// Parse the string into tokens using a space " " as the separator
