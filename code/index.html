@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="display: flex; flex-direction: column; height: 100vh;">
 <head>
 	<link href="https://fonts.cdnfonts.com/css/quivira" rel="stylesheet">
 
@@ -27,6 +27,13 @@
 			border-collapse: collapse;
 		}
 
+		/* Uncomment for dotted grid */
+		td {
+			border: 1px dotted #808080;
+			padding: 8px;
+			text-align: left;
+		}
+
 		.section-name {
 			padding: 1px;
 			border: 1px solid light-dark(#000000, #efefec);
@@ -39,39 +46,45 @@
 		.center-justify-cell {
  			text-align: center;
 		}
+
+		.draw-right-border {
+			border-right: 1px solid black;
+		}
+
+		.draw-left-border {
+			border-left: 1px solid black;
+		}
+
 	</style>
 </head>
-<body>
+<body style="display: flex; flex-grow: 1;">
 
-	<div style="display: flex;">
+	<!-- List Area -->
+	<div id="listDiv" style="flex: 1">
+		<select name="playlist" id="selectPlaylist" style="flex-grow: 1;">
+			<option value="embedded">embedded</option>
+			<option value="localStorage">localStorage</option>
+		</select>
+		<select name="selectSongList" size=42 id="selectSongList" style="overflow: hidden; width: 100%;">
+		</select>
+	</div>
 
-		<!-- List Area -->
-		<div id="listDiv" style="height: 95vh; overflow-y: auto; width: 50%; display: block;">
-			<select name="playlist" id="selectPlaylist" style="width: 100%;">
-				<option value="embedded">embedded</option>
-				<option value="localStorage">localStorage</option>
-			</select>
-			<select name="selectSongList" size=42 id="selectSongList" style="overflow: hidden; width: 100%;">
-			</select>
+	<!-- Output Area -->
+	<div id="outDiv" style="flex: 1; flex-grow: 1">
+
+			<div style="display: flex; flex: 1">
+			<div>
+				<button onclick="toggleHideList()">⬅ Selector</button>
+			</div>
+			<div id="outTitleDiv">
+				&emsp; Select <i>song</i> from list on the left.
+			</div>
 		</div>
-
-		<!-- Output Area -->
-		<div id="outDiv" style="width: 50%; height: 100%;">
-
-			 <div style="display: flex;">
-				<div>
-					<button onclick="toggleHideList()">⬅ Selector</button>
-				</div>
-				<div id="outTitleDiv">
-					&emsp; Select <i>song</i> from list on the left.
-				</div>
-			</div>
-			<div id="outContentsDiv" style="width: 100%; height: 100%;">
-				<button onclick="toggleDarkMode()">Toggle Dark/Light Mode</button>
-				<p>Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.</p>
-				<p>For offline use, download <a href="romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="index.html" download="romanjazz.html" class="download-btn">index.html</a>.</p>
-				<button onclick="checkFonts()">Test for fonts</button>
-			</div>
+		<div id="outContentsDiv" style="width: 100%; height: 100%;">
+			<button onclick="toggleDarkMode()">Toggle Dark/Light Mode</button>
+			<p>Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.</p>
+			<p>For offline use, download <a href="romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="index.html" download="romanjazz.html" class="download-btn">index.html</a>.</p>
+			<button onclick="checkFonts()">Test for fonts</button>
 		</div>
 	</div>
 
@@ -145,6 +158,7 @@ function main() {
 		var html = charts[selectedIndex][1] + '<table>';
 
 		const cellsPerBar = 4;
+		var barsPerLine = 0; // will be set based on first line
 
 		// Split by newlines
 		const chartLines = charts[selectedIndex][2].split('\n');
@@ -160,6 +174,16 @@ function main() {
 				return;
 			}
 
+			// set barsPerLine based on the first line, which should be the longest. Abort rendering if any subsequent line has more bars, to avoid formatting issues.
+			if( index == 0 ) {
+				barsPerLine = lineCells.length - 1;
+				console.log(`barsPerLine: ${barsPerLine}`);
+			}
+			else if( lineCells.length - 1 > barsPerLine ) {
+				outContentsDiv.innerHTML = `Line ${index} has more bars (${lineCells.length - 1}) than the first line (${barsPerLine}), which will cause formatting issues. Aborting chart render.`;
+				return;
+			}
+
 			// add an extra empty row between each line for spacing
 			html += '<tr>';
 
@@ -169,14 +193,11 @@ function main() {
 				html += `<span class="section-name">${lineCells[0]}</span> `;
 			}
 			else {
-				html += ' ';
+				html += '?';
 			}
 
-			// end empty row
+			// end empty row, and start next one
 			html += '</tr><tr>';
-
-			// handle barline at start of line
-			html += '<td class="center-justify-cell">𝄀</td>';
 
 			// Process each measure lineCells[i]
 			for(let i = 1; i < lineCells.length; i++) {
@@ -184,10 +205,10 @@ function main() {
 					console.log("Empty cell.");
 				}
 				else if(lineCells[i] === "𝄎") {
-					html += `<td colspan="${cellsPerBar}" class="center-justify-cell">𝄎</td>`;
+					html += `<td colspan="${cellsPerBar} rowspan="2" class="center-justify-cell">𝄎</td>`;
 				}
 				else if(lineCells[i] === "𝄏") {
-					html += `<td colspan="${cellsPerBar*2 + 1}" class="center-justify-cell">𝄏</td>`;
+					html += `<td colspan="${cellsPerBar*2}" rowspan="2" class="center-justify-cell">𝄏</td>`;
 					i++;
 				}
 				else {
@@ -197,7 +218,7 @@ function main() {
 
 						// make a cell with the contents if not empty
 						if( cdotSplit[cdotSplitIndex] !== "" ) {
-							html += '<td>';
+							html += '<td rowspan="2">';
 							html += cdotSplit[cdotSplitIndex];
 							html += '</td>';
 							remainingCellsInBar--;
@@ -205,20 +226,24 @@ function main() {
 
 						// existance of cdot indicates an empty beat
 						if( cdotSplitIndex + 1 < cdotSplit.length && remainingCellsInBar > 0) {
-							html += '<td></td>';
+							html += '<td rowspan="2"></td>';
 							remainingCellsInBar--;
 						}
 					}
 					while(remainingCellsInBar > 0) {
-						html += '<td></td>';
+						html += '<td rowspan="2"></td>';
 						remainingCellsInBar--;
 					}
 				}
 
-				// handle barline at end of this measure
-				html += '<td class="center-justify-cell">𝄀</td>';
+				// will need to handle barline at end of this measure
 			}
 
+			// add another row, since each line of music spans two table rows
+			html += '</tr><tr>';
+		/*	for(let i = 0; i < barsPerLine * cellsPerBar; i++) {
+				html += '<td></td>';
+			}*/
 			html += '</tr>';
 
 		});
