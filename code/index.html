@@ -26,6 +26,7 @@
 			height: 100%;
 			table-layout: fixed;
 			border-collapse: collapse;
+			user-select: none;
 		}
 
 		/* Uncomment for dotted grid */
@@ -72,10 +73,18 @@
 <body style="display: flex; flex-grow: 1;">
 	<!-- List Area -->
 	<div id="listDiv" style="flex: 1; flex-direction: column; height: 100vh;">
-		<select name="playlist" id="selectPlaylist" style="flex-grow: 1">
-			<option value="embedded">embedded</option>
-			<option value="localStorage">localStorage</option>
-		</select>
+		<div id="listDivHeader" style="display: flex; flex-direction: row; align-items: center; padding: 8px;">
+			<select name="playlist" id="selectPlaylist" style="flex-grow: 1">
+				<option value="embedded">embedded</option>
+				<option value="localStorage">localStorage (TODO)</option>
+			</select>
+			<div style="flex-grow: 1"></div>
+			<select name="settings" id="selectSettings" onchange="selectSettings(this.value)" style="flex-grow: 1">
+				<option>Settings Menu</option>
+				<option value="toggleDarkMode">Toggle Dark Mode</option>
+				<option value="showInvisibleNavigationButtons">Show Invisible Navigation Buttons</option>
+			</select>
+		</div>
 		<select name="selectSongList" size=42 id="selectSongList" style="overflow: hidden; width: 100%;">
 		</select>
 	</div>
@@ -85,20 +94,19 @@
 
 		<!-- Transparent Buttons -->
 		<button onclick="selectorToggle()" class="transparent-button" style="top: 0; left: 0;">
-			<b>Toggle Panel</b><br>(invisible button)
+			<b>Toggle&nbsp;Panel</b><br>(invisible&nbsp;button in top‑left corner of chart area)
 		</button>
 		<button class="transparent-button" style="top: 0; right: 0;">
-			<b>Previous Song</b><br>(invisible button)
+			<b>Previous&nbsp;Song</b><br>(invisible&nbsp;button in top‑right corner of chart area)
 		</button>
 		<button class="transparent-button" style="bottom: 0; left: 0;">
-			<b>Random Song</b><br>(invisible button)
+			<b>Random &nbsp;Song</b><br>(invisible&nbsp;button in bottom‑left corner of chart area)
 		</button>
 		<button class="transparent-button" style="bottom: 0; right: 0;">
-			<b>Next Song</b><br>(invisible button)
+			<b>Next&nbsp;Song</b><br>(invisible&nbsp;button in bottom‑right corner of chart area)
 		</button>
 
-		<div id="outContentsDiv" style="overflow: hidden; width: 100%; flex-grow: 1;">
-		</div>
+		<div id="outContentsDiv" style="overflow: hidden; width: 100%; flex-grow: 1;"></div>
 	</div>
 
 <script>
@@ -109,14 +117,38 @@ const outDiv = document.getElementById("outDiv");
 const outContentsDiv = document.getElementById("outContentsDiv");
 const outTitleDiv = document.getElementById("outTitleDiv");
 const root = document.documentElement;
+const selectSettingsElement = document.getElementById("selectSettings");
 
 function housekeepingToDoBeforePerformingSelectorAction() {
 	root.style.setProperty('--transparent-gray-button-color', 'rgba(128, 128, 128, 0)'); // make fully transparent
+
+	// would want to check to save any unsaved changes here
 }
 
-function performSelectorAction(fn) {
-	housekeepingToDoBeforePerformingSelectorAction();	
-	fn();
+function clearOutContentsDiv() {
+	outContentsDiv.innerHTML = '';
+}
+
+function showInvisibleNavigationButtons() {
+	root.style.setProperty('--transparent-gray-button-color', 'rgba(128, 128, 128, 0.5)'); // make semi-transparent
+}
+
+function selectSettings(settingsValue) {
+	housekeepingToDoBeforePerformingSelectorAction();
+
+	switch (settingsValue) {
+		case 'toggleDarkMode':
+			toggleDarkMode();			
+			break;
+	
+		case 'showInvisibleNavigationButtons':
+			showInvisibleNavigationButtons();	
+			break;
+
+		default:
+			break;
+	}
+	selectSettingsElement.selectedIndex = 0;
 }
 
 async function checkFonts() {
@@ -160,6 +192,7 @@ function selectorToggle() {
 
 // Write a html table string to the output area based on input chart strings
 function loadSong(chartTitle, chartSubtitle, chartString) {
+	housekeepingToDoBeforePerformingSelectorAction();
 
 	console.log(`Loading ${chartTitle}...`);
 
@@ -264,28 +297,8 @@ function loadSong(chartTitle, chartSubtitle, chartString) {
 selectSongListElement.addEventListener('change', (event) => {
 	housekeepingToDoBeforePerformingSelectorAction();
 	const selectedSongIndex = event.target.value;
-	performSelectorAction(loadSong(charts[selectedSongIndex][0], charts[selectedSongIndex][1], charts[selectedSongIndex][2]));
+	loadSong(charts[selectedSongIndex][0], charts[selectedSongIndex][1], charts[selectedSongIndex][2]);
 });
-
-function main() {
-	
-	console.log("Populating song list...");
-
-	for (let i = 0; i < charts.length; i++) {
-		let el = document.createElement("option");
-		el.textContent = i + ": " + charts[i][0];
-		el.value = i;
-		selectSongListElement.appendChild(el);
-	}
-
-
-	// Parse the string into tokens using a space " " as the separator
-
-	// Display the separated tokens
-  //  tokens.forEach(token => {
-	//console.log(token);
-	//});
-}
 
 function toggleHideList() {
 	if( listDiv.style.display === "none" ) {
@@ -313,6 +326,18 @@ const savedTheme = localStorage.getItem('theme');
 if (savedTheme) {
 	const html = document.documentElement;
 	html.style.colorScheme = savedTheme;
+}
+
+function main() {
+	
+	console.log("Populating song list...");
+
+	for (let i = 0; i < charts.length; i++) {
+		let el = document.createElement("option");
+		el.textContent = i + ": " + charts[i][0];
+		el.value = i;
+		selectSongListElement.appendChild(el);
+	}
 }
 
 const charts =
