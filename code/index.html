@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
 	<link href="https://fonts.cdnfonts.com/css/quivira" rel="stylesheet">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Music&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 	
 	<base href="https://romanjazz.com/" target="_blank">
 
@@ -13,7 +17,7 @@
 		body, select, textarea, table, tr, td {
 			color: light-dark(#000000, #efefec);
 			background-color: light-dark(#efedea, #000000);
-			font-family: 'Quivira' !important;
+			font-family: 'Quivira', 'Noto Music' !important;
 		}
 
 		table {
@@ -66,7 +70,7 @@
 				<button onclick="toggleDarkMode()">Toggle Dark/Light Mode</button>
 				<p>Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.</p>
 				<p>For offline use, download <a href="romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="index.html" download="romanjazz.html" class="download-btn">index.html</a>.</p>
-				<button onclick="checkFonts()">Check if Noto Music font ready</button>
+				<button onclick="checkFonts()">Test for fonts</button>
 			</div>
 		</div>
 	</div>
@@ -85,13 +89,23 @@ async function checkFonts() {
 		outContentsDiv.innerHTML += `<p>Checking for necessary fonts. Your browser might request you accept the query.</p>`;
 		const fonts = await window.queryLocalFonts();
 		console.log(fonts);
-		const isInstalled = fonts.some(f => f.family === "Noto Music");
-		if (isInstalled) {
+
+		const isQuiviraInstalled = fonts.some(f => f.family === "Quivira");
+		if (isQuiviraInstalled) {
+			outContentsDiv.innerHTML += `<p>✓ Quivira font FOUND in queryLocalFonts().</p>`;
+			}
+		else {
+			outContentsDiv.innerHTML += `<p>✗ Quivira font NOT in queryLocalFonts(). You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
+			}
+
+		const isNotoMusicInstalled = fonts.some(f => f.family === "Noto Music");
+		if (isNotoMusicInstalled) {
 			outContentsDiv.innerHTML += `<p>✓ Noto Music font FOUND in queryLocalFonts().</p>`;
 			}
 		else {
 			outContentsDiv.innerHTML += `<p>✗ Noto Music font NOT in queryLocalFonts(). You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
 			}
+
 	} catch (error) {
 		console.error(error.name, error.message);
 	}
@@ -173,7 +187,7 @@ function main() {
 					html += `<td colspan="${cellsPerBar}" class="center-justify-cell">𝄎</td>`;
 				}
 				else if(lineCells[i] === "𝄏") {
-					html += `<td colspan="${cellsPerBar*2}" class="center-justify-cell">𝄏</td>`;
+					html += `<td colspan="${cellsPerBar*2 + 1}" class="center-justify-cell">𝄏</td>`;
 					i++;
 				}
 				else {
@@ -195,10 +209,10 @@ function main() {
 						html += '<td></td>';
 						remainingCellsInBar--;
 					}
-
-					// handle barline at end of this measure
-					html += '<td class="center-justify-cell">𝄀</td>';
 				}
+
+				// handle barline at end of this measure
+				html += '<td class="center-justify-cell">𝄀</td>';
 			}
 
 			html += '</tr>';
@@ -269,9 +283,9 @@ A₃	Ⅰ·ⅱ	ⅲ·♭ⅲ°	ⅱ·Ⅵ⁷	ⅱ·Ⅵ⁷
 	ⅱ·Ⅵ⁷	ⅱ·Ⅴ⁷	Ⅰ⁶	(ⅱ·Ⅴ⁷)
 `],
 [`'0-Blank-Chart`, `form composer lyricist year usualkey`,
-`A₁				
-				
-A₂				
+`A₁	··Ⅴ⁷			
+	V⁷			
+A₂	·Ⅴ			
 				
 B				
 				
