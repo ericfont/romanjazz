@@ -12,6 +12,7 @@
 	<style>
 		:root {
 			color-scheme: light dark;
+			--transparent-gray-button-color: rgba(128, 128, 128, 0.5);
 		}
 
 		body, select, textarea, table, tr, td {
@@ -55,10 +56,20 @@
 			border-left: 1px solid black;
 		}
 
+		.transparent-button {
+			background: transparent;
+			border: 2px solid var(--transparent-gray-button-color);
+			color: var(--transparent-gray-button-color);
+			position: absolute;
+			padding: 0px 0px 0px 0px;
+			cursor: pointer;
+			width: 33%;
+			height: 33%;
+		}
+
 	</style>
 </head>
 <body style="display: flex; flex-grow: 1;">
-
 	<!-- List Area -->
 	<div id="listDiv" style="flex: 1; flex-direction: column; height: 100vh;">
 		<select name="playlist" id="selectPlaylist" style="flex-grow: 1">
@@ -70,21 +81,23 @@
 	</div>
 
 	<!-- Output Area -->
-	<div id="outDiv" style="flex: 1; flex-grow: 1; display: flex; flex-direction: column">
+	<div id="outDiv" style="flex: 1; flex-grow: 1; display: flex; flex-direction: column; position: relative">
 
-		<div style="display: flex; flex-shrink: 0;">
-			<div>
-				<button onclick="toggleHideList()">⬅ Selector</button>
-			</div>
-			<div id="outTitleDiv">
-				&emsp; Select <i>song</i> from list on the left.
-			</div>
-		</div>
+		<!-- Transparent Buttons -->
+		<button onclick="selectorToggle()" class="transparent-button" style="top: 0; left: 0;">
+			<b>Toggle&nbsp;Left&nbsp;Panel</b><br>(invisible button)
+		</button>
+		<button class="transparent-button" style="top: 0; right: 0;">
+			<b>Previous&nbsp;Song</b><br>(invisible button)
+		</button>
+		<button class="transparent-button" style="bottom: 0; left: 0;">
+			<b>Random&nbsp;Song</b><br>(invisible button)
+		</button>
+		<button class="transparent-button" style="bottom: 0; right: 0;">
+			<b>Next&nbsp;Song</b><br>(invisible button)
+		</button>
+
 		<div id="outContentsDiv" style="overflow: hidden; width: 100%; flex-grow: 1;">
-			<button onclick="toggleDarkMode()">Toggle Dark/Light Mode</button>
-			<p>Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.</p>
-			<p>For offline use, download <a href="romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="index.html" download="romanjazz.html" class="download-btn">index.html</a>.</p>
-			<button onclick="checkFonts()">Test for fonts</button>
 		</div>
 	</div>
 
@@ -95,7 +108,16 @@ const listDiv = document.getElementById("listDiv");
 const outDiv = document.getElementById("outDiv");
 const outContentsDiv = document.getElementById("outContentsDiv");
 const outTitleDiv = document.getElementById("outTitleDiv");
-	
+const root = document.documentElement;
+
+function housekeepingToDoBeforePerformingSelectorAction() {
+	root.style.setProperty('--transparent-gray-button-color', 'rgba(128, 128, 128, 0)'); // make fully transparent
+}
+
+function performSelectorAction(fn) {
+	housekeepingToDoBeforePerformingSelectorAction();	
+	fn();
+}
 
 async function checkFonts() {
 	try {
@@ -124,7 +146,7 @@ async function checkFonts() {
 	}
 }
 
-function showSettings() {
+function selectorToggle() {
 	if( listDiv.style.display === "none" ) {
 		listDiv.style.display = "block";
 		outDiv.style.width = "50%";
@@ -135,6 +157,115 @@ function showSettings() {
 	}
 
 }
+
+// Write a html table string to the output area based on input chart strings
+function loadSong(chartTitle, chartSubtitle, chartString) {
+
+	console.log(`Loading ${chartTitle}...`);
+
+	var html = `<table><caption><strong><u>${chartTitle}</u></strong><br>${chartSubtitle}</caption>`;
+
+	const cellsPerBar = 4;
+	var barsPerLine = 0; // will be set based on first line
+
+	// Split by newlines
+	const chartLines = chartString.split('\n');
+
+	// Iterate over each line
+	chartLines.forEach((line, index) => {
+
+		// Split by tabs
+		const lineCells = line.split('\t');
+
+		if( lineCells.length == 1 ) {
+			console.log("Reached final empty line of song.");
+			return;
+		}
+
+		// set barsPerLine based on the first line, which should be the longest. Abort rendering if any subsequent line has more bars, to avoid formatting issues.
+		if( index == 0 ) {
+			barsPerLine = lineCells.length - 1;
+			console.log(`barsPerLine: ${barsPerLine}`);
+		}
+		else if( lineCells.length - 1 > barsPerLine ) {
+			outContentsDiv.innerHTML = `Line ${index} has more bars (${lineCells.length - 1}) than the first line (${barsPerLine}), which will cause formatting issues. Aborting chart render.`;
+			return;
+		}
+
+		// add an extra empty row between each line for spacing
+		html += '<tr>';
+
+		// If first cell contains an optional section name, wrap in a span with boxed style
+		html += '<td>';
+		if( lineCells[0] !== "" ) {
+			html += `<span class="section-name">${lineCells[0]}</span> `;
+		}
+		else {
+			html += '?';
+		}
+
+		// end empty row, and start next one
+		html += '</tr><tr>';
+
+		// Process each measure lineCells[i]
+		for(let i = 1; i < lineCells.length; i++) {
+			if(lineCells[i] === "") {
+				console.log("Empty cell.");
+			}
+			else if(lineCells[i] === "𝄎") {
+				html += `<td colspan="${cellsPerBar} rowspan="2" class="center-justify-cell">𝄎</td>`;
+			}
+			else if(lineCells[i] === "𝄏") {
+				html += `<td colspan="${cellsPerBar*2}" rowspan="2" class="center-justify-cell">𝄏</td>`;
+				i++;
+			}
+			else {
+				let remainingCellsInBar = cellsPerBar;
+				const cdotSplit = lineCells[i].split('·');
+				for(let cdotSplitIndex = 0; cdotSplitIndex < cdotSplit.length; cdotSplitIndex++) {
+
+					// make a cell with the contents if not empty
+					if( cdotSplit[cdotSplitIndex] !== "" ) {
+						html += '<td rowspan="2">';
+						html += cdotSplit[cdotSplitIndex];
+						html += '</td>';
+						remainingCellsInBar--;
+					}
+
+					// existance of cdot indicates an empty beat
+					if( cdotSplitIndex + 1 < cdotSplit.length && remainingCellsInBar > 0) {
+						html += '<td rowspan="2"></td>';
+						remainingCellsInBar--;
+					}
+				}
+				while(remainingCellsInBar > 0) {
+					html += '<td rowspan="2"></td>';
+					remainingCellsInBar--;
+				}
+			}
+
+			// will need to handle barline at end of this measure
+		}
+
+		// add another row, since each line of music spans two table rows
+		html += '</tr><tr>';
+	/*	for(let i = 0; i < barsPerLine * cellsPerBar; i++) {
+			html += '<td></td>';
+		}*/
+		html += '</tr>';
+
+	});
+
+	html += '</table>';
+
+	outContentsDiv.innerHTML = html;
+}
+
+selectSongListElement.addEventListener('change', (event) => {
+	housekeepingToDoBeforePerformingSelectorAction();
+	const selectedSongIndex = event.target.value;
+	performSelectorAction(loadSong(charts[selectedSongIndex][0], charts[selectedSongIndex][1], charts[selectedSongIndex][2]));
+});
 
 function main() {
 	
@@ -147,112 +278,6 @@ function main() {
 		selectSongListElement.appendChild(el);
 	}
 
-	// Update the chart area when a new song is selected
-	selectSongListElement.addEventListener('change', (event) => {
-
-		const selectedIndex = event.target.value;
-		outTitleDiv.innerHTML = '&emsp; <b>' + charts[selectedIndex][0] + '</b>'; // Update the selected song title display
-
-		console.log(`Loading song ${outTitleDiv.innerHTML}`);
-
-		var html = charts[selectedIndex][1] + '<table>';
-
-		const cellsPerBar = 4;
-		var barsPerLine = 0; // will be set based on first line
-
-		// Split by newlines
-		const chartLines = charts[selectedIndex][2].split('\n');
-
-		// Iterate over each line
-		chartLines.forEach((line, index) => {
-
-			// Split by tabs
-			const lineCells = line.split('\t');
-
-			if( lineCells.length == 1 ) {
-				console.log("Reached final empty line of song.");
-				return;
-			}
-
-			// set barsPerLine based on the first line, which should be the longest. Abort rendering if any subsequent line has more bars, to avoid formatting issues.
-			if( index == 0 ) {
-				barsPerLine = lineCells.length - 1;
-				console.log(`barsPerLine: ${barsPerLine}`);
-			}
-			else if( lineCells.length - 1 > barsPerLine ) {
-				outContentsDiv.innerHTML = `Line ${index} has more bars (${lineCells.length - 1}) than the first line (${barsPerLine}), which will cause formatting issues. Aborting chart render.`;
-				return;
-			}
-
-			// add an extra empty row between each line for spacing
-			html += '<tr>';
-
-			// If first cell contains an optional section name, wrap in a span with boxed style
-			html += '<td>';
-			if( lineCells[0] !== "" ) {
-				html += `<span class="section-name">${lineCells[0]}</span> `;
-			}
-			else {
-				html += '?';
-			}
-
-			// end empty row, and start next one
-			html += '</tr><tr>';
-
-			// Process each measure lineCells[i]
-			for(let i = 1; i < lineCells.length; i++) {
-				if(lineCells[i] === "") {
-					console.log("Empty cell.");
-				}
-				else if(lineCells[i] === "𝄎") {
-					html += `<td colspan="${cellsPerBar} rowspan="2" class="center-justify-cell">𝄎</td>`;
-				}
-				else if(lineCells[i] === "𝄏") {
-					html += `<td colspan="${cellsPerBar*2}" rowspan="2" class="center-justify-cell">𝄏</td>`;
-					i++;
-				}
-				else {
-					let remainingCellsInBar = cellsPerBar;
-					const cdotSplit = lineCells[i].split('·');
-					for(let cdotSplitIndex = 0; cdotSplitIndex < cdotSplit.length; cdotSplitIndex++) {
-
-						// make a cell with the contents if not empty
-						if( cdotSplit[cdotSplitIndex] !== "" ) {
-							html += '<td rowspan="2">';
-							html += cdotSplit[cdotSplitIndex];
-							html += '</td>';
-							remainingCellsInBar--;
-						}
-
-						// existance of cdot indicates an empty beat
-						if( cdotSplitIndex + 1 < cdotSplit.length && remainingCellsInBar > 0) {
-							html += '<td rowspan="2"></td>';
-							remainingCellsInBar--;
-						}
-					}
-					while(remainingCellsInBar > 0) {
-						html += '<td rowspan="2"></td>';
-						remainingCellsInBar--;
-					}
-				}
-
-				// will need to handle barline at end of this measure
-			}
-
-			// add another row, since each line of music spans two table rows
-			html += '</tr><tr>';
-		/*	for(let i = 0; i < barsPerLine * cellsPerBar; i++) {
-				html += '<td></td>';
-			}*/
-			html += '</tr>';
-
-		});
-
-		html += '</table>';
-
-		outContentsDiv.innerHTML = html;
-
-	});
 
 	// Parse the string into tokens using a space " " as the separator
 
