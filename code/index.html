@@ -70,9 +70,9 @@
 	</div>
 
 	<!-- Output Area -->
-	<div id="outDiv" style="flex: 1; flex-grow: 1">
+	<div id="outDiv" style="flex: 1; flex-grow: 1; display: flex; flex-direction: column">
 
-		<div style="display: flex;">
+		<div style="display: flex; flex-shrink: 0;">
 			<div>
 				<button onclick="toggleHideList()">⬅ Selector</button>
 			</div>
@@ -80,7 +80,7 @@
 				&emsp; Select <i>song</i> from list on the left.
 			</div>
 		</div>
-		<div id="outContentsDiv" style="overflow: hidden; width: 100%">
+		<div id="outContentsDiv" style="overflow: hidden; width: 100%; flex-grow: 1;">
 			<button onclick="toggleDarkMode()">Toggle Dark/Light Mode</button>
 			<p>Report chart issues to <a href="http://github.com/ericfont/romanjazz/issues">github.com/ericfont/romanjazz/issues</a> for review.</p>
 			<p>For offline use, download <a href="romanjazz.txt" download="romanjazz.txt" class="download-btn">romanjazz.txt</a> and this page <a href="index.html" download="romanjazz.html" class="download-btn">index.html</a>.</p>
