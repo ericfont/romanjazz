@@ -194,10 +194,14 @@ function main() {
 					let remainingCellsInBar = cellsPerBar;
 					const cdotSplit = lineCells[i].split('·');
 					for(let cdotSplitIndex = 0; cdotSplitIndex < cdotSplit.length; cdotSplitIndex++) {
-						html += '<td>';
-						html += cdotSplit[cdotSplitIndex];
-						html += '</td>';
-						remainingCellsInBar--;
+
+						// make a cell with the contents if not empty
+						if( cdotSplit[cdotSplitIndex] !== "" ) {
+							html += '<td>';
+							html += cdotSplit[cdotSplitIndex];
+							html += '</td>';
+							remainingCellsInBar--;
+						}
 
 						// existance of cdot indicates an empty beat
 						if( cdotSplitIndex + 1 < cdotSplit.length && remainingCellsInBar > 0) {
