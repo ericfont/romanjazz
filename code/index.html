@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Music&display=swap" rel="stylesheet">
+	<link href="https://fonts.cdnfonts.com/css/quivira" rel="stylesheet">
+	
 	<base href="https://romanjazz.com/" target="_blank">
 
 	<style>
 		:root {
 			color-scheme: light dark;
 		}
-		body, select, textarea, table {
+
+		body, select, textarea, table, tr, td {
 			color: light-dark(#000000, #efefec);
 			background-color: light-dark(#efedea, #000000);
-			font-family: 'Noto Music', Arial, Helvetica, sans-serif;
+			font-family: 'Quivira' !important;
 		}
 
 		table {
@@ -24,7 +24,7 @@
 		}
 
 		.section-name {
-			padding: 0px;
+			padding: 1px;
 			border: 1px solid light-dark(#000000, #efefec);
 		}
 
@@ -137,8 +137,6 @@ function main() {
 
 		// Iterate over each line
 		chartLines.forEach((line, index) => {
-		
-			html += '<tr>';
 
 			// Split by tabs
 			const lineCells = line.split('\t');
@@ -148,12 +146,20 @@ function main() {
 				return;
 			}
 
+			// add an extra empty row between each line for spacing
+			html += '<tr>';
+
 			// If first cell contains an optional section name, wrap in a span with boxed style
-			html += '<td class="right-justify-cell">';		
+			html += '<td>';
 			if( lineCells[0] !== "" ) {
 				html += `<span class="section-name">${lineCells[0]}</span> `;
 			}
-			html += '</td>';
+			else {
+				html += ' ';
+			}
+
+			// end empty row
+			html += '</tr><tr>';
 
 			// handle barline at start of line
 			html += '<td class="center-justify-cell">𝄀</td>';
