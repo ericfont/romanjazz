@@ -327,7 +327,11 @@ function selectorToggle() {
 }
 
 // Write a html table string to the output area based on input chart strings
-function loadChart(chartTitle, chartSubtitle, chartString) {
+function loadChart() {
+	const chartTitle = chartTitleTextArea.value;
+	const chartSubtitle = chartSubtitleTextArea.value;
+	const chartString = chartContentsTextArea.value;
+
 	housekeepingToDoBeforePerformingAction();
 
 	console.log(`Loading ${chartTitle}...`);
@@ -446,15 +450,17 @@ selectSongListElement.addEventListener('change', (event) => {
 			outContentsDiv.innerHTML = `Error: saved chart string does not have the expected format of "title\\nsubtitle\\ncontents". Aborting chart render.`;
 		}
 		else {
-			const chartString = localStorage.getItem(selectedSong);
-			const chartTitle = selectedSongSplit[2];
-			const chartSubtitle = selectedSongSplit[3];
-			const chartContents = chartString;
-			loadChart(chartTitle, chartSubtitle, chartContents);
+			chartTitleTextArea.value = selectedSongSplit[2];
+			chartSubtitleTextArea.value = selectedSongSplit[3];
+			chartContentsTextArea.value = localStorage.getItem(selectedSong);
+			loadChart();
 		}
 	}
 	else if( currentPlaylist === 'embeddedJazzPlaylist' ) {
-		loadChart(charts[selectedSong][0], charts[selectedSong][1], charts[selectedSong][2]);
+		chartTitleTextArea.value = charts[selectedSong][0];
+		chartSubtitleTextArea.value = charts[selectedSong][1];
+		chartContentsTextArea.value = charts[selectedSong][2];
+		loadChart();
 	}
 });
 
