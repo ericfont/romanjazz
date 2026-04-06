@@ -12,7 +12,9 @@
 	<style>
 		:root {
 			color-scheme: light dark;
-			--transparent-gray-button-color: rgba(128, 128, 128, 0.5);
+			--semi-transparent-gray-color: rgba(128, 128, 128, 0.5);
+			--fully-transparent-color: rgba(128, 128, 128, 0);
+			--current-gray-button-color: rgba(128, 128, 128, 0.5);
 		}
 
 		body, select, textarea, table, tr, td {
@@ -59,8 +61,8 @@
 
 		.transparent-button {
 			background: transparent;
-			border: 2px solid var(--transparent-gray-button-color);
-			color: var(--transparent-gray-button-color);
+			border: 2px solid var(--current-gray-button-color);
+			color: var(--current-gray-button-color);
 			position: absolute;
 			padding: 0px 0px 0px 0px;
 			cursor: pointer;
@@ -74,19 +76,38 @@
 	<!-- List Area -->
 	<div id="listDiv" style="flex: 1; flex-direction: column; height: 100vh;">
 		<div id="listDivHeader" style="display: flex; flex-direction: row; align-items: center; padding: 8px;">
-			<select name="playlist" id="selectPlaylist" style="flex-grow: 1">
-				<option value="embedded">embedded</option>
-				<option value="localStorage">localStorage (TODO)</option>
+			<select id="selectPlaylist" onchange="selectPlaylist(this.value)" style="flex-grow: 1">
+				<optgroup label="Embedded Playlists">
+					<option value="embeddedJazzPlaylist">embeddedJazz</option>
+				</optgroup>
+				<optgroup label="localStorage Playlists">
+					<option value="localStorageDefaultPlaylist">localStorage default playlist (TODO)</option>
+				</optgroup>
 			</select>
 			<div style="flex-grow: 1"></div>
-			<select name="settings" id="selectSettings" onchange="selectSettings(this.value)" style="flex-grow: 1">
+			<button id="buttonEditOrSaveChart" onclick="buttonEditOrSaveChart()" style="flex-grow: 1">Edit</button>
+			<div style="flex-grow: 1"></div>
+			<select id="selectSettings" onchange="selectSettings(this.value)" style="flex-grow: 1">
 				<option>Settings Menu</option>
 				<option value="toggleDarkMode">Toggle Dark Mode</option>
 				<option value="showInvisibleNavigationButtons">Show Invisible Navigation Buttons</option>
 			</select>
 		</div>
+
 		<select name="selectSongList" size=42 id="selectSongList" style="overflow: hidden; width: 100%;">
 		</select>
+
+		<div id="chartEditDiv" hidden style="flex: 1;">
+			<textarea id="chartTitleTextArea" rows="1" cols="50" style="flex: 1;"></textarea>
+			<label>(title)</label>
+			<br>
+			<textarea id="chartSubtitleTextArea" rows="1" cols="50" style="flex: 1;"></textarea>
+			<label>(subtitle)</label>
+			<br>
+			<textarea id="chartContentsTextArea" rows="20" cols="50" style="flex: 1;"></textarea>
+			<label>(contents)</label>
+		</div>
+
 	</div>
 
 	<!-- Output Area -->
@@ -112,15 +133,68 @@
 <script>
 
 const selectSongListElement = document.getElementById("selectSongList");
+
+const chartEditDiv = document.getElementById("chartEditDiv");
+const chartTitleTextArea = document.getElementById("chartTitleTextArea");
+const chartSubtitleTextArea = document.getElementById("chartSubtitleTextArea");
+const chartContentsTextArea = document.getElementById("chartContentsTextArea");
+
 const listDiv = document.getElementById("listDiv");
 const outDiv = document.getElementById("outDiv");
 const outContentsDiv = document.getElementById("outContentsDiv");
 const outTitleDiv = document.getElementById("outTitleDiv");
 const root = document.documentElement;
-const selectSettingsElement = document.getElementById("selectSettings");
 
-function housekeepingToDoBeforePerformingSelectorAction() {
-	root.style.setProperty('--transparent-gray-button-color', 'rgba(128, 128, 128, 0)'); // make fully transparent
+const selectPlaylistElement = document.getElementById("selectPlaylist");
+const selectSettingsElement = document.getElementById("selectSettings");
+const buttonEditOrSaveChartElement = document.getElementById("buttonEditOrSaveChart");
+
+function saveChart() {
+	chartEditDiv.hidden = true;
+	selectSongListElement.hidden = false;
+	//charts[selectSongListElement.value][2] = chartTextArea.value;
+	//loadSong(charts[selectSongListElement.value][0], charts[selectSongListElement.value][1], charts[selectSongListElement.value][2]);
+}
+
+function editChart() {
+	selectSongListElement.hidden = true;
+	chartEditDiv.hidden = false;
+	//charts[selectSongListElement.value][2] = chartTextArea.value;
+	//loadSong(charts[selectSongListElement.value][0], charts[selectSongListElement.value][1], charts[selectSongListElement.value][2]);
+}
+
+function buttonEditOrSaveChart() {
+
+	if( buttonEditOrSaveChartElement.textContent === "Edit" ) {
+		editChart();
+		buttonEditOrSaveChartElement.textContent = "Save";
+	}
+
+	else if( buttonEditOrSaveChartElement.textContent === "Save" ) {
+		saveChart();
+		buttonEditOrSaveChartElement.textContent = "Edit";
+	}
+}
+
+function selectPlaylist(selectPlaylistValue) {
+
+	switch (selectPlaylistValue) {
+		case 'embeddedJazzPlaylist':
+			//todo
+			break;
+	
+		case 'localStorageDefaultPlaylist':
+			//todo
+			break;
+
+		default:
+			break;
+	}
+}
+
+function housekeepingToDoBeforePerformingAction() {
+	const rootStyles = window.getComputedStyle(document.documentElement);
+	root.style.setProperty('--current-gray-button-color', rootStyles.getPropertyValue('--fully-transparent-color')); // make buttons invisible
 
 	// would want to check to save any unsaved changes here
 }
@@ -130,14 +204,21 @@ function clearOutContentsDiv() {
 }
 
 function showInvisibleNavigationButtons() {
-	root.style.setProperty('--transparent-gray-button-color', 'rgba(128, 128, 128, 0.5)'); // make semi-transparent
+	const rootStyles = window.getComputedStyle(document.documentElement);
+	const buttonCurrentColor = rootStyles.getPropertyValue('--current-gray-button-color');
+	if( buttonCurrentColor === rootStyles.getPropertyValue('--fully-transparent-color') ) {
+		root.style.setProperty('--current-gray-button-color', rootStyles.getPropertyValue('--semi-transparent-gray-color')); // make semi-transparent
+	}
+	else {
+		root.style.setProperty('--current-gray-button-color', rootStyles.getPropertyValue('--fully-transparent-color')); // make invisible
+	}
 }
 
 function selectSettings(settingsValue) {
-	housekeepingToDoBeforePerformingSelectorAction();
 
 	switch (settingsValue) {
 		case 'toggleDarkMode':
+			housekeepingToDoBeforePerformingAction();
 			toggleDarkMode();			
 			break;
 	
@@ -192,7 +273,7 @@ function selectorToggle() {
 
 // Write a html table string to the output area based on input chart strings
 function loadSong(chartTitle, chartSubtitle, chartString) {
-	housekeepingToDoBeforePerformingSelectorAction();
+	housekeepingToDoBeforePerformingAction();
 
 	console.log(`Loading ${chartTitle}...`);
 
@@ -295,7 +376,7 @@ function loadSong(chartTitle, chartSubtitle, chartString) {
 }
 
 selectSongListElement.addEventListener('change', (event) => {
-	housekeepingToDoBeforePerformingSelectorAction();
+	housekeepingToDoBeforePerformingAction();
 	const selectedSongIndex = event.target.value;
 	loadSong(charts[selectedSongIndex][0], charts[selectedSongIndex][1], charts[selectedSongIndex][2]);
 });
