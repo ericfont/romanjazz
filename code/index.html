@@ -382,7 +382,7 @@ function loadChart() {
 	const chartLines = chartString.split('\n');
 
 	// count number of lines of text, to estimate font size
-	var numTextLines = 2; // start with 2 to account for title and subtitle
+	var numTextLines = 3; // account for title, subtitle, and extra slack
 	chartLines.forEach((line, index) => {
 		if( line[0] === '\t' ) {
 			numTextLines += 2; // account for possibly two stacked chord symbols for modulations
