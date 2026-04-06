@@ -31,6 +31,23 @@
 			user-select: none;
 		}
 
+		caption {
+			/* Core ellipsis properties */
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+			/* Constrain width to the table's width */
+			max-width: 0; 
+			min-width: 100%;
+		}
+
+		td {
+			border: 0px;
+			padding: 0px;
+			padding-top: 8px;
+		}
+
 		/* Uncomment for dotted grid 
 		td {
 			border: 1px dotted #808080;
@@ -379,7 +396,7 @@ function loadChart() {
 	var calculatedFontSize = window.innerHeight / numTextLines;
 	calculatedFontSize = Math.max(calculatedFontSize, 6); // don't make too small to read
 	
-	var html = `<table style="font-size: ${calculatedFontSize}px; text-overflow: ellipsis;"><caption><strong><u>${chartTitle}</u></strong><br>${chartSubtitle}</caption>`;
+	var html = `<table style="font-size: ${calculatedFontSize}px;"><caption><strong><u>${chartTitle}</u></strong><br>${chartSubtitle}</caption>`;
 
 	// Iterate over each line
 	chartLines.forEach((line, index) => {
