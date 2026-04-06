@@ -461,6 +461,7 @@ function loadChart() {
 						const cdotCurrSplit = cdotSplit[cdotSplitIndex];
 						var subscriptedPrefix = "";
 						var unsubscriptedContent = "";
+						var subscriptedPostfix = "";
 
 						const beginModulationSplit = cdotCurrSplit.split(':');
 						if ( beginModulationSplit.length > 1 ) {
@@ -470,8 +471,14 @@ function loadChart() {
 						else {
 							unsubscriptedContent = cdotCurrSplit;
 						}
+
+						unsubscriptedContentSplit = unsubscriptedContent.split('/');
+						if( unsubscriptedContentSplit.length > 1 ) {
+							unsubscriptedContent = `${unsubscriptedContentSplit[0]}`;
+							subscriptedPostfix = `<sub>/${unsubscriptedContentSplit[1]}</sub>`;
+						}
 						
-						html += `<td ${maybeBarStyle}>${subscriptedPrefix}${unsubscriptedContent}</td>`;
+						html += `<td ${maybeBarStyle}>${subscriptedPrefix}${unsubscriptedContent}${subscriptedPostfix}</td>`;
 						
 
 						remainingCellsInBar--;
