@@ -564,6 +564,7 @@ function loadNextChart() {
 	if( currentChartIndex >= charts.length ) {
 		currentChartIndex = charts.length-1;
 	}
+	selectSongListElement.selectedIndex = currentChartIndex;
 
 	chartTitleTextArea.value = charts[currentChartIndex][0];
 	chartSubtitleTextArea.value = charts[currentChartIndex][1];
@@ -577,6 +578,7 @@ function loadPreviousChart() {
 	if( currentChartIndex < 0 ) {
 		currentChartIndex = 0;
 	}
+	selectSongListElement.selectedIndex = currentChartIndex;
 
 	chartTitleTextArea.value = charts[currentChartIndex][0];
 	chartSubtitleTextArea.value = charts[currentChartIndex][1];
@@ -586,6 +588,8 @@ function loadPreviousChart() {
 
 function loadRandomChart() {
 	currentChartIndex = Math.floor(Math.random() * charts.length);
+	selectSongListElement.selectedIndex = currentChartIndex;
+	
 	chartTitleTextArea.value = charts[currentChartIndex][0];
 	chartSubtitleTextArea.value = charts[currentChartIndex][1];
 	chartContentsTextArea.value = charts[currentChartIndex][2];
