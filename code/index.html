@@ -148,13 +148,13 @@
 		<button onclick="selectorToggle()" class="transparent-button" style="top: 0; left: 0;">
 			<b>Toggle&nbsp;Panel</b><br>(invisible&nbsp;button in top‑left corner of chart area)
 		</button>
-		<button class="transparent-button" style="top: 0; right: 0;">
+		<button onclick="loadPreviousChart()" class="transparent-button" style="top: 0; right: 0;">
 			<b>Previous&nbsp;Song</b><br>(invisible&nbsp;button in top‑right corner of chart area)
 		</button>
-		<button class="transparent-button" style="bottom: 0; left: 0;">
+		<button onclick="loadRandomChart()" class="transparent-button" style="bottom: 0; left: 0;">
 			<b>Random &nbsp;Song</b><br>(invisible&nbsp;button in bottom‑left corner of chart area)
 		</button>
-		<button class="transparent-button" style="bottom: 0; right: 0;">
+		<button onclick="loadNextChart()" class="transparent-button" style="bottom: 0; right: 0;">
 			<b>Next&nbsp;Song</b><br>(invisible&nbsp;button in bottom‑right corner of chart area)
 		</button>
 
@@ -182,6 +182,7 @@ const selectSettingsElement = document.getElementById("selectSettings");
 const buttonEditOrSaveChartElement = document.getElementById("buttonEditOrSaveChart");
 
 var currentPlaylist = 'embeddedJazzPlaylist';
+var currentChartIndex = 0;
 
 function loadPlaylistHousekeeping() {
 	chartEditDiv.hidden = true;
@@ -535,6 +536,40 @@ selectSongListElement.addEventListener('change', (event) => {
 		loadChart();
 	}
 });
+
+function loadNextChart() {
+
+	currentChartIndex++;
+	if( currentChartIndex >= charts.length ) {
+		currentChartIndex = charts.length-1;
+	}
+
+	chartTitleTextArea.value = charts[currentChartIndex][0];
+	chartSubtitleTextArea.value = charts[currentChartIndex][1];
+	chartContentsTextArea.value = charts[currentChartIndex][2];
+	loadChart();
+}
+
+function loadPreviousChart() {
+
+	currentChartIndex--;
+	if( currentChartIndex < 0 ) {
+		currentChartIndex = 0;
+	}
+
+	chartTitleTextArea.value = charts[currentChartIndex][0];
+	chartSubtitleTextArea.value = charts[currentChartIndex][1];
+	chartContentsTextArea.value = charts[currentChartIndex][2];
+	loadChart();
+}
+
+function loadRandomChart() {
+	currentChartIndex = Math.floor(Math.random() * charts.length);
+	chartTitleTextArea.value = charts[currentChartIndex][0];
+	chartSubtitleTextArea.value = charts[currentChartIndex][1];
+	chartContentsTextArea.value = charts[currentChartIndex][2];
+	loadChart();
+}
 
 function toggleHideList() {
 	if( listDiv.style.display === "none" ) {
