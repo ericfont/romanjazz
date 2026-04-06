@@ -42,6 +42,15 @@
 			border-left: 1px solid black;
 		}*/
 
+		/*td {
+			container-type: inline-size;
+			font-size: clamp(0.5rem, 95cqi, 5rem);
+		}
+
+		tt {
+			font-size: clamp(0.5rem, 95cqi, 5rem);
+		}*/
+
 		.section-name {
 			padding: 1px;
 			border: 1px solid light-dark(#000000, #efefec);
@@ -348,13 +357,29 @@ function loadChart() {
 
 	console.log(`Loading ${chartTitle}...`);
 
-	var html = `<table><caption><strong><u>${chartTitle}</u></strong><br>${chartSubtitle}</caption>`;
 
 	const cellsPerBar = 4;
 	var barsPerLine = 0; // will be set based on first line
 
 	// Split by newlines
 	const chartLines = chartString.split('\n');
+
+	// count number of lines of text, to estimate font size
+	var numTextLines = 2; // start with 2 to account for title and subtitle
+	chartLines.forEach((line, index) => {
+		if( line[0] === '\t' ) {
+			numTextLines += 2; // account for possibly two stacked chord symbols for modulations
+		}
+		else {
+			numTextLines += 4; // account for addition section name line
+		}
+	});
+
+	// calculate font size
+	var calculatedFontSize = window.innerHeight / numTextLines;
+	calculatedFontSize = Math.max(calculatedFontSize, 6); // don't make too small to read
+	
+	var html = `<table style="font-size: ${calculatedFontSize}px; text-overflow: ellipsis;"><caption><strong><u>${chartTitle}</u></strong><br>${chartSubtitle}</caption>`;
 
 	// Iterate over each line
 	chartLines.forEach((line, index) => {
