@@ -76,7 +76,7 @@
 	<!-- List Area -->
 	<div id="listDiv" style="flex: 1; flex-direction: column; height: 100vh;">
 		<div id="listDivHeader" style="display: flex; flex-direction: row; align-items: center; padding: 8px;">
-			<select id="selectPlaylist" onchange="selectPlaylist(this.value)" style="flex-grow: 1">
+			<select id="selectPlaylist" onchange="selectPlaylist(this.value)">
 				<optgroup label="Embedded Playlists">
 					<option value="embeddedJazzPlaylist">embeddedJazz</option>
 				</optgroup>
@@ -84,10 +84,10 @@
 					<option value="localStorageDefaultPlaylist">localStorage default playlist (TODO)</option>
 				</optgroup>
 			</select>
-			<div style="flex-grow: 1"></div>
-			<button id="buttonEditOrSaveChart" onclick="buttonEditOrSaveChart()" style="flex-grow: 1">Edit</button>
-			<div style="flex-grow: 1"></div>
-			<select id="selectSettings" onchange="selectSettings(this.value)" style="flex-grow: 1">
+			<div>&emsp;</div>
+			<button id="buttonEditOrSaveChart" onclick="buttonEditOrSaveChart()">Edit</button>
+			<div>&emsp;</div>
+			<select id="selectSettings" onchange="selectSettings(this.value)">
 				<option>Settings Menu</option>
 				<option value="toggleDarkMode">Toggle Dark Mode</option>
 				<option value="showInvisibleNavigationButtons">Show Invisible Navigation Buttons</option>
@@ -98,14 +98,11 @@
 		</select>
 
 		<div id="chartEditDiv" hidden style="flex: 1;">
-			<textarea id="chartTitleTextArea" rows="1" cols="50" style="flex: 1;"></textarea>
-			<label>(title)</label>
+			<textarea id="chartTitleTextArea" value="title-goes-here-without-spaces" rows="1" cols="50" style="flex: 1;"></textarea>
 			<br>
-			<textarea id="chartSubtitleTextArea" rows="1" cols="50" style="flex: 1;"></textarea>
-			<label>(subtitle)</label>
+			<textarea id="chartSubtitleTextArea" value="sub-title_form_composer-name_lyricist-name_year_etc" rows="1" cols="50" style="flex: 1;"></textarea>
 			<br>
 			<textarea id="chartContentsTextArea" rows="20" cols="50" style="flex: 1;"></textarea>
-			<label>(contents)</label>
 		</div>
 
 	</div>
