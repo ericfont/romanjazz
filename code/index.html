@@ -86,7 +86,7 @@
 					<option value="embeddedJazzPlaylist" selected>embeddedJazz</option>
 				</optgroup>
 				<optgroup label="localStorage Playlists">
-					<option value="localStorageDefaultPlaylist">localStorage default playlist (TODO)</option>
+					<option value="localStorageDefaultPlaylist">localStorage default saves</option>
 				</optgroup>
 			</select>
 			<div>&emsp;</div>
@@ -106,11 +106,11 @@
 		<div id="chartEditDiv" hidden style="flex: 1;">
 			Editor may crash. Save frequently. Saves to browser's localStorage.
 			<br>
-			<textarea id="chartTitleTextArea" rows="1" cols="50" style="flex: 1;">title-goes-here-without-spaces</textarea>
+			<textarea oninput="loadChart()" id="chartTitleTextArea" rows="1" cols="50" style="flex: 1;">title-goes-here-without-spaces</textarea>
 			<br>
-			<textarea id="chartSubtitleTextArea" rows="1" cols="50" style="flex: 1;">sub-title_form_composer-name_lyricist-name_year_etc</textarea>
+			<textarea oninput="loadChart()" id="chartSubtitleTextArea" rows="1" cols="50" style="flex: 1;">sub-title_form_composer-name_lyricist-name_year_etc</textarea>
 			<br>
-			<textarea id="chartContentsTextArea" rows="20" cols="50" style="flex: 1;"></textarea>
+			<textarea oninput="loadChart()" id="chartContentsTextArea" rows="20" cols="50" style="flex: 1;"></textarea>
 		</div>
 
 	</div>
@@ -425,15 +425,16 @@ function loadChart() {
 						html += `<td ${maybeBarStyle} rowspan="2">${cellContent}</td>`;
 
 						remainingCellsInBar--;
+						maybeBarStyle = '';
 					}
-
-					maybeBarStyle = '';
 
 					// existance of cdot indicates an empty beat
 					if( cdotSplitIndex + 1 < cdotSplit.length && remainingCellsInBar > 0) {
 						html += `<td ${maybeBarStyle} rowspan="2"></td>`;
 						remainingCellsInBar--;
-					}			
+						maybeBarStyle = '';
+					}		
+	
 				}
 				while(remainingCellsInBar > 0) {
 					html += '<td rowspan="2"></td>';
