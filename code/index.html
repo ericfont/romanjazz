@@ -394,7 +394,7 @@ function loadChart() {
 
 		// Process each measure lineCells[i]
 		for(let i = 1; i < lineCells.length; i++) {
-			let maybeBarStyle = `style="border-left: 1px solid black"`;
+			let maybeBarStyle = `style="border-left: 1px solid black; padding-left: 6px;"`;
 			if(lineCells[i] === "") {
 				console.log("Empty cell.");
 			}
