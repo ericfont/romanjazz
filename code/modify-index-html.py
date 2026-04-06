@@ -20,7 +20,7 @@ with open('code/index.html', 'r') as input_index_html, open('site/all-charts-tab
     # Write the charts and the tail of the file
     output_index_html.write("const charts = [")
 
-    for file in Path('charts').rglob('*.tsv'):
+    for file in sorted(Path('charts').rglob('*.tsv')):
         if file.is_file():
             filestem = file.stem
             filestem = filestem.replace("_", " ")
