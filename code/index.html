@@ -381,12 +381,11 @@ function loadChart() {
 		html += '<tr>';
 
 		// If first cell contains an optional section name, wrap in a span with boxed style
-		html += '<td>';
 		if( lineCells[0] !== "" ) {
-			html += `<span class="section-name">${lineCells[0]}</span> `;
+			html += `<td><span class="section-name">${lineCells[0]}</span></td>`;
 		}
 		else {
-			html += '<small>&emsp;</small>';
+			html += '<td style="height: 10px;"><small>&emsp;</small></td>';
 		}
 
 		// end empty row, and start next one
