@@ -99,6 +99,8 @@
 		</select>
 
 		<div id="chartEditDiv" hidden style="flex: 1;">
+			Editor may crash. Save frequently. Saves to browser's localStorage.
+			<br>
 			<textarea id="chartTitleTextArea" rows="1" cols="50" style="flex: 1;">title-goes-here-without-spaces</textarea>
 			<br>
 			<textarea id="chartSubtitleTextArea" rows="1" cols="50" style="flex: 1;">sub-title_form_composer-name_lyricist-name_year_etc</textarea>
@@ -146,6 +148,8 @@ const root = document.documentElement;
 const selectPlaylistElement = document.getElementById("selectPlaylist");
 const selectSettingsElement = document.getElementById("selectSettings");
 const buttonEditOrSaveChartElement = document.getElementById("buttonEditOrSaveChart");
+
+var currentPlaylist = 'embeddedJazzPlaylist';
 
 function loadPlaylistHousekeeping() {
 	chartEditDiv.hidden = true;
@@ -207,7 +211,7 @@ function editChart() {
 	selectPlaylistElement.selectedIndex = 0;
 
 	//charts[selectSongListElement.value][2] = chartTextArea.value;
-	//loadSong(charts[selectSongListElement.value][0], charts[selectSongListElement.value][1], charts[selectSongListElement.value][2]);
+	//loadChart(charts[selectSongListElement.value][0], charts[selectSongListElement.value][1], charts[selectSongListElement.value][2]);
 }
 
 function buttonEditOrSaveChart() {
@@ -229,10 +233,12 @@ function selectPlaylist(selectPlaylistValue) {
 
 	switch (selectPlaylistValue) {
 		case 'embeddedJazzPlaylist':
+			currentPlaylist = selectPlaylistValue;
 			loadEmbeddedJazzPlaylist();
 			break;
 	
 		case 'localStorageDefaultPlaylist':
+			currentPlaylist = selectPlaylistValue;
 			loadLocalStorageDefaultPlaylist();
 			break;
 
@@ -321,7 +327,7 @@ function selectorToggle() {
 }
 
 // Write a html table string to the output area based on input chart strings
-function loadSong(chartTitle, chartSubtitle, chartString) {
+function loadChart(chartTitle, chartSubtitle, chartString) {
 	housekeepingToDoBeforePerformingAction();
 
 	console.log(`Loading ${chartTitle}...`);
@@ -426,8 +432,24 @@ function loadSong(chartTitle, chartSubtitle, chartString) {
 
 selectSongListElement.addEventListener('change', (event) => {
 	housekeepingToDoBeforePerformingAction();
-	const selectedSongIndex = event.target.value;
-	loadSong(charts[selectedSongIndex][0], charts[selectedSongIndex][1], charts[selectedSongIndex][2]);
+	const selectedSong = event.target.value;
+
+	if( currentPlaylist === 'localStorageDefaultPlaylist' ) {
+		const selectedSongSplit = selectedSong.split("\n");
+		if( selectedSongSplit.length < 3 ) {
+			outContentsDiv.innerHTML = `Error: saved chart string does not have the expected format of "title\\nsubtitle\\ncontents". Aborting chart render.`;
+		}
+		else {
+			const chartString = localStorage.getItem(selectedSong);
+			const chartTitle = selectedSongSplit[2];
+			const chartSubtitle = selectedSongSplit[3];
+			const chartContents = chartString;
+			loadChart(chartTitle, chartSubtitle, chartContents);
+		}
+	}
+	else if( currentPlaylist === 'embeddedJazzPlaylist' ) {
+		loadChart(charts[selectedSong][0], charts[selectedSong][1], charts[selectedSong][2]);
+	}
 });
 
 function toggleHideList() {
