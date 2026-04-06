@@ -77,8 +77,9 @@
 	<div id="listDiv" style="flex: 1; flex-direction: column; height: 100vh;">
 		<div id="listDivHeader" style="display: flex; flex-direction: row; align-items: center; padding: 8px;">
 			<select id="selectPlaylist" onchange="selectPlaylist(this.value)">
+				<option>Playlists</option>
 				<optgroup label="Embedded Playlists">
-					<option value="embeddedJazzPlaylist">embeddedJazz</option>
+					<option value="embeddedJazzPlaylist" selected>embeddedJazz</option>
 				</optgroup>
 				<optgroup label="localStorage Playlists">
 					<option value="localStorageDefaultPlaylist">localStorage default playlist (TODO)</option>
@@ -88,7 +89,7 @@
 			<button id="buttonEditOrSaveChart" onclick="buttonEditOrSaveChart()">Edit</button>
 			<div>&emsp;</div>
 			<select id="selectSettings" onchange="selectSettings(this.value)">
-				<option>Settings Menu</option>
+				<option>Settings</option>
 				<option value="toggleDarkMode">Toggle Dark Mode</option>
 				<option value="showInvisibleNavigationButtons">Show Invisible Navigation Buttons</option>
 			</select>
@@ -98,9 +99,9 @@
 		</select>
 
 		<div id="chartEditDiv" hidden style="flex: 1;">
-			<textarea id="chartTitleTextArea" value="title-goes-here-without-spaces" rows="1" cols="50" style="flex: 1;"></textarea>
+			<textarea id="chartTitleTextArea" rows="1" cols="50" style="flex: 1;">title-goes-here-without-spaces</textarea>
 			<br>
-			<textarea id="chartSubtitleTextArea" value="sub-title_form_composer-name_lyricist-name_year_etc" rows="1" cols="50" style="flex: 1;"></textarea>
+			<textarea id="chartSubtitleTextArea" rows="1" cols="50" style="flex: 1;">sub-title_form_composer-name_lyricist-name_year_etc</textarea>
 			<br>
 			<textarea id="chartContentsTextArea" rows="20" cols="50" style="flex: 1;"></textarea>
 		</div>
@@ -146,16 +147,65 @@ const selectPlaylistElement = document.getElementById("selectPlaylist");
 const selectSettingsElement = document.getElementById("selectSettings");
 const buttonEditOrSaveChartElement = document.getElementById("buttonEditOrSaveChart");
 
-function saveChart() {
+function loadPlaylistHousekeeping() {
 	chartEditDiv.hidden = true;
 	selectSongListElement.hidden = false;
+	buttonEditOrSaveChartElement.textContent = "Edit";
+	selectSongListElement.replaceChildren(); // clear existing songs
+}
+
+function loadEmbeddedJazzPlaylist() {
+	loadPlaylistHousekeeping();
+
+	console.log("Populating embeddedJazz playlist...");
+	
+	for (let i = 0; i < charts.length; i++) {
+		let el = document.createElement("option");
+		el.textContent = i + ": " + charts[i][0];
+		el.value = i;
+		selectSongListElement.appendChild(el);
+	}
+}
+
+function loadLocalStorageDefaultPlaylist() {
+	loadPlaylistHousekeeping();
+
+	console.log("Populating localStorageDefault playlist...");
+
+	for (let i = 0; i < localStorage.length; i++) {
+		const key = localStorage.key(i);
+		const keyParts = key.split("\n");
+		if (keyParts[0] === "save") {
+			const timestamp = keyParts[1];
+			const title = keyParts[2];
+			const subtitle = keyParts[3];
+			let el = document.createElement("option");
+			el.textContent = `${timestamp}\t${title}\t${subtitle}`;
+			el.value = key;
+			selectSongListElement.appendChild(el);
+		}
+	}
+}
+
+function saveChart() {
 	//charts[selectSongListElement.value][2] = chartTextArea.value;
 	//loadSong(charts[selectSongListElement.value][0], charts[selectSongListElement.value][1], charts[selectSongListElement.value][2]);
+
+	const now = new Date();
+	const localNow = new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
+	const formattedDate = localNow.toISOString()
+		.slice(0, 19)       // Take only YYYY-MM-DDTHH:mm:ss
+		.replace('T', '_'); // Change the separator to an underscore
+
+	localStorage.setItem(`save\n${formattedDate}\n${chartTitleTextArea.value}\n${chartSubtitleTextArea.value}`, chartContentsTextArea.value);
 }
 
 function editChart() {
 	selectSongListElement.hidden = true;
 	chartEditDiv.hidden = false;
+	buttonEditOrSaveChartElement.textContent = "Save";
+	selectPlaylistElement.selectedIndex = 0;
+
 	//charts[selectSongListElement.value][2] = chartTextArea.value;
 	//loadSong(charts[selectSongListElement.value][0], charts[selectSongListElement.value][1], charts[selectSongListElement.value][2]);
 }
@@ -164,24 +214,26 @@ function buttonEditOrSaveChart() {
 
 	if( buttonEditOrSaveChartElement.textContent === "Edit" ) {
 		editChart();
-		buttonEditOrSaveChartElement.textContent = "Save";
 	}
 
 	else if( buttonEditOrSaveChartElement.textContent === "Save" ) {
 		saveChart();
-		buttonEditOrSaveChartElement.textContent = "Edit";
 	}
 }
 
 function selectPlaylist(selectPlaylistValue) {
 
+	if( buttonEditOrSaveChartElement.textContent === "Save" ) {
+		saveChart();
+	}
+
 	switch (selectPlaylistValue) {
 		case 'embeddedJazzPlaylist':
-			//todo
+			loadEmbeddedJazzPlaylist();
 			break;
 	
 		case 'localStorageDefaultPlaylist':
-			//todo
+			loadLocalStorageDefaultPlaylist();
 			break;
 
 		default:
@@ -407,15 +459,8 @@ if (savedTheme) {
 }
 
 function main() {
-	
-	console.log("Populating song list...");
 
-	for (let i = 0; i < charts.length; i++) {
-		let el = document.createElement("option");
-		el.textContent = i + ": " + charts[i][0];
-		el.value = i;
-		selectSongListElement.appendChild(el);
-	}
+	loadEmbeddedJazzPlaylist();
 }
 
 const charts =
