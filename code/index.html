@@ -434,9 +434,8 @@ function loadChart() {
 		// end empty row
 		html += '</tr>';
 		
-		// start next line, which will be two trs for possible modulation
+		// start next line
 		html += '<tr>';
-		var htmlNextRow = '<tr>';
 
 		// Process each measure lineCells[i]
 		for(let i = 1; i < lineCells.length; i++) {
@@ -445,12 +444,10 @@ function loadChart() {
 				console.log("Empty cell.");
 			}
 			else if(lineCells[i] === "𝄎") {
-				html += `<td ${maybeBarStyle}colspan="${cellsPerBar} rowspan="2" class="center-justify-cell">𝄎</td>`;
-				htmlNextRow += `<td></td>`; // add empty cell in next row to account for rowspan
+				html += `<td ${maybeBarStyle}colspan="${cellsPerBar} class="center-justify-cell">𝄎</td>`;
 			}
 			else if(lineCells[i] === "𝄏") {
-				html += `<td ${maybeBarStyle} colspan="${cellsPerBar*2}" rowspan="2" class="center-justify-cell">𝄏</td>`;
-				htmlNextRow += `<td></td><td></td>`; // add empty cells in next row to account for rowspan
+				html += `<td ${maybeBarStyle} colspan="${cellsPerBar*2}" class="center-justify-cell">𝄏</td>`;
 				i++;
 			}
 			else {
@@ -461,20 +458,17 @@ function loadChart() {
 
 					// make a cell with the contents if not empty
 					if( cdotSplit[cdotSplitIndex] !== "" ) {
-						const cellContent = cdotSplit[cdotSplitIndex];
-
+						var cellContent = cdotSplit[cdotSplitIndex];
 
 						const beginModulationSplit = cellContent.split(':');
 						if ( beginModulationSplit.length > 1 ) {
 							html += `<td ${maybeBarStyle}><sub><b>${beginModulationSplit[0]}</b></sub>${beginModulationSplit[1]}</td>`;
-							htmlNextRow += `<td ${maybeBarStyle}></td>`;
 
 							remainingCellsInBar--;
 							maybeBarStyle = '';
 						}
 						else {
-							html += `<td ${maybeBarStyle} rowspan="2">${cellContent}</td>`;
-							htmlNextRow += `<td ${maybeBarStyle}></td>`; // add empty cellsin next row to account for rowspan
+							html += `<td ${maybeBarStyle}>${cellContent}</td>`;
 
 							remainingCellsInBar--;
 							maybeBarStyle = '';
@@ -483,8 +477,7 @@ function loadChart() {
 
 					// existance of cdot indicates an empty beat
 					if( cdotSplitIndex + 1 < cdotSplit.length && remainingCellsInBar > 0) {
-						html += `<td ${maybeBarStyle} rowspan="2"></td>`;
-						htmlNextRow += `<td ${maybeBarStyle}></td>`; // add empty cell in next row to account for rowspan
+						html += `<td ${maybeBarStyle}></td>`;
 						remainingCellsInBar--;
 						maybeBarStyle = '';
 					}
@@ -492,19 +485,17 @@ function loadChart() {
 				}
 				
 				while(remainingCellsInBar > 0) {
-					html += '<td rowspan="2"></td>';
-					htmlNextRow += `<td></td>`; // add empty cell in next row to account for rowspan
+					html += '<td></td>';
 					remainingCellsInBar--;
 				}
 			}
 		}
 
 		// will need to handle barline at end of each line
-		html += `<td style="border-left: 1px solid grey" rowspan="2"></td>`;
-		htmlNextRow += `<td></td>`; // add empty cell in next row to account for rowspan
+		html += `<td style="border-left: 1px solid grey"></td>`;
 
-		// add another row, since each line of music spans two table rows
-		html += `</tr><tr>${htmlNextRow}</tr>`;	
+		// end row
+		html += `</tr>`;	
 
 	});
 
@@ -606,7 +597,7 @@ function main() {
 
 const charts =
 [[`'0-Blank-Chart`, `form composer lyricist year usualkey`,
-`A₁				
+`A₁	Ⅴ⁷/ⅱ			
 				
 A₂				
 				
