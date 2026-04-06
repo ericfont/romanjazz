@@ -92,6 +92,7 @@
 				<option>Settings</option>
 				<option value="toggleDarkMode">Toggle Dark Mode</option>
 				<option value="showInvisibleNavigationButtons">Show Invisible Navigation Buttons</option>
+				<option value="checkFonts">Check for Necessary Fonts</option>
 			</select>
 		</div>
 
@@ -279,6 +280,12 @@ function selectSettings(settingsValue) {
 	
 		case 'showInvisibleNavigationButtons':
 			showInvisibleNavigationButtons();	
+			break;
+
+		case 'checkFonts':
+			housekeepingToDoBeforePerformingAction();
+			outContentsDiv.innerHTML = '';
+			checkFonts();
 			break;
 
 		default:
