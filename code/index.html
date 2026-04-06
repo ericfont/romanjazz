@@ -394,7 +394,7 @@ function loadChart() {
 
 		// Process each measure lineCells[i]
 		for(let i = 1; i < lineCells.length; i++) {
-			let maybeBarStyle = `style="border-left: 1px solid; padding-left: 6px;"`;
+			let maybeBarStyle = `style="border-left: 1px solid grey; padding-left: 6px;"`;
 			if(lineCells[i] === "") {
 				console.log("Empty cell.");
 			}
@@ -436,7 +436,7 @@ function loadChart() {
 		}
 
 		// will need to handle barline at end of each line
-		html += `<td style="border-left: 1px solid" rowspan="2"></td>`;
+		html += `<td style="border-left: 1px solid grey" rowspan="2"></td>`;
 
 		// add another row, since each line of music spans two table rows
 		html += '</tr><tr>';
