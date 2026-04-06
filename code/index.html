@@ -455,48 +455,41 @@ function loadChart() {
 			else {
 				let remainingCellsInBar = cellsPerBar;
 
-				/* const beginModulationSplit = lineCells[i].split('=');
-				if ( beginModulationSplit.length > 1 ) {
-					html += `<td ${maybeBarStyle}>${beginModulationSplit[0]}</td>`;
-					htmlNextRow += `<td ${maybeBarStyle}>${beginModulationSplit[1]}</td>`;
+				const cdotSplit = lineCells[i].split('·');
+				for(let cdotSplitIndex = 0; cdotSplitIndex < cdotSplit.length; cdotSplitIndex++) {
 
-					remainingCellsInBar--;
-					maybeBarStyle = '';
-				}*/
+					// make a cell with the contents if not empty
+					if( cdotSplit[cdotSplitIndex] !== "" ) {
+						const cellContent = cdotSplit[cdotSplitIndex];
 
-				const beginModulationSplit = lineCells[i].split(':');
-				if ( beginModulationSplit.length > 1 ) {
-					html += `<td ${maybeBarStyle}><sub><b>${beginModulationSplit[0]}</b></sub>${beginModulationSplit[1]}</td>`;
-					htmlNextRow += `<td ${maybeBarStyle}></td>`;
 
-					remainingCellsInBar--;
-					maybeBarStyle = '';
-				}
-				else {
-					const cdotSplit = lineCells[i].split('·');
-					for(let cdotSplitIndex = 0; cdotSplitIndex < cdotSplit.length; cdotSplitIndex++) {
+						const beginModulationSplit = cellContent.split(':');
+						if ( beginModulationSplit.length > 1 ) {
+							html += `<td ${maybeBarStyle}><sub><b>${beginModulationSplit[0]}</b></sub>${beginModulationSplit[1]}</td>`;
+							htmlNextRow += `<td ${maybeBarStyle}></td>`;
 
-						// make a cell with the contents if not empty
-						if( cdotSplit[cdotSplitIndex] !== "" ) {
-							const cellContent = cdotSplit[cdotSplitIndex];
-
+							remainingCellsInBar--;
+							maybeBarStyle = '';
+						}
+						else {
 							html += `<td ${maybeBarStyle} rowspan="2">${cellContent}</td>`;
 							htmlNextRow += `<td ${maybeBarStyle}></td>`; // add empty cellsin next row to account for rowspan
 
 							remainingCellsInBar--;
 							maybeBarStyle = '';
 						}
-
-						// existance of cdot indicates an empty beat
-						if( cdotSplitIndex + 1 < cdotSplit.length && remainingCellsInBar > 0) {
-							html += `<td ${maybeBarStyle} rowspan="2"></td>`;
-							htmlNextRow += `<td ${maybeBarStyle}></td>`; // add empty cell in next row to account for rowspan
-							remainingCellsInBar--;
-							maybeBarStyle = '';
-						}
-	
 					}
+
+					// existance of cdot indicates an empty beat
+					if( cdotSplitIndex + 1 < cdotSplit.length && remainingCellsInBar > 0) {
+						html += `<td ${maybeBarStyle} rowspan="2"></td>`;
+						htmlNextRow += `<td ${maybeBarStyle}></td>`; // add empty cell in next row to account for rowspan
+						remainingCellsInBar--;
+						maybeBarStyle = '';
+					}
+
 				}
+				
 				while(remainingCellsInBar > 0) {
 					html += '<td rowspan="2"></td>';
 					htmlNextRow += `<td></td>`; // add empty cell in next row to account for rowspan
@@ -624,7 +617,7 @@ tag	ⅱ	Ⅴ⁷	Ⅱ:[ⅱ	Ⅴ⁷]
 `A₁	Ⅰ	𝄎	Ⅱ⁷	𝄎
 	ⅱ	Ⅴ⁷	Ⅰ	(ⅱ·Ⅴ⁷)
 A₂	Ⅰ	𝄎	Ⅱ⁷	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	v=Ⅳ:[ⅱ·Ⅴ⁷]
+	ⅱ	Ⅴ⁷	Ⅰ	Ⅳ:[ⅱ·Ⅴ⁷]
 B	Ⅳ	𝄎	𝄎	𝄎
 	Ⅱ⁷	𝄎	ⅱ	Ⅴ⁷
 A₃	Ⅰ	𝄎	Ⅱ⁷	𝄎
