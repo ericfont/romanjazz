@@ -101,6 +101,19 @@
 			height: 33%;
 		}
 
+		.fraction {
+			display: inline-block;
+			vertical-align: middle;
+			text-align: left;
+		}
+		.numerator {
+			border-bottom: 1px dotted;
+			border-right: 1px dotted;
+		}
+		.denominator {
+			border-left: 1px dotted;
+		}
+
 	</style>
 </head>
 <body style="display: flex; flex-grow: 1;">
@@ -160,6 +173,12 @@
 		</button>
 
 		<div id="outContentsDiv" style="overflow: hidden; width: 100%; flex-grow: 1;">
+
+			<div class="fraction">
+				<div class="numerator">test pivot top</div>
+				<div class="denominator">test pivot bot</div>
+			</div>
+
 		</div>
 	</div>
 
