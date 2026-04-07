@@ -48,46 +48,28 @@
 			padding-top: 8px;
 			white-space: nowrap;
 		}
-
-		/* Uncomment for dotted grid 
-		td {
-			border: 1px dotted #808080;
-			padding: 8px;
-			text-align: left;
-		}
-
-		.barline {
-			border-left: 1px solid black;
-		}*/
-
-		/*td {
-			container-type: inline-size;
-			font-size: clamp(0.5rem, 95cqi, 5rem);
-		}
-
-		tt {
-			font-size: clamp(0.5rem, 95cqi, 5rem);
-		}*/
-
+		
 		.section-name {
 			padding: 1px;
 			border: 1px solid light-dark(#000000, #efefec);
 		}
 
-		.right-justify-cell {
+		.right-justify {
  			text-align: right;
 		}
 
-		.center-justify-cell {
+		.center-justify {
  			text-align: center;
 		}
 
-		.draw-right-border {
-			border-right: 1px solid black;
+		.right-bar {
+			border-right: 1px solid grey;
+			padding-right: 4px
 		}
 
-		.draw-left-border {
-			border-left: 1px solid black;
+		.left-bar {
+			border-left: 1px solid grey;
+			padding-left: 4px
 		}
 
 		.transparent-button {
@@ -459,15 +441,16 @@ function loadChart() {
 
 		// Process each measure lineCells[i]
 		for(let i = 1; i < lineCells.length; i++) {
-			let maybeBarStyle = `style="border-left: 1px solid grey; padding-left: 6px;"`;
+			let classText = ""; // will add classes to this string to indicate formatting things like barlines & center repeats & background color
+			let maybeBarClass = "left-bar ";
 			if(lineCells[i] === "") {
 				console.log("Empty cell.");
 			}
 			else if(lineCells[i] === "𝄎") {
-				html += `<td ${maybeBarStyle}colspan="${cellsPerBar}" class="center-justify-cell">𝄎</td>`;
+				html += `<td colspan="${cellsPerBar}" class="${maybeBarClass}center-justify">𝄎</td>`;
 			}
 			else if(lineCells[i] === "𝄏") {
-				html += `<td ${maybeBarStyle} colspan="${cellsPerBar*2}" class="center-justify-cell">𝄏</td>`;
+				html += `<td colspan="${cellsPerBar*2}" class="${maybeBarClass}center-justify">𝄏</td>`;
 				i++;
 			}
 			else {
@@ -498,18 +481,18 @@ function loadChart() {
 							subscriptedPostfix = `<sub>/${unsubscriptedContentSplit[1]}</sub>`;
 						}
 						
-						html += `<td ${maybeBarStyle}>${subscriptedPrefix}${unsubscriptedContent}${subscriptedPostfix}</td>`;
+						html += `<td class="${maybeBarClass}">${subscriptedPrefix}${unsubscriptedContent}${subscriptedPostfix}</td>`;
 						
 
 						remainingCellsInBar--;
-						maybeBarStyle = '';
+						maybeBarClass = '';
 					}
 
 					// existance of cdot indicates an empty beat
 					if( cdotSplitIndex + 1 < cdotSplit.length && remainingCellsInBar > 0) {
-						html += `<td ${maybeBarStyle}></td>`;
+						html += `<td class="${maybeBarClass}"></td>`;
 						remainingCellsInBar--;
-						maybeBarStyle = '';
+						maybeBarClass = '';
 					}
 
 				}
@@ -522,7 +505,7 @@ function loadChart() {
 		}
 
 		// will need to handle barline at end of each line
-		html += `<td style="border-left: 1px solid grey"></td>`;
+		html += `<td class="left-bar"></td>`;
 
 		// end row
 		html += `</tr>`;	
