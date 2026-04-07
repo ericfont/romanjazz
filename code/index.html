@@ -492,6 +492,7 @@ function loadChart() {
 
 	var modulationLevel = 0;
 	var maybeModulationClass = "";
+	var nextModulationClass = "";
 
 	// Iterate over each line
 	chartLines.forEach((line, index) => {
@@ -539,10 +540,10 @@ function loadChart() {
 				console.log("Empty cell.");
 			}
 			else if(lineCells[i] === "𝄎") {
-				html += `<td colspan="${cellsPerBar}" class="${maybeBarClass}center-justify">𝄎</td>`;
+				html += `<td colspan="${cellsPerBar}" class="${maybeBarClass}${maybeModulationClass}center-justify">𝄎</td>`;
 			}
 			else if(lineCells[i] === "𝄏") {
-				html += `<td colspan="${cellsPerBar*2}" class="${maybeBarClass}center-justify">𝄏</td>`;
+				html += `<td colspan="${cellsPerBar*2}" class="${maybeBarClass}${maybeModulationClass}center-justify">𝄏</td>`;
 				i++;
 			}
 			else {
@@ -561,7 +562,7 @@ function loadChart() {
 						const beginModulationSplit = cdotCurrSplit.split('[');
 						if ( beginModulationSplit.length > 1 ) {
 							modulationLevel++;
-							maybeModulationClass = "background-color-" + modulationLevel;
+							nextModulationClass = "background-color-" + modulationLevel;
 							
 							modulationPrefix = `<div class="left-of-td"><b>${beginModulationSplit[0]}</b></div>`;
 							unsubscriptedContent = beginModulationSplit[1];
@@ -575,18 +576,21 @@ function loadChart() {
 							unsubscriptedContent = `${unsubscriptedContentSplit[0]}`;
 							subscriptedPostfix = `<sub>/${unsubscriptedContentSplit[1]}</sub>`;
 						}
-						
-						html += `<td class="${maybeBarClass}${maybeModulationClass}">${modulationPrefix}${unsubscriptedContent}${subscriptedPostfix}</td>`;
-						
-						if( unsubscriptedContent.endsWith(']') ) {
+
+						maybeModulationClass = nextModulationClass;
+						while( unsubscriptedContent.endsWith(']') ) {
 							modulationLevel--;
+							unsubscriptedContent = unsubscriptedContent.slice(0, -1); // remove that last ]
 							if( modulationLevel <= 0 ) {
-								maybeModulationClass = "";
+								nextModulationClass = "";
 							}
 							else {
-								maybeModulationClass = "background-color-" + modulationLevel;
+								nextModulationClass = "background-color-" + modulationLevel;
 							}
 						}
+						
+						html += `<td class="${maybeBarClass}${maybeModulationClass}">${modulationPrefix}${unsubscriptedContent}${subscriptedPostfix}</td>`;
+				
 
 						remainingCellsInBar--;
 						maybeBarClass = '';
