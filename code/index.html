@@ -15,11 +15,93 @@
 			--semi-transparent-gray-color: rgba(128, 128, 128, 0.5);
 			--fully-transparent-color: rgba(128, 128, 128, 0);
 			--current-gray-button-color: rgba(128, 128, 128, 0.5);
+
+  			--background-0: light-dark(#ffffff, #000000);
+  			--background-1: light-dark(#efefef, #100000);
+  			--background-2: light-dark(#dfdfdf, #200000);
+  			--background-3: light-dark(#cfcfcf, #300000);
+  			--background-4: light-dark(#bfbfbf, #400000);
+  			--background-5: light-dark(#afafaf, #500000);
+  			--background-6: light-dark(#8f8f8f, #600000);
+  			--background-7: light-dark(#7f7f7f, #700000);
+  			/* now we are at pure middle grey, already defined as "grey" */
+			--foreground-0: light-dark(#000000, #ffffff);
+			--foreground-1: light-dark(#100000, #efffff);
+			--foreground-2: light-dark(#200000, #dfffff);
+			--foreground-3: light-dark(#300000, #cfffff);
+			--foreground-4: light-dark(#400000, #bfffff);
+			--foreground-5: light-dark(#500000, #afffff);
+			--foreground-6: light-dark(#600000, #9fffff);
+			--foreground-7: light-dark(#700000, #8fffff);
+		}
+
+		.background-color-0 {
+			background-color: var(--background-0);
+		}
+
+		.background-color-1 {
+			background-color: var(--background-1);
+		}
+
+		.background-color-2 {
+			background-color: var(--background-2);
+		}
+
+		.background-color-3 {
+			background-color: var(--background-3);
+		}
+
+		.background-color-4 {
+			background-color: var(--background-4);
+		}
+
+		.background-color-5 {
+			background-color: var(--background-5);
+		}
+
+		.background-color-6 {
+			background-color: var(--background-6);
+		}
+
+		.background-color-7 {
+			background-color: var(--background-7);
+		}
+
+		.foreground-color-0 {
+			color: var(--foreground-0);
+		}
+
+		.foreground-color-1 {
+			color: var(--foreground-1);
+		}
+
+		.foreground-color-2 {
+			color: var(--foreground-2);
+		}
+
+		.foreground-color-3 {
+			color: var(--foreground-3);
+		}
+
+		.foreground-color-4 {
+			color: var(--foreground-4);
+		}
+
+		.foreground-color-5 {
+			color: var(--foreground-5);
+		}
+
+		.foreground-color-6 {
+			color: var(--foreground-6);
+		}
+
+		.foreground-color-7 {
+			color: var(--foreground-7);
 		}
 
 		body, select, textarea, table, tr, td {
-			color: light-dark(#000000, #efefec);
-			background-color: light-dark(#efedea, #000000);
+			color: var(--foreground-0);
+			background-color: var(--background-0);
 			font-family: 'Quivira', 'Noto Music' !important;
 		}
 
@@ -47,11 +129,18 @@
 			padding: 0px;
 			padding-top: 8px;
 			white-space: nowrap;
+			position: relative; /* Set anchor point */
+		}
+
+		.left-of-td {
+			position: absolute; /* Move freely relative to parent */
+			right: 100%;       /* Push outside parent's left boundary */
+			bottom: 0%;            /* Align with the top of parent */
 		}
 		
 		.section-name {
 			padding: 1px;
-			border: 1px solid light-dark(#000000, #efefec);
+			border: 1px solid light-dark(#000000, #ffffff);
 		}
 
 		.right-justify {
@@ -401,6 +490,9 @@ function loadChart() {
 	
 	var html = `<table style="font-size: ${calculatedFontSize}px;"><caption><strong><u>${chartTitle}</u></strong><br>${chartSubtitle}</caption>`;
 
+	var modulationLevel = 0;
+	var maybeModulationClass = "";
+
 	// Iterate over each line
 	chartLines.forEach((line, index) => {
 
@@ -437,7 +529,7 @@ function loadChart() {
 		html += '</tr>';
 		
 		// start next line
-		html += '<tr>';
+		html += '<tr><td></td>';
 
 		// Process each measure lineCells[i]
 		for(let i = 1; i < lineCells.length; i++) {
@@ -462,13 +554,16 @@ function loadChart() {
 					// make a cell with the contents if not empty
 					if( cdotSplit[cdotSplitIndex] !== "" ) {
 						const cdotCurrSplit = cdotSplit[cdotSplitIndex];
-						var subscriptedPrefix = "";
+						var modulationPrefix = "";
 						var unsubscriptedContent = "";
 						var subscriptedPostfix = "";
 
-						const beginModulationSplit = cdotCurrSplit.split(':');
+						const beginModulationSplit = cdotCurrSplit.split('[');
 						if ( beginModulationSplit.length > 1 ) {
-							subscriptedPrefix = `<sub><b>${beginModulationSplit[0]}</b></sub>`;
+							modulationLevel++;
+							maybeModulationClass = "background-color-" + modulationLevel;
+							
+							modulationPrefix = `<div class="left-of-td"><b>${beginModulationSplit[0]}</b></div>`;
 							unsubscriptedContent = beginModulationSplit[1];
 						}
 						else {
@@ -481,8 +576,17 @@ function loadChart() {
 							subscriptedPostfix = `<sub>/${unsubscriptedContentSplit[1]}</sub>`;
 						}
 						
-						html += `<td class="${maybeBarClass}">${subscriptedPrefix}${unsubscriptedContent}${subscriptedPostfix}</td>`;
+						html += `<td class="${maybeBarClass}${maybeModulationClass}">${modulationPrefix}${unsubscriptedContent}${subscriptedPostfix}</td>`;
 						
+						if( unsubscriptedContent.endsWith(']') ) {
+							modulationLevel--;
+							if( modulationLevel <= 0 ) {
+								maybeModulationClass = "";
+							}
+							else {
+								maybeModulationClass = "background-color-" + modulationLevel;
+							}
+						}
 
 						remainingCellsInBar--;
 						maybeBarClass = '';
@@ -490,7 +594,7 @@ function loadChart() {
 
 					// existance of cdot indicates an empty beat
 					if( cdotSplitIndex + 1 < cdotSplit.length && remainingCellsInBar > 0) {
-						html += `<td class="${maybeBarClass}"></td>`;
+						html += `<td class="${maybeBarClass}${maybeModulationClass}"></td>`;
 						remainingCellsInBar--;
 						maybeBarClass = '';
 					}
@@ -498,7 +602,7 @@ function loadChart() {
 				}
 				
 				while(remainingCellsInBar > 0) {
-					html += '<td></td>';
+					html += `<td class="${maybeModulationClass}"></td>`;
 					remainingCellsInBar--;
 				}
 			}
