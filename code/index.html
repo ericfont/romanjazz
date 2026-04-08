@@ -3,6 +3,7 @@
 
 <!-- Hidden SVG container for roman numeral symbols -->
 <svg>
+
 <symbol id="roman_numeral_capital_7">
  <g stroke="#000" stroke-linecap="round" stroke-width=".5">
   <path d="m1 1h6"/>
@@ -15,6 +16,16 @@
   <path d="m6.5 1v6"/>
  </g>
 </symbol>
+
+<symbol id="extension_7">
+ <path d="m6.8 0.35h0.91l-0.45 1.8" fill="none" stroke="#000" stroke-linecap="round" stroke-width=".25"/>
+</symbol>
+
+<symbol id="flat">
+ <path d="m0.7 3.3 0.02 2.9 0.76-0.48 0.28-0.36c0.2-0.64-0.18-0.83-0.3-1-0.43-0.048-0.55 0.26-0.72 0.52" fill="none" stroke="#000" stroke-linecap="round" stroke-width=".25"/>
+</symbol>
+
+
 </svg>
 
 <head>
@@ -204,7 +215,15 @@
 
 <div class="container">
   <div class="split-cell"><div>upper</div><div>lower</div></div>
-  <div style="min-aspect-ratio: .75; max-aspect-ratio: 1.5;"><svg svg viewBox="0 0 8 8" width="100%" height="100%" preserveAspectRatio="none"><use href="#roman_numeral_capital_7"></use></div>
+  <div>
+	<svg svg viewBox="0 0 8 8" width="100%" height="100%">
+		<use href="#roman_numeral_capital_7"></use>
+		<use href="#extension_7"></use>
+		<use href="#flat"></use>
+	</svg>
+  </div>
+
+
   <div class="split-cell">Cell 3</div>
   <div>Cell 4</div>
   <div>Cell 5</div>
