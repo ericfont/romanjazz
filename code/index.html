@@ -155,6 +155,25 @@
 			padding-left: 4px
 		}
 
+		/* The Grid Container */
+		.container {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr); /* 3 equal columns */
+			gap: 10px; /* space between cells */
+		}
+
+		.split-cell {
+			display: grid;
+			grid-template-rows: 1fr 1fr; /* Splits the cell into two equal halves */
+			height: 100%;
+		}
+
+		.chord-cell {
+			display: grid;
+			grid-template-rows: 1fr 1fr; /* Splits the cell into two equal halves */
+			height: 100%;
+		}
+
 /*svg {
     display: block;
 	object-fit: fill;
@@ -166,30 +185,16 @@
 </head>
 <body style="display: flex; flex-grow: 1;">
 
-			<table>
-				<tr>
-					<td>
-					<!-- <svg preserveAspectRatio="none" viewBox="0 0 width height">
-  <use href="#roman_numeral_capital_1"></use>
-</svg> -->
+<div class="container">
+  <div class="split-cell"><div>upper</div><div>lower</div></div>
+  <div><svg svg viewBox="0 0 8 8" width="100%" and height="100%"><use href="#roman_numeral_capital_7"></use></div>
+  <div class="split-cell">Cell 3</div>
+  <div>Cell 4</div>
+  <div>Cell 5</div>
+  <div>Cell 6</div>
+  <div>Cell 7</div>
+</div>
 
-<svg viewBox="0 0 8 8">
- <g stroke="#000" stroke-linecap="round" stroke-width=".5">
-  <path d="m1 1h6"/>
-  <path d="m1 7 6-0.01"/>
- </g>
- <g stroke="#000" stroke-width=".5">
-  <path d="m4 1 1e-6 6"/>
- </g>
-</svg>
-
-</td>
-<td>2</td>
-</tr>
-<tr>
-	<td>3</td><td>4</td>
-</tr>
-</table>
 
 <script>
 
@@ -461,14 +466,17 @@ main();
 </html>
 
 <!-- Hidden SVG container for roman numeral symbols -->
-<svg width="8mm" height="8mm" version="1.1"  style="display: none;">
-<symbol id="roman_numeral_capital_1">
+<svg width="8mm" height="8mm" version="1.1" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg">
+<symbol id="roman_numeral_capital_7">
  <g stroke="#000" stroke-linecap="round" stroke-width=".5">
   <path d="m1 1h6"/>
   <path d="m1 7 6-0.01"/>
  </g>
  <g stroke="#000" stroke-width=".5">
-  <path d="m4 1 1e-6 6"/>
+  <path d="m2 1 1 6"/>
+  <path d="m4 1-1 6"/>
+  <path d="m5.25 1v6"/>
+  <path d="m6.5 1v6"/>
  </g>
 </symbol>
 </svg>
