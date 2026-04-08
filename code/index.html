@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" style="display: flex; height: 100vh">
 <head>
-	<link href="https://fonts.cdnfonts.com/css/quivira" rel="stylesheet">
-
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Music&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-	
 	<base href="https://romanjazz.com/" target="_blank">
 
 	<style>
@@ -124,13 +118,13 @@
 			min-width: 100%;
 		}
 
-		td {
+	/*	td {
 			border: 0px;
 			padding: 0px;
 			padding-top: 8px;
 			white-space: nowrap;
-			position: relative; /* Set anchor point */
-		}
+			position: relative;
+		} */
 
 		.left-of-td {
 			position: absolute; /* Move freely relative to parent */
@@ -161,563 +155,46 @@
 			padding-left: 4px
 		}
 
-		.transparent-button {
-			background: transparent;
-			border: 2px solid var(--current-gray-button-color);
-			color: var(--current-gray-button-color);
-			position: absolute;
-			padding: 0px 0px 0px 0px;
-			cursor: pointer;
-			width: 33%;
-			height: 33%;
-		}
-
-		.fraction {
-			display: inline-block;
-			vertical-align: middle;
-			text-align: left;
-		}
-		.numerator {
-			border-bottom: 1px dotted;
-			border-right: 1px dotted;
-		}
-		.denominator {
-			border-left: 1px dotted;
-		}
+/*svg {
+    display: block;
+	object-fit: fill;
+    width: 100%;
+    height: 100%;
+}*/
 
 	</style>
 </head>
 <body style="display: flex; flex-grow: 1;">
-	<!-- List Area -->
-	<div id="listDiv" style="flex: 1; flex-direction: column; height: 100vh;">
-		<div id="listDivHeader" style="display: flex; flex-direction: row; align-items: center; padding: 8px;">
-			<select id="selectPlaylist" onchange="selectPlaylist(this.value)">
-				<option>Playlists</option>
-				<optgroup label="Embedded Playlists">
-					<option value="embeddedJazzPlaylist" selected>embeddedJazz</option>
-				</optgroup>
-				<optgroup label="localStorage Playlists">
-					<option value="localStorageDefaultPlaylist">localStorage default saves</option>
-				</optgroup>
-			</select>
-			<div>&emsp;</div>
-			<button id="buttonEditOrSaveChart" onclick="buttonEditOrSaveChart()">Edit</button>
-			<div>&emsp;</div>
-			<select id="selectSettings" onchange="selectSettings(this.value)">
-				<option>Settings</option>
-				<option value="toggleDarkMode">Toggle Dark Mode</option>
-				<option value="showInvisibleNavigationButtons">Show Invisible Navigation Buttons</option>
-				<option value="checkFonts">Check for Necessary Fonts</option>
-			</select>
-		</div>
 
-		<select name="selectSongList" size=42 id="selectSongList" style="overflow: hidden; width: 100%;">
-		</select>
+			<table>
+				<tr>
+					<td>
+					<!-- <svg preserveAspectRatio="none" viewBox="0 0 width height">
+  <use href="#roman_numeral_capital_1"></use>
+</svg> -->
 
-		<div id="chartEditDiv" hidden style="flex: 1;">
-			Editor may crash. Save frequently. Saves to browser's localStorage.
-			<br>
-			<textarea oninput="loadChart()" id="chartTitleTextArea" rows="1" cols="50" style="flex: 1;">title-goes-here-without-spaces</textarea>
-			<br>
-			<textarea oninput="loadChart()" id="chartSubtitleTextArea" rows="1" cols="50" style="flex: 1;">sub-title_form_composer-name_lyricist-name_year_etc</textarea>
-			<br>
-			<textarea oninput="loadChart()" id="chartContentsTextArea" rows="20" cols="50" style="flex: 1;"></textarea>
-		</div>
+<svg viewBox="0 0 8 8">
+ <g stroke="#000" stroke-linecap="round" stroke-width=".5">
+  <path d="m1 1h6"/>
+  <path d="m1 7 6-0.01"/>
+ </g>
+ <g stroke="#000" stroke-width=".5">
+  <path d="m4 1 1e-6 6"/>
+ </g>
+</svg>
 
-	</div>
-
-	<!-- Output Area -->
-	<div id="outDiv" style="flex: 1; flex-grow: 1; display: flex; flex-direction: column; position: relative">
-
-		<!-- Transparent Buttons -->
-		<button onclick="selectorToggle()" class="transparent-button" style="top: 0; left: 0;">
-			<b>Toggle&nbsp;Panel</b><br>(invisible&nbsp;button in top‑left corner of chart area)
-		</button>
-		<button onclick="loadPreviousChart()" class="transparent-button" style="top: 0; right: 0;">
-			<b>Previous&nbsp;Song</b><br>(invisible&nbsp;button in top‑right corner of chart area)
-		</button>
-		<button onclick="loadRandomChart()" class="transparent-button" style="bottom: 0; left: 0;">
-			<b>Random &nbsp;Song</b><br>(invisible&nbsp;button in bottom‑left corner of chart area)
-		</button>
-		<button onclick="loadNextChart()" class="transparent-button" style="bottom: 0; right: 0;">
-			<b>Next&nbsp;Song</b><br>(invisible&nbsp;button in bottom‑right corner of chart area)
-		</button>
-
-		<div id="outContentsDiv" style="overflow: hidden; width: 100%; flex-grow: 1;">
-
-			<div class="fraction">
-				<div class="numerator">test pivot top</div>
-				<div class="denominator">test pivot bot</div>
-			</div>
-
-		</div>
-	</div>
+</td>
+<td>2</td>
+</tr>
+<tr>
+	<td>3</td><td>4</td>
+</tr>
+</table>
 
 <script>
 
-const selectSongListElement = document.getElementById("selectSongList");
-
-const chartEditDiv = document.getElementById("chartEditDiv");
-const chartTitleTextArea = document.getElementById("chartTitleTextArea");
-const chartSubtitleTextArea = document.getElementById("chartSubtitleTextArea");
-const chartContentsTextArea = document.getElementById("chartContentsTextArea");
-
-const listDiv = document.getElementById("listDiv");
-const outDiv = document.getElementById("outDiv");
-const outContentsDiv = document.getElementById("outContentsDiv");
-const outTitleDiv = document.getElementById("outTitleDiv");
-const root = document.documentElement;
-
-const selectPlaylistElement = document.getElementById("selectPlaylist");
-const selectSettingsElement = document.getElementById("selectSettings");
-const buttonEditOrSaveChartElement = document.getElementById("buttonEditOrSaveChart");
-
-var currentPlaylist = 'embeddedJazzPlaylist';
-var currentChartIndex = 0;
-
-function loadPlaylistHousekeeping() {
-	chartEditDiv.hidden = true;
-	selectSongListElement.hidden = false;
-	buttonEditOrSaveChartElement.textContent = "Edit";
-	selectSongListElement.replaceChildren(); // clear existing songs
-}
-
-function loadEmbeddedJazzPlaylist() {
-	loadPlaylistHousekeeping();
-
-	console.log("Populating embeddedJazz playlist...");
-	
-	for (let i = 0; i < charts.length; i++) {
-		let el = document.createElement("option");
-		el.textContent = i + ": " + charts[i][0];
-		el.value = i;
-		selectSongListElement.appendChild(el);
-	}
-}
-
-function loadLocalStorageDefaultPlaylist() {
-	loadPlaylistHousekeeping();
-
-	console.log("Populating localStorageDefault playlist...");
-
-	for (let i = 0; i < localStorage.length; i++) {
-		const key = localStorage.key(i);
-		const keyParts = key.split("\n");
-		if (keyParts[0] === "save") {
-			const timestamp = keyParts[1];
-			const title = keyParts[2];
-			const subtitle = keyParts[3];
-			let el = document.createElement("option");
-			el.textContent = `${timestamp}\t${title}\t${subtitle}`;
-			el.value = key;
-			selectSongListElement.appendChild(el);
-		}
-	}
-}
-
-function saveChart() {
-	//charts[selectSongListElement.value][2] = chartTextArea.value;
-	//loadSong(charts[selectSongListElement.value][0], charts[selectSongListElement.value][1], charts[selectSongListElement.value][2]);
-
-	const now = new Date();
-	const localNow = new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
-	const formattedDate = localNow.toISOString()
-		.slice(0, 19)       // Take only YYYY-MM-DDTHH:mm:ss
-		.replace('T', '_'); // Change the separator to an underscore
-
-	localStorage.setItem(`save\n${formattedDate}\n${chartTitleTextArea.value}\n${chartSubtitleTextArea.value}`, chartContentsTextArea.value);
-}
-
-function editChart() {
-	selectSongListElement.hidden = true;
-	chartEditDiv.hidden = false;
-	buttonEditOrSaveChartElement.textContent = "Save";
-	selectPlaylistElement.selectedIndex = 0;
-
-	//charts[selectSongListElement.value][2] = chartTextArea.value;
-	//loadChart(charts[selectSongListElement.value][0], charts[selectSongListElement.value][1], charts[selectSongListElement.value][2]);
-}
-
-function buttonEditOrSaveChart() {
-
-	if( buttonEditOrSaveChartElement.textContent === "Edit" ) {
-		editChart();
-	}
-
-	else if( buttonEditOrSaveChartElement.textContent === "Save" ) {
-		saveChart();
-	}
-}
-
-function selectPlaylist(selectPlaylistValue) {
-
-	if( buttonEditOrSaveChartElement.textContent === "Save" ) {
-		saveChart();
-	}
-
-	switch (selectPlaylistValue) {
-		case 'embeddedJazzPlaylist':
-			currentPlaylist = selectPlaylistValue;
-			loadEmbeddedJazzPlaylist();
-			break;
-	
-		case 'localStorageDefaultPlaylist':
-			currentPlaylist = selectPlaylistValue;
-			loadLocalStorageDefaultPlaylist();
-			break;
-
-		default:
-			break;
-	}
-}
-
-function housekeepingToDoBeforePerformingAction() {
-	const rootStyles = window.getComputedStyle(document.documentElement);
-	root.style.setProperty('--current-gray-button-color', rootStyles.getPropertyValue('--fully-transparent-color')); // make buttons invisible
-
-	// would want to check to save any unsaved changes here
-}
-
-function clearOutContentsDiv() {
-	outContentsDiv.innerHTML = '';
-}
-
-function showInvisibleNavigationButtons() {
-	const rootStyles = window.getComputedStyle(document.documentElement);
-	const buttonCurrentColor = rootStyles.getPropertyValue('--current-gray-button-color');
-	if( buttonCurrentColor === rootStyles.getPropertyValue('--fully-transparent-color') ) {
-		root.style.setProperty('--current-gray-button-color', rootStyles.getPropertyValue('--semi-transparent-gray-color')); // make semi-transparent
-	}
-	else {
-		root.style.setProperty('--current-gray-button-color', rootStyles.getPropertyValue('--fully-transparent-color')); // make invisible
-	}
-}
-
-function selectSettings(settingsValue) {
-
-	switch (settingsValue) {
-		case 'toggleDarkMode':
-			housekeepingToDoBeforePerformingAction();
-			toggleDarkMode();			
-			break;
-	
-		case 'showInvisibleNavigationButtons':
-			showInvisibleNavigationButtons();	
-			break;
-
-		case 'checkFonts':
-			housekeepingToDoBeforePerformingAction();
-			outContentsDiv.innerHTML = '';
-			checkFonts();
-			break;
-
-		default:
-			break;
-	}
-	selectSettingsElement.selectedIndex = 0;
-}
-
-async function checkFonts() {
-	try {
-		outContentsDiv.innerHTML += `<p>Checking for necessary fonts. Your browser might request you accept the query.</p>`;
-		const fonts = await window.queryLocalFonts();
-		console.log(fonts);
-
-		const isQuiviraInstalled = fonts.some(f => f.family === "Quivira");
-		if (isQuiviraInstalled) {
-			outContentsDiv.innerHTML += `<p>✓ Quivira font FOUND in queryLocalFonts().</p>`;
-			}
-		else {
-			outContentsDiv.innerHTML += `<p>✗ Quivira font NOT in queryLocalFonts(). You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
-			}
-
-		const isNotoMusicInstalled = fonts.some(f => f.family === "Noto Music");
-		if (isNotoMusicInstalled) {
-			outContentsDiv.innerHTML += `<p>✓ Noto Music font FOUND in queryLocalFonts().</p>`;
-			}
-		else {
-			outContentsDiv.innerHTML += `<p>✗ Noto Music font NOT in queryLocalFonts(). You should install <a href="https://fonts.google.com/noto/specimen/Noto+Music">Noto Music</a> (see <a href="https://fonts.google.com/knowledge/using_type/installing_and_managing_fonts">google's instructions</a>) so you can correctly see the musical notation.</p>`;
-			}
-
-	} catch (error) {
-		console.error(error.name, error.message);
-	}
-}
-
-function selectorToggle() {
-	if( listDiv.style.display === "none" ) {
-		listDiv.style.display = "block";
-		outDiv.style.width = "50%";
-	}
-	else {
-		listDiv.style.display = "none";
-		outDiv.style.width = "100%";
-	}
-
-}
-
-// Write a html table string to the output area based on input chart strings
-function loadChart() {
-	const chartTitle = chartTitleTextArea.value;
-	const chartSubtitle = chartSubtitleTextArea.value;
-	const chartString = chartContentsTextArea.value;
-
-	housekeepingToDoBeforePerformingAction();
-
-	console.log(`Loading ${chartTitle}...`);
-
-
-	const cellsPerBar = 4;
-	var barsPerLine = 0; // will be set based on first line
-
-	// Split by newlines
-	const chartLines = chartString.split('\n');
-
-	// count number of lines of text, to estimate font size
-	var numTextLines = 3; // account for title, subtitle, and extra slack
-	chartLines.forEach((line, index) => {
-		if( line[0] === '\t' ) {
-			numTextLines += 2; // account for possibly two stacked chord symbols for modulations
-		}
-		else {
-			numTextLines += 4; // account for addition section name line
-		}
-	});
-
-	// calculate font size
-	var calculatedFontSize = window.innerHeight / numTextLines;
-	calculatedFontSize = Math.max(calculatedFontSize, 6); // don't make too small to read
-	
-	var html = `<table style="font-size: ${calculatedFontSize}px;"><caption><strong><u>${chartTitle}</u></strong><br>${chartSubtitle}</caption>`;
-
-	var modulationLevel = 0;
-	var maybeModulationClass = "";
-	var nextModulationClass = "";
-
-	// Iterate over each line
-	chartLines.forEach((line, index) => {
-
-		// Split by tabs
-		const lineCells = line.split('\t');
-
-		if( lineCells.length == 1 ) {
-			console.log("Reached final empty line of song.");
-			return;
-		}
-
-		// set barsPerLine based on the first line, which should be the longest. Abort rendering if any subsequent line has more bars, to avoid formatting issues.
-		if( index == 0 ) {
-			barsPerLine = lineCells.length - 1;
-			console.log(`barsPerLine: ${barsPerLine}`);
-		}
-		else if( lineCells.length - 1 > barsPerLine ) {
-			outContentsDiv.innerHTML = `Line ${index} has more bars (${lineCells.length - 1}) than the first line (${barsPerLine}), which will cause formatting issues. Aborting chart render.`;
-			return;
-		}
-
-		// add an extra empty row between each line for spacing
-		html += '<tr>';
-
-		// If first cell contains an optional section name, wrap in a span with boxed style
-		if( lineCells[0] !== "" ) {
-			html += `<td><span class="section-name">${lineCells[0]}</span></td>`;
-		}
-		else {
-			html += '<td style="height: 10px;"></td>';
-		}
-
-		// end empty row
-		html += '</tr>';
-		
-		// start next line
-		html += '<tr><td></td>';
-
-		// Process each measure lineCells[i]
-		for(let i = 1; i < lineCells.length; i++) {
-			let classText = ""; // will add classes to this string to indicate formatting things like barlines & center repeats & background color
-			let maybeBarClass = "left-bar ";
-			if(lineCells[i] === "") {
-				console.log("Empty cell.");
-			}
-			else if(lineCells[i] === "𝄎") {
-				html += `<td colspan="${cellsPerBar}" class="${maybeBarClass}${maybeModulationClass}center-justify">𝄎</td>`;
-			}
-			else if(lineCells[i] === "𝄏") {
-				html += `<td colspan="${cellsPerBar*2}" class="${maybeBarClass}${maybeModulationClass}center-justify">𝄏</td>`;
-				i++;
-			}
-			else {
-				let remainingCellsInBar = cellsPerBar;
-
-				const cdotSplit = lineCells[i].split('·');
-				for(let cdotSplitIndex = 0; cdotSplitIndex < cdotSplit.length; cdotSplitIndex++) {
-
-					// make a cell with the contents if not empty
-					if( cdotSplit[cdotSplitIndex] !== "" ) {
-						const cdotCurrSplit = cdotSplit[cdotSplitIndex];
-						var modulationPrefix = "";
-						var unsubscriptedContent = "";
-						var subscriptedPostfix = "";
-
-						const beginModulationSplit = cdotCurrSplit.split('[');
-						if ( beginModulationSplit.length > 1 ) {
-							modulationLevel++;
-							nextModulationClass = "background-color-" + modulationLevel;
-							
-							modulationPrefix = `<div class="left-of-td"><b>${beginModulationSplit[0]}</b></div>`;
-							unsubscriptedContent = beginModulationSplit[1];
-						}
-						else {
-							unsubscriptedContent = cdotCurrSplit;
-						}
-
-						unsubscriptedContentSplit = unsubscriptedContent.split('/');
-						if( unsubscriptedContentSplit.length > 1 ) {
-							unsubscriptedContent = `${unsubscriptedContentSplit[0]}`;
-							subscriptedPostfix = `<sub>/${unsubscriptedContentSplit[1]}</sub>`;
-						}
-
-						maybeModulationClass = nextModulationClass;
-						while( unsubscriptedContent.endsWith(']') ) {
-							modulationLevel--;
-							unsubscriptedContent = unsubscriptedContent.slice(0, -1); // remove that last ]
-							if( modulationLevel <= 0 ) {
-								nextModulationClass = "";
-							}
-							else {
-								nextModulationClass = "background-color-" + modulationLevel;
-							}
-						}
-						
-						html += `<td class="${maybeBarClass}${maybeModulationClass}">${modulationPrefix}${unsubscriptedContent}${subscriptedPostfix}</td>`;
-				
-
-						remainingCellsInBar--;
-						maybeBarClass = '';
-					}
-
-					// existance of cdot indicates an empty beat
-					if( cdotSplitIndex + 1 < cdotSplit.length && remainingCellsInBar > 0) {
-						html += `<td class="${maybeBarClass}${maybeModulationClass}"></td>`;
-						remainingCellsInBar--;
-						maybeBarClass = '';
-					}
-
-				}
-				
-				while(remainingCellsInBar > 0) {
-					html += `<td class="${maybeModulationClass}"></td>`;
-					remainingCellsInBar--;
-				}
-			}
-		}
-
-		// will need to handle barline at end of each line
-		html += `<td class="left-bar"></td>`;
-
-		// end row
-		html += `</tr>`;	
-
-	});
-
-	html += '</table>';
-
-	outContentsDiv.innerHTML = html;
-}
-
-selectSongListElement.addEventListener('change', (event) => {
-	housekeepingToDoBeforePerformingAction();
-	const selectedSong = event.target.value;
-
-	if( currentPlaylist === 'localStorageDefaultPlaylist' ) {
-		const selectedSongSplit = selectedSong.split("\n");
-		if( selectedSongSplit.length < 3 ) {
-			outContentsDiv.innerHTML = `Error: saved chart string does not have the expected format of "title\\nsubtitle\\ncontents". Aborting chart render.`;
-		}
-		else {
-			chartTitleTextArea.value = selectedSongSplit[2];
-			chartSubtitleTextArea.value = selectedSongSplit[3];
-			chartContentsTextArea.value = localStorage.getItem(selectedSong);
-			loadChart();
-		}
-	}
-	else if( currentPlaylist === 'embeddedJazzPlaylist' ) {
-		chartTitleTextArea.value = charts[selectedSong][0];
-		chartSubtitleTextArea.value = charts[selectedSong][1];
-		chartContentsTextArea.value = charts[selectedSong][2];
-		loadChart();
-	}
-});
-
-function loadNextChart() {
-
-	currentChartIndex++;
-	if( currentChartIndex >= charts.length ) {
-		currentChartIndex = charts.length-1;
-	}
-	selectSongListElement.selectedIndex = currentChartIndex;
-
-	chartTitleTextArea.value = charts[currentChartIndex][0];
-	chartSubtitleTextArea.value = charts[currentChartIndex][1];
-	chartContentsTextArea.value = charts[currentChartIndex][2];
-	loadChart();
-}
-
-function loadPreviousChart() {
-
-	currentChartIndex--;
-	if( currentChartIndex < 0 ) {
-		currentChartIndex = 0;
-	}
-	selectSongListElement.selectedIndex = currentChartIndex;
-
-	chartTitleTextArea.value = charts[currentChartIndex][0];
-	chartSubtitleTextArea.value = charts[currentChartIndex][1];
-	chartContentsTextArea.value = charts[currentChartIndex][2];
-	loadChart();
-}
-
-function loadRandomChart() {
-	currentChartIndex = Math.floor(Math.random() * charts.length);
-	selectSongListElement.selectedIndex = currentChartIndex;
-	
-	chartTitleTextArea.value = charts[currentChartIndex][0];
-	chartSubtitleTextArea.value = charts[currentChartIndex][1];
-	chartContentsTextArea.value = charts[currentChartIndex][2];
-	loadChart();
-}
-
-function toggleHideList() {
-	if( listDiv.style.display === "none" ) {
-		listDiv.style.display = "block";
-		outDiv.style.width = "50%";
-	}
-	else {
-		listDiv.style.display = "none";
-		outDiv.style.width = "100%";
-	}
-
-}
-
-function toggleDarkMode() {
-	const html = document.documentElement;
-	const currentScheme = getComputedStyle(html).colorScheme;
-	html.style.colorScheme = (currentScheme === 'dark') ? 'light' : 'dark';
-
-	// Save preference to localStorage
-	localStorage.setItem('theme', html.style.colorScheme);
-}
-
-// Get preference from localStorage
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme) {
-	const html = document.documentElement;
-	html.style.colorScheme = savedTheme;
-}
-
 function main() {
 
-	loadEmbeddedJazzPlaylist();
 }
 
 const charts =
@@ -982,3 +459,16 @@ main();
 </script>
 </body>
 </html>
+
+<!-- Hidden SVG container for roman numeral symbols -->
+<svg width="8mm" height="8mm" version="1.1"  style="display: none;">
+<symbol id="roman_numeral_capital_1">
+ <g stroke="#000" stroke-linecap="round" stroke-width=".5">
+  <path d="m1 1h6"/>
+  <path d="m1 7 6-0.01"/>
+ </g>
+ <g stroke="#000" stroke-width=".5">
+  <path d="m4 1 1e-6 6"/>
+ </g>
+</symbol>
+</svg>
