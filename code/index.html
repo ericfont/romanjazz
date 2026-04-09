@@ -185,32 +185,57 @@
     width: 100%;
     height: 100%;
 }*/
+
+table {
+  border-collapse: separate;
+  border-spacing: 0 0; /*1vh 1vh; /* horizontal, vertical spacing */
+}
+
+td { padding: 0 0; }
+
 	</style>
+
 </head>
 
-<body style="height: 100vh; margin: 0; overflow: hidden;">
+<body style="margin: 0;"> <!-- overflow: hidden;"> -->
+
+	<div id="mainDiv"> <!--  style="height: 100vh; width: 100vw;" -->
+	</div>
 
 	<script>
 
-		for (var x = 0; x < 10; x++) {
+		const mainDiv = document.getElementById("mainDiv");
 
-			var htmlRow = `<div style="height: 10%" display: flex;>`;
-			for (var y = 0; y < 5; y++ ) {
+		var nY = 10;
+		var maxCellHeight = (100 - (nY-1)) / nY;
 
-			htmlRow += `
-					<svg viewBox="0 0 8 8" style="height: 100%; width: 19vw; margin: 0;">
-						<use href="#roman_numeral_capital_7"></use>
-						<use href="#extension_7"></use>
-						<use href="#flat"></use>
-					</svg>
-				`
+
+		var htmlTable = `<table style="height: 100vh; width: 100vw; margin: 0; border-collapse: separate;"><tbody>`; // style="height: 10%;
+
+		for (var y = 0; y < nY; y++) {
+
+			var htmlRow = `<tr>`;
+			for (var x = 0; x < 5; x++ ) {
+
+			//htmlRow += `<td>(${x},${y})</td>`;
+htmlRow += `<td><svg viewBox="0 0 8 8" style="max-width: 100%; max-height: ${maxCellHeight}vh; margin: 0; " >
+	<use href="#roman_numeral_capital_7"></use>
+	<use href="#extension_7"></use>
+	<use href="#flat"></use>
+</svg></td>`
 			}
 
-			document.body.innerHTML += htmlRow + `</div>`;
+			htmlRow += `</tr>`;
+
+			htmlTable += htmlRow;
 
 		}
+		htmlTable += `</tbody></table>`;
+
+		mainDiv.innerHTML += htmlTable;
 
 	</script>
+
 </body>
 
 </html>
