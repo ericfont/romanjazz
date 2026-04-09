@@ -1,30 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" style="display: flex; height: 100vh">
+<html lang="en">
+	
+<svg style="display: none">
 
-<!-- Hidden SVG container for roman numeral symbols -->
-<svg>
+	<symbol id="roman_numeral_capital_7">
+		<g stroke="#000" stroke-linecap="round" stroke-width=".5">
+			<path d="m1 1h6" />
+			<path d="m1 7 6-0.01" />
+		</g>
+		<g stroke="#000" stroke-width=".5">
+			<path d="m2 1 1 6" />
+			<path d="m4 1-1 6" />
+			<path d="m5.25 1v6" />
+			<path d="m6.5 1v6" />
+		</g>
+	</symbol>
 
-<symbol id="roman_numeral_capital_7">
- <g stroke="#000" stroke-linecap="round" stroke-width=".5">
-  <path d="m1 1h6"/>
-  <path d="m1 7 6-0.01"/>
- </g>
- <g stroke="#000" stroke-width=".5">
-  <path d="m2 1 1 6"/>
-  <path d="m4 1-1 6"/>
-  <path d="m5.25 1v6"/>
-  <path d="m6.5 1v6"/>
- </g>
-</symbol>
+	<symbol id="extension_7">
+		<path d="m6.8 0.35h0.91l-0.45 1.8" fill="none" stroke="#000" stroke-linecap="round" stroke-width=".25" />
+	</symbol>
 
-<symbol id="extension_7">
- <path d="m6.8 0.35h0.91l-0.45 1.8" fill="none" stroke="#000" stroke-linecap="round" stroke-width=".25"/>
-</symbol>
-
-<symbol id="flat">
- <path d="m0.7 3.3 0.02 2.9 0.76-0.48 0.28-0.36c0.2-0.64-0.18-0.83-0.3-1-0.43-0.048-0.55 0.26-0.72 0.52" fill="none" stroke="#000" stroke-linecap="round" stroke-width=".25"/>
-</symbol>
-
+	<symbol id="flat">
+		<path d="m0.7 3.3 0.02 2.9 0.76-0.48 0.28-0.36c0.2-0.64-0.18-0.83-0.3-1-0.43-0.048-0.55 0.26-0.72 0.52"
+			fill="none" stroke="#000" stroke-linecap="round" stroke-width=".25" />
+	</symbol>
 
 </svg>
 
@@ -38,15 +37,15 @@
 			--fully-transparent-color: rgba(128, 128, 128, 0);
 			--current-gray-button-color: rgba(128, 128, 128, 0.5);
 
-  			--background-0: light-dark(#ffffff, #000000);
-  			--background-1: light-dark(#efefef, #100000);
-  			--background-2: light-dark(#dfdfdf, #200000);
-  			--background-3: light-dark(#cfcfcf, #300000);
-  			--background-4: light-dark(#bfbfbf, #400000);
-  			--background-5: light-dark(#afafaf, #500000);
-  			--background-6: light-dark(#8f8f8f, #600000);
-  			--background-7: light-dark(#7f7f7f, #700000);
-  			/* now we are at pure middle grey, already defined as "grey" */
+			--background-0: light-dark(#ffffff, #000000);
+			--background-1: light-dark(#efefef, #100000);
+			--background-2: light-dark(#dfdfdf, #200000);
+			--background-3: light-dark(#cfcfcf, #300000);
+			--background-4: light-dark(#bfbfbf, #400000);
+			--background-5: light-dark(#afafaf, #500000);
+			--background-6: light-dark(#8f8f8f, #600000);
+			--background-7: light-dark(#7f7f7f, #700000);
+			/* now we are at pure middle grey, already defined as "grey" */
 			--foreground-0: light-dark(#000000, #ffffff);
 			--foreground-1: light-dark(#100000, #efffff);
 			--foreground-2: light-dark(#200000, #dfffff);
@@ -121,32 +120,7 @@
 			color: var(--foreground-7);
 		}
 
-		body, select, textarea, table, tr, td {
-			color: var(--foreground-0);
-			background-color: var(--background-0);
-			font-family: 'Quivira', 'Noto Music' !important;
-		}
-
-		table {
-			width: 100%;
-			height: 100%;
-			table-layout: fixed;
-			border-collapse: collapse;
-			user-select: none;
-		}
-
-		caption {
-			/* Core ellipsis properties */
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-
-			/* Constrain width to the table's width */
-			max-width: 0; 
-			min-width: 100%;
-		}
-
-	/*	td {
+		/*	td {
 			border: 0px;
 			padding: 0px;
 			padding-top: 8px;
@@ -155,22 +129,25 @@
 		} */
 
 		.left-of-td {
-			position: absolute; /* Move freely relative to parent */
-			right: 100%;       /* Push outside parent's left boundary */
-			bottom: 0%;            /* Align with the top of parent */
+			position: absolute;
+			/* Move freely relative to parent */
+			right: 100%;
+			/* Push outside parent's left boundary */
+			bottom: 0%;
+			/* Align with the top of parent */
 		}
-		
+
 		.section-name {
 			padding: 1px;
 			border: 1px solid light-dark(#000000, #ffffff);
 		}
 
 		.right-justify {
- 			text-align: right;
+			text-align: right;
 		}
 
 		.center-justify {
- 			text-align: center;
+			text-align: center;
 		}
 
 		.right-bar {
@@ -186,378 +163,54 @@
 		/* The Grid Container */
 		.container {
 			display: grid;
-			grid-template-columns: repeat(4, 1fr); /* equal columns */
-			row-gap: 10em;
-			width: 100%;
-			height: 100%;
+			grid-template-columns: repeat(4, 1fr);
+			/* equal columns */
+			/*row-gap: 1em;*/
+			/*grid-template-rows: repeat(2, 50vh); /* equal columns */
+			width: 100vw;
+			height: 100vh;
+			margin: 0;
 		}
 
 		.chord-cell {
 			display: grid;
-			grid-template-rows: 1fr 1fr; /* Splits the cell into two equal halves */
+			grid-template-rows: 1fr 1fr;
+			/* Splits the cell into two equal halves */
 			height: 100%;
 		}
 
-/*svg {
+		/*svg {
     display: block;
 	object-fit: fill;
     width: 100%;
     height: 100%;
 }*/
-
 	</style>
 </head>
-<body style="display: flex; flex-grow: 1;">
 
-<div class="container">
+<body style="height: 100vh; margin: 0; overflow: hidden;">
 
-	<div style="align-self: center;">
-		<div style="align-self: end;">
-			<svg svg viewBox="0 0 8 8" height="50%">
-				<use href="#roman_numeral_capital_7"></use>
-				<use href="#extension_7"></use>
-				<use href="#flat"></use>
-			</svg>
-		</div>
-		<div style="align-self: start;">
-			<svg svg viewBox="0 0 8 8" height="50%">
-				<use href="#roman_numeral_capital_7"></use>
-				<use href="#extension_7"></use>
-				<use href="#flat"></use>
-			</svg>
-		</div>
-	</div>
+	<script>
 
-	<div style="align-self: center;">
-		<svg svg viewBox="0 0 8 8" height="50%">
-			<use href="#roman_numeral_capital_7"></use>
-			<use href="#extension_7"></use>
-			<use href="#flat"></use>
-		</svg>
-	</div>
+		for (var x = 0; x < 10; x++) {
 
-	<div style="align-self: center;">
-		<div style="align-self: end;">
-			<svg svg viewBox="0 0 8 8" height="50%">
-				<use href="#roman_numeral_capital_7"></use>
-				<use href="#extension_7"></use>
-				<use href="#flat"></use>
-			</svg>
-		</div>
-		<div style="align-self: start;">
-			<svg svg viewBox="0 0 8 8" height="50%">
-				<use href="#roman_numeral_capital_7"></use>
-				<use href="#extension_7"></use>
-				<use href="#flat"></use>
-			</svg>
-		</div>
-	</div>
+			var htmlRow = `<div style="height: 10%" display: flex;>`;
+			for (var y = 0; y < 5; y++ ) {
 
-	<div>Cell 3</div>
+			htmlRow += `
+					<svg viewBox="0 0 8 8" style="height: 100%; width: 19vw; margin: 0;">
+						<use href="#roman_numeral_capital_7"></use>
+						<use href="#extension_7"></use>
+						<use href="#flat"></use>
+					</svg>
+				`
+			}
 
-	<div>Cell 4</div>
+			document.body.innerHTML += htmlRow + `</div>`;
 
-	<div style="align-self: center;">
-		<div style="align-self: end;">
-			<svg svg viewBox="0 0 8 8" height="50%">
-				<use href="#roman_numeral_capital_7"></use>
-				<use href="#extension_7"></use>
-				<use href="#flat"></use>
-			</svg>
-		</div>
-		<div style="align-self: start;">
-			<svg svg viewBox="0 0 8 8" height="50%">
-				<use href="#roman_numeral_capital_7"></use>
-				<use href="#extension_7"></use>
-				<use href="#flat"></use>
-			</svg>
-		</div>
-	</div>
+		}
 
-	<div style="align-self: center;">
-		<svg svg viewBox="0 0 8 8"  height="50%">
-			<use href="#roman_numeral_capital_7"></use>
-			<use href="#extension_7"></use>
-			<use href="#flat"></use>
-		</svg>
-	</div>
-
-	<div style="align-self: center;">
-		<svg svg viewBox="0 0 8 8"  height="50%">
-			<use href="#roman_numeral_capital_7"></use>
-			<use href="#extension_7"></use>
-			<use href="#flat"></use>
-		</svg>
-	</div>
-
-</div>
-
-
-<script>
-
-function main() {
-
-}
-
-const charts =
-[[`'0-Blank-Chart`, `form composer lyricist year usualkey`,
-`A₁				
-				
-A₂				
-				
-B				
-				
-A₃				
-				
-`],
-[`'S-Wonderful`, `𝄆AABA𝄇 George-Gershwin Ira-Gershwin 1927`,
-`A₁	Ⅰ	𝄎	♯i°	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	𝄎
-A₂	Ⅰ	𝄎	♯i°	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	Ⅲ:[ⅱ·Ⅴ⁷]
-B	Ⅲ:[Ⅰ	ⅱ·Ⅴ⁷	Ⅰ	ⅱ·Ⅴ⁷]
-	Ⅴ⁷/ⅵ	Ⅴ⁷/ⅱ	Ⅴ⁷/Ⅴ	Ⅴ⁷
-A₃	Ⅰ	𝄎	♯i°	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	𝄎
-`],
-[`500-Miles-High`, `Chick-Corea Neville-Potter 1972 e`,
-`A	𝄆E-	𝄎	G-	𝄎
-	B♭	𝄎	Bø	E⁷
-	A-	𝄎	F♯ø	𝄎
-	F-	𝄎,to𝄌	C-	𝄎
-	B⁷	𝄎	𝄇	
-𝄌	𝄆C-	𝄎	Ab	𝄎𝄇
-`],
-[`A-Beautiful-Friendship`, `𝄆AABA𝄇 Donald-Kahn Stanley-Styne 1956`,
-`A₁	Ⅰ	𝕋⁷/Ⅳ	Ⅳ	ⅱ:[ⅱø·Ⅴ⁷]
-	ⅵ	Ⅴ⁷/Ⅴ	ⅱ	Ⅴ⁷
-A₂	Ⅰ	𝕋⁷/Ⅳ	Ⅳ	ⅱ:[ⅱø·Ⅴ⁷]
-	ⅵ	Ⅴ⁷/Ⅴ	ⅱ	Ⅴ⁷
-B	Ⅳ:[ⅱ	Ⅴ⁷]	Ⅳ	ꓭ⁷
-	ⅲ	Ⅴ⁷/ⅱ	Ⅴ⁷/Ⅴ	Ⅴ⁷
-A₃	Ⅰ	𝕋⁷/Ⅳ	Ⅳ	ⅱ:[ⅱø·Ⅴ⁷]
-	ⅱ	Ⅴ⁷	Ⅰ	𝄎
-`],
-[`A-Child-Is-Born`, `𝄆ABAC𝄇 ¾-waltz Thad-Jones 1969`,
-`A₁	Ⅰ	ⅳ	Ⅰ	ⅳ
-	Ⅰ	ⅳ	ⅵ:[ⅱø	Ⅴ⁷]
-B	ⅵ	Ⅴ⁷/ⅵ	ⅵ	Ⅴ⁷/ⅵ
-	ⅵ	Ⅱ⁷	Ⅴ⁷ₛᵤₛ	Ⅴ⁷
-A₂	Ⅰ	ⅳ	Ⅰ	ⅳ
-	Ⅰ	Ⅴ⁷/ⅵ	Ⅳ	ꓭ⁷
-C	Ⅰ	♭Ⅵ	ⅵ	Ⅱ⁷
-	Ⅴ⁷sus	Ⅴ⁷		
-`],
-[`A-Felicidad`, `Jobim Vinícius 1958`,
-`A	𝄆 ⅵ	𝄎	𝄎	𝄎
-	ⅲ	ⅲ:[Ⅴ⁷]	ⅲ·Ⅵ⁷	ⅱ·Ⅴ⁷ 𝄇
-B	Ⅰ	𝄎	ⅵ:[ⅱø	Ⅴ⁷]
-	ⅵ	𝄎	Ⅳ:[ⅱ	Ⅴ⁷]
-	Ⅳ	ⅱ	ⅵ	Ⅱ⁷
-	ⅵ	ⅵ:[ⅱø·Ⅴ⁷]	ⅵ	Ⅴ⁷
-C	Ⅰ	Ⅳ⁷	Ⅰ	𝄎
-	Ⅳ:[ⅱ	Ⅴ⁷]	Ⅳ	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	𝄎
-	ⅲ:[ⅱø	Ⅴ⁷]	ⅲ·Ⅵ⁷	ⅱ·Ⅴ⁷
-`],
-[`A-Fine-Romance`, `𝄆ABAC𝄇 Jerome-Kern Dorothy-Fields 1936`,
-`A₁	Ⅰ	𝄎	Ⅴ⁷	𝄎
-	Ⅰ	𝄎	Ⅴ⁷	𝄎
-B	Ⅰ	Ⅴ⁷/Ⅴ	Ⅴ⁷	𝄎
-	Ⅰ	𝄎	Ⅴ⁷/ⅵ·Ⅴ⁷/ⅱ	Ⅴ⁷/Ⅴ·Ⅴ⁷
-A₂	Ⅰ	𝄎	Ⅴ⁷	𝄎
-	Ⅰ	𝄎	Ⅴ⁷	𝄎
-C	Ⅰ	Ⅰ⁷	Ⅳ	𝄎
-	Ⅰ	ⅱ	Ⅴ⁷	Ⅰ
-`],
-[`A-Foggy-Day`, `V𝄆ABAC𝄇 George-Gershwin Ira-Gershwin`,
-`verse	Ⅰ	Ⅳ	Ⅰ	Ⅳ
-	Ⅰ	Ⅴ⁷/ⅲ	ⅲ	Ⅴ⁷/ⅱ
-	ⅱ·Ⅴ⁷	Ⅰ	ⅲ·ⅲ⁶	ⅲ⁷·Ⅴ⁷/ⅲ
-	ⅲ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷	Ⅰ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷
-A₁	Ⅰ	Ⅴ⁷/ⅱ	ⅱ	Ⅴ⁷
-	Ⅰ⁶	♭Ⅲ⁷	Ⅴ⁷/Ⅴ	Ⅴ⁷
-B	Ⅰ	Ⅳ:[ⅱ·Ⅴ⁷]	Ⅳ	ꓭ⁷
-	ⅲ	Ⅴ⁷/ⅱ	Ⅱ⁷	Ⅴ⁷
-A₁	Ⅰ	Ⅴ⁷/ⅱ	ⅱ	Ⅴ⁷
-	Ⅰ⁶	♭Ⅲ⁷	Ⅴ⁷/Ⅴ	Ⅴ⁷
-C	Ⅳ:[ⅱ	Ⅴ⁷]	Ⅳ	ꓭ⁷
-	Ⅰ·ⅱ	𝄎	Ⅰ·ⅵ	ⅱ·Ⅴ⁷
-	Ⅰ	ⅱ·Ⅴ⁷		
-`],
-[`A-Kiss-To-Build-A-Dream-On`, `𝄆AABA𝄇 Bert-Kalmar Harry-Ruby Oscar-Hammerstein-Ⅱ 1935 1951`,
-`A₁	Ⅰ·ⅱ	ⅲ·♭ⅲ°	ⅱ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷/ⅱ
-	ⅱ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷	Ⅰ⁶·♭ⅲ°	ⅱ·Ⅴ⁷
-A₂	Ⅰ·ⅱ	ⅲ·♭ⅲ°	ⅱ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷/ⅱ
-	ⅱ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷	Ⅰ⁶·(ⅳ)	Ⅰ
-B	♭Ⅲ:[ⅱ·Ⅴ⁷	Ⅰ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷	Ⅰ]
-	ⅱø·Ⅴ⁷	ⅰ	ⅵ·Ⅱ⁷	Ⅴ⁷
-A₃	Ⅰ·ⅱ	ⅲ·♭ⅲ°	ⅱ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷/ⅱ
-	ⅱ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷	Ⅰ⁶	(ⅱ·Ⅴ⁷)
-`],
-[`All-of-Me`, `𝄆ABAC𝄇 Marks Simons 1931`,
-`A₁	Ⅰ	𝄎	Ⅴ⁷/ⅵ	𝄎
-	Ⅴ⁷/ⅱ	𝄎	Ⅴ⁷/Ⅴ	𝄎
-B	Ⅴ⁷/ⅵ	𝄎	ⅵ	𝄎
-	Ⅴ⁷/Ⅴ	𝄎	ⅱ	Ⅴ⁷
-A₂	Ⅰ	𝄎	Ⅴ⁷/ⅵ	𝄎
-	Ⅴ⁷/ⅱ	𝄎	Ⅴ⁷/Ⅴ	𝄎
-C	Ⅳ	ⅳ	ⅲ	Ⅴ⁷/Ⅴ
-	ⅱ	Ⅴ⁷	Ⅰ	(ⅱ·Ⅴ⁷)
-`],
-[`All-the-Things-You-Are`, `𝄆AABA+4𝄇 Jerome-Kern 1939`,
-`A₁	ⅵ	ⅱ	Ⅴ⁷	Ⅰ
-	Ⅳ	Ⅲ:[ⅱ·Ⅴ⁷	Ⅰ	𝄎]
-A₂	Ⅴ:[ⅵ	ⅱ	Ⅴ⁷	Ⅰ
-	Ⅳ	Ⅲ:[ⅱ·Ⅴ⁷	Ⅰ	𝄎
-B	ⅱ	Ⅴ⁷	Ⅰ	𝄎]]
-	♭Ⅵ:[ⅱø	Ⅴ⁷	Ⅰ]	Ⅴ⁷/ⅵ
-A₃	ⅵ	ⅱ	Ⅴ⁷	Ⅰ
-	Ⅳ	ⅳ	ⅲ	♭ⅲ°
-	ⅱ	Ⅴ⁷	Ⅰ	ⅵ:(ⅱø·Ⅴ⁷)
-`],
-[`As-Time-Goes-By`, `𝄆AABA𝄇 Herman-Hupfeld 1931`,
-`A₁	ⅱ·Ⅴ⁷	ⅱ·Ⅴ⁷	Ⅰ	𝄎
-	Ⅴ⁷/Ⅴ	ⅱ·Ⅴ⁷	Ⅰ	𝄎
-A₂	ⅱ·Ⅴ⁷	ⅱ·Ⅴ⁷	Ⅰ	𝄎
-	Ⅴ⁷/Ⅴ	ⅱ·Ⅴ⁷	Ⅰ	Ⅳ:[ⅱ·Ⅴ⁷]
-B	Ⅳ	Ⅴ⁷/ⅱ	ⅱ	♯ⅱ°
-	ⅵ	Ⅴ⁷/Ⅴ	ⅱ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷Ⅴ⁷/ⅱ
-A₃	ⅱ·Ⅴ⁷	ⅱ·Ⅴ⁷	Ⅰ	𝄎
-	Ⅴ⁷/Ⅴ	ⅲ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷	Ⅰ·(Ⅴ⁷/ⅱ)
-`],
-[`From-The-Start`, `intro-VVCVC-tag-form Laufey Spencer-Stewart 2023`,
-`intro	𝄆ⅱ	Ⅴ⁷	Ⅰ	𝄎 𝄇
-verse𝄋	𝄆ⅱ	Ⅴ⁷	Ⅰ	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	𝄎
-	ⅱ	Ⅴ⁷	Ⅱ:[ⅱ	Ⅴ⁷]
-	ⅱ	𝄎	Ⅴ⁷	·NC 𝄇
-chorus	ⅱ	Ⅴ⁷	Ⅰ	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	𝄎
-	ⅱ	Ⅴ⁷	Ⅱ:[ⅱ	Ⅴ⁷]
-	ⅱ	Ⅴ⁷	Ⅰ	·NC 𝄉 no repeat
-tag	ⅱ	Ⅴ⁷	Ⅱ:[ⅱ	Ⅴ⁷]
-	ⅱ	Ⅴ⁷	Ⅰ	
-`],
-[`Girl-from-Ipanema`, `𝄆AABA𝄇 Jobim-1962 F`,
-`A₁	Ⅰ	𝄎	Ⅴ⁷/Ⅴ	𝄎
-	ⅱ	𝕋⁷	Ⅰ	𝕋⁷
-A₂	Ⅰ	𝄎	Ⅴ⁷/Ⅴ	𝄎
-	ⅱ	𝕋⁷	Ⅰ	𝄎
-B	♭Ⅱ:[Ⅰ	𝄎	Ⅳ⁷	𝄎
-	ⅰ	𝄎	♭Ⅴ⁷/ⅱ	𝄎]
-	ⅱ:[ⅰ	𝄎	♭Ⅴ⁷/ⅱ	𝄎]
-	ⅲ	Ⅴ⁷/ⅱ	ⅱ	Ⅴ⁷
-A₃	Ⅰ	𝄎	Ⅴ⁷/Ⅴ	𝄎
-	ⅱ	𝕋⁷	Ⅰ	𝕋⁷
-`],
-[`I'm-Old-Fashioned`, `𝄆16+8+12𝄇-theme-with-variations-form Jerome-Kern 1942`,
-`A₁	Ⅰ·(ⅵ	ⅱ·Ⅴ⁷)	𝄏	
-	Ⅰ	𝄎	ⅵ:[ⅱø	Ⅴ⁷
-	ⅰ	Ⅴ⁷	ⅰ	Ⅴ⁷]
-	ⅱ	𝄎	ⅱ	Ⅴ⁷
-A₂	Ⅰ·(ⅵ	ⅱ·Ⅴ⁷)	Ⅰ·ⅵ	Ⅲ:[ⅱ·Ⅴ⁷
-	Ⅰ·ⅱ	ⅲ·Ⅳ	Ⅴ⁷]·♯i°	ⅱ·Ⅴ⁷
-A₃	Ⅰ·(ⅵ	ⅱ·Ⅴ⁷)	𝄏	
-	Ⅳ:[ⅱ·Ⅴ⁷]	Ⅳ·ꓭ⁷	ⅲ·ⅵ	♯ⅳø·ⅳ
-	ⅲ·ⅵ	ⅱ·Ⅴ⁷	Ⅰ·(ⅵ	ⅱ·Ⅴ⁷)
-`],
-[`I've-Got-You-Under-My-Skin`, `unusual-form Cole-Porter 1936`,
-`A₁	ⅱ	Ⅴ⁷	Ⅰ	(Ⅴ⁷/ⅱ)
-	ⅱ	Ⅴ⁷	Ⅰ	(Ⅴ⁷/ⅱ)
-	ⅱ	Ⅴ⁷	Ⅰ	(Ⅴ⁷/ⅱ)
-	ⅱ	Ⅴ⁷	Ⅰ	(Ⅴ⁷/ⅱ)
-A₂	ⅱ	Ⅴ⁷	Ⅰ	(Ⅴ⁷/ⅱ)
-	ⅱø	Ⅴ⁷	Ⅰ	𝄎
-	Ⅵ:[ⅱ	Ⅴ⁷]	Ⅵ	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	𝄎
-A₃	ⅱ	Ⅴ⁷	Ⅰ	(Ⅴ⁷/ⅱ)
-	ⅱ	Ⅴ⁷	Ⅰ	Ⅴ⁷/ⅵ
-B	ⅵ	ⅱ·Ⅴ⁷	Ⅰ	ⅵ
-	ⅱ	Ⅴ⁷	Ⅰ	Ⅳ:[ⅱ·Ⅴ⁷]
-C	Ⅳ	ꓭ⁷	Ⅰ	Ⅱ:[ⅱ·V⁷]
-	ⅱ	Ⅴ⁷	Ⅰ	𝄎
-`],
-[`I-Don't-Stand-A-Ghost-Of-A-Chance-With-You`, `𝄆AABA𝄇 Victor-Young Ned-Washington Bing-Crosby 1932`,
-`A₁	Ⅰ	Ⅴ⁷⁺	ⅱ:[ⅱø·Ⅴ⁷]	ⅱø·Ⅴ⁷
-	Ⅰ·ⅵ	ⅱ·Ⅴ⁷	ⅲ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷
-A₂	Ⅰ	Ⅴ⁷⁺	ⅱ:[ⅱø·Ⅴ⁷]	ⅱø·Ⅴ⁷
-	Ⅰ·ⅵ	ⅱ·Ⅴ⁷	Ⅰ·ⅱ	ⅲ·Ⅴ⁷/ⅱ
-B	ⅱ	Ⅴ⁷	Ⅰ·Ⅴ⁷	Ⅰ
-	ⅲ:[ⅱø	Ⅴ⁷]	ⅲ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷⁺
-A₃	Ⅰ	Ⅴ⁷⁺	ⅱ:[ⅱø·Ⅴ⁷]	ⅱø·Ⅴ⁷
-	Ⅰ·ⅵ	ⅱ·Ⅴ⁷	Ⅰ·(ⅵ	ⅱ·Ⅴ⁷)
-`],
-[`I-Love-Paris`, `minor-to-major-form Cole-Porter 1953`,
-`A	ⅰ⁶	𝄎	𝄎	𝄎
-	ⅰ⁶	𝄎	ⅱø	Ⅴ⁷
-	ⅱø	Ⅴ⁷	ⅱø	Ⅴ⁷
-	ⅱø	Ⅴ⁷	ⅰ⁶	··Ⅴ⁷
-B	Ⅰ:[Ⅰ⁶	𝄎	𝄎	𝄎
-	Ⅰ⁶	ⅲ·♯ⅱ°	ⅱ	Ⅴ⁷
-	Ⅳ⁶	𝄎	ⅲ	Ⅴ⁷/ⅱ
-	ⅱ	Ⅴ⁷	Ⅰ⁶]	(ⅱø·Ⅴ⁷)
-`],
-[`I-Love-You`, `𝄆AABA𝄇 Cole-Porter 1944`,
-`A₁	ⅱø	Ⅴ⁷	Ⅰ	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	𝄎
-A₂	ⅱø	Ⅴ⁷	Ⅰ	Ⅲ:[ⅱ·Ⅴ⁷]
-	Ⅲ:[Ⅰ	ⅱ·Ⅴ⁷	Ⅰ]	𝄎
-B	ⅱ	V⁷	Ⅰ	𝄎
-	ⅱ:[ⅱø	Ⅴ⁷	ⅰ]	𝄎
-A₃	ⅱø	Ⅴ⁷	Ⅰ	ⅱ:[ⅱø·Ⅴ⁷]
-	Ⅴ⁷/Ⅴ	Ⅴ⁷	Ⅰ	𝄎
-`],
-[`Joy-Spring`, `𝄆AABA𝄇 Clifford-Brown 1954`,
-`A₁	Ⅰ	ⅱ·Ⅴ⁷	Ⅰ	♭Ⅲ:[ⅱ·Ⅴ⁷]
-	ⅲ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷	Ⅰ	⇧ʰ ⅱ·Ⅴ⁷
-A₂	Ⅰ	ⅱ·Ⅴ⁷	Ⅰ	♭Ⅲ:[ⅱ·Ⅴ⁷]
-	ⅲ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷	Ⅰ	⇧ʰ ⅱ·Ⅴ⁷
-B	Ⅰ	⇩ʷ ⅱ·Ⅴ⁷	Ⅰ	⇩ʷ ⅱ·Ⅴ⁷
-	Ⅰ	⇧ᵐ³ ⅱ·Ⅴ⁷	Ⅰ	⇩ʰ ⅱ·Ⅴ⁷
-A₃	Ⅰ	ⅱ·Ⅴ⁷	Ⅰ	♭Ⅲ:[ⅱ·Ⅴ⁷]
-	ⅲ·Ⅴ⁷/ⅱ	ⅱ·Ⅴ⁷	Ⅰ	(ⅱ·Ⅴ⁷)
-`],
-[`La-Vie-En-Rose`, `𝄆ABACA𝄇 Guglielmi-Piaf-David 1945`,
-`A₁	Ⅰ	𝄎	𝄎	ⅱ·Ⅴ⁷
-B	ⅱ·Ⅴ⁷	𝄎	𝄎	Ⅰ·Ⅴ⁷
-A₂	Ⅰ	𝄎	···I⁷	Ⅳ
-C	ⅳ	Ⅰ	Ⅴ⁷/Ⅴ	ⅱ·Ⅴ⁷
-A₃	Ⅰ	𝄎	ⅱ·Ⅴ⁷	Ⅰ
-`],
-[`Pennies-from-Heaven`, `𝄆ABAC𝄇 Johnston Burke 1936`,
-`A₁	Ⅰ	𝄎	ⅱ	Ⅴ⁷
-	Ⅰ	𝄎	ⅱ	Ⅴ⁷
-B	Ⅳ:[Ⅴ⁷]	𝄎	Ⅳ	𝄎
-	Ⅴ⁷/Ⅴ	𝄎	Ⅴ⁷	𝄎
-A₂	Ⅰ	𝄎	ⅱ	Ⅴ⁷
-	Ⅰ	𝄎	ⅱ	Ⅴ⁷
-C	ⅱ	ꓭ⁷	ⅲ	Ⅴ⁷/ⅱ
-	ⅱ	Ⅴ⁷	Ⅰ	(ⅱ·Ⅴ⁷)
-`],
-[`Quizás-Quizás-Quizás`, `𝄆AABA𝄇 bolero Osvaldo-Farrés 1947`,
-`A₁	ⅰ	ⅳ·Ⅴ⁷	ⅰ	ⅳ·Ⅴ⁷
-	ⅰ	ⅱø·Ⅴ⁷	ⅰ	NC
-A₂	ⅰ	ⅳ·Ⅴ⁷	ⅰ	ⅳ·Ⅴ⁷
-	ⅰ	ⅱø·Ⅴ⁷	ⅰ	NC
-B	Ⅰ:[ⅱ·Ⅴ⁷	ⅱ·Ⅴ⁷	Ⅰ	Ⅰ·ⅲ♭Ⅴ⁷/ⅵ
-	ⅱ·Ⅴ⁷	ⅱ·Ⅴ⁷	Ⅰ]	ⅱø·Ⅴ⁷
-A₃	ⅰ	ⅳ·Ⅴ⁷	ⅰ	ⅳ·Ⅴ⁷
-	ⅰ	ⅱø·Ⅴ⁷	ⅰ	NC
-`],
-[`Take-the-A-Train`, `𝄆AABA𝄇 Strayhorn 1939 C`,
-`A₁	Ⅰ	𝄎	Ⅴ⁷/Ⅴ	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	(ⅱ·Ⅴ⁷)
-A₂	Ⅰ	𝄎	Ⅴ⁷/Ⅴ	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	Ⅳ:[ⅱ·Ⅴ⁷]
-B	Ⅳ	𝄎	𝄎	𝄎
-	Ⅴ⁷/Ⅴ	𝄎	ⅱ	Ⅴ⁷
-A₃	Ⅰ	𝄎	Ⅴ⁷/Ⅴ	𝄎
-	ⅱ	Ⅴ⁷	Ⅰ	(ⅱ·Ⅴ⁷)
-`],
-[``,``,``]
-];
-main(); 
-</script>
+	</script>
 </body>
+
 </html>
