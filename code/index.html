@@ -210,7 +210,7 @@ td { padding: 0 0; }
 		var maxCellHeight = (100 - (nY-1)) / nY;
 
 
-		var htmlTable = `<table style="height: 100vh; width: 100vw; margin: 0; border-collapse: separate;"><tbody>`; // style="height: 10%;
+		var htmlTable = `<table style="height: 100dvh; width: 100dvw; margin: 0; border-collapse: separate;"><tbody>`; // style="height: 10%;
 
 		for (var y = 0; y < nY; y++) {
 
@@ -218,7 +218,7 @@ td { padding: 0 0; }
 			for (var x = 0; x < 5; x++ ) {
 
 			//htmlRow += `<td>(${x},${y})</td>`;
-htmlRow += `<td><svg viewBox="0 0 8 8" style="max-width: 100%; max-height: ${maxCellHeight}vh; margin: 0; " >
+htmlRow += `<td><svg viewBox="0 0 8 8" style="max-width: 100%; max-height: ${maxCellHeight}dvh; margin: 0; " >
 	<use href="#roman_numeral_capital_7"></use>
 	<use href="#extension_7"></use>
 	<use href="#flat"></use>
